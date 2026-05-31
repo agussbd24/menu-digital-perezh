@@ -56,7 +56,7 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
           <div className="flex-1 space-y-3 overflow-y-auto p-5">
             {items.map((item, index) => (
               <div
-                key={item.id}
+                key={item.cartId}
                 className="animate-slide-in-right rounded-2xl border border-white/[0.06] bg-white/[0.03] p-4 transition-all duration-300 hover:bg-white/[0.06]"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
@@ -67,18 +67,37 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
                     className="h-20 w-20 rounded-xl object-cover ring-1 ring-white/5"
                     loading="lazy"
                   />
-                  <div className="min-w-0 flex-1">
+                  <div className="min-w-0 flex-1 flex flex-col justify-between">
                     <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <h3 className="font-bold text-white">{item.name}</h3>
-                        <p className="mt-1 text-sm font-semibold text-perez-gold tabular-nums">
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-bold text-white truncate">{item.name}</h3>
+                        
+                        {/* Display custom selected addons */}
+                        {item.selectedAddons && item.selectedAddons.length > 0 && (
+                          <div className="mt-1 flex flex-wrap gap-1">
+                            {item.selectedAddons.map((addon) => (
+                              <span key={addon.id} className="rounded bg-white/5 border border-white/5 px-1.5 py-0.5 text-[10px] text-neutral-400 font-semibold">
+                                + {addon.name}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        
+                        {/* Display custom notes */}
+                        {item.notes && (
+                          <p className="mt-1 text-[11px] text-perez-gold italic truncate">
+                            "{item.notes}"
+                          </p>
+                        )}
+                        
+                        <p className="mt-2 text-sm font-semibold text-perez-gold tabular-nums">
                           {formatCurrency(item.price)}
                         </p>
                       </div>
                       <button
                         type="button"
-                        onClick={() => removeItem(item.id)}
-                        className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-neutral-400 transition-all duration-300 hover:bg-red-500/10 hover:text-red-300 active:scale-90"
+                        onClick={() => removeItem(item.cartId)}
+                        className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-neutral-400 transition-all duration-300 hover:bg-red-500/10 hover:text-red-300 active:scale-90 cursor-pointer"
                         aria-label={`Eliminar ${item.name}`}
                       >
                         <Trash2 size={17} />
@@ -88,8 +107,8 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
                       <div className="inline-flex items-center rounded-xl border border-white/10 bg-black/20">
                         <button
                           type="button"
-                          onClick={() => decreaseItem(item.id)}
-                          className="grid h-10 w-10 place-items-center text-neutral-300 transition-all duration-200 hover:text-white hover:scale-110 active:scale-90"
+                          onClick={() => decreaseItem(item.cartId)}
+                          className="grid h-10 w-10 place-items-center text-neutral-300 transition-all duration-200 hover:text-white hover:scale-110 active:scale-90 cursor-pointer"
                           aria-label={`Disminuir ${item.name}`}
                         >
                           <Minus size={16} />
@@ -99,8 +118,8 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
                         </span>
                         <button
                           type="button"
-                          onClick={() => increaseItem(item.id)}
-                          className="grid h-10 w-10 place-items-center text-neutral-300 transition-all duration-200 hover:text-white hover:scale-110 active:scale-90"
+                          onClick={() => increaseItem(item.cartId)}
+                          className="grid h-10 w-10 place-items-center text-neutral-300 transition-all duration-200 hover:text-white hover:scale-110 active:scale-90 cursor-pointer"
                           aria-label={`Aumentar ${item.name}`}
                         >
                           <Plus size={16} />

@@ -27,40 +27,57 @@ export function CartProvider({ children }) {
     saveCart(items)
   }, [items])
 
-  const addItem = useCallback((product) => {
+  const addItem = useCallback((product, selectedAddons = [], notes = '') => {
     setItems((current) => {
-      const existing = current.find((item) => item.id === product.id)
+      const addonsPrice = selectedAddons.reduce((sum, a) => sum + a.price, 0)
+      const finalPrice = product.price + addonsPrice
+      
+      const sortedAddonIds = [...selectedAddons].map(a => a.id).sort().join(',')
+      const cartId = `${product.id}${sortedAddonIds ? '-' + sortedAddonIds : ''}${notes.trim() ? '-' + encodeURIComponent(notes.trim()).slice(0, 30) : ''}`
+
+      const existing = current.find((item) => item.cartId === cartId)
 
       if (existing) {
         return current.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item,
+          item.cartId === cartId ? { ...item, quantity: item.quantity + 1 } : item,
         )
       }
 
-      return [...current, { ...product, quantity: 1 }]
+      return [
+        ...current,
+        {
+          ...product,
+          cartId,
+          price: finalPrice,
+          basePrice: product.price,
+          selectedAddons,
+          notes: notes.trim(),
+          quantity: 1
+        }
+      ]
     })
   }, [])
 
-  const increaseItem = useCallback((productId) => {
+  const increaseItem = useCallback((cartIdOrId) => {
     setItems((current) =>
       current.map((item) =>
-        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item,
+        (item.cartId === cartIdOrId || item.id === cartIdOrId) ? { ...item, quantity: item.quantity + 1 } : item,
       ),
     )
   }, [])
 
-  const decreaseItem = useCallback((productId) => {
+  const decreaseItem = useCallback((cartIdOrId) => {
     setItems((current) =>
       current
         .map((item) =>
-          item.id === productId ? { ...item, quantity: item.quantity - 1 } : item,
+          (item.cartId === cartIdOrId || item.id === cartIdOrId) ? { ...item, quantity: item.quantity - 1 } : item,
         )
         .filter((item) => item.quantity > 0),
     )
   }, [])
 
-  const removeItem = useCallback((productId) => {
-    setItems((current) => current.filter((item) => item.id !== productId))
+  const removeItem = useCallback((cartIdOrId) => {
+    setItems((current) => current.filter((item) => item.cartId !== cartIdOrId && item.id !== cartIdOrId))
   }, [])
 
   const clearCart = useCallback(() => {

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { CheckCircle2, Loader2, Send, X } from 'lucide-react'
 import { useCart } from '../hooks/useCart.js'
 import { createOrder } from '../services/orderService.js'
@@ -7,7 +7,7 @@ import Confetti from './Confetti.jsx'
 
 function getInitialTableNumber() {
   const params = new URLSearchParams(window.location.search)
-  return params.get('table') || params.get('mesa') || ''
+  return params.get('table') || params.get('mesa') || localStorage.getItem('restobar-table-number') || ''
 }
 
 export default function CheckoutModal({ open, onClose, onSuccess }) {
@@ -19,6 +19,12 @@ export default function CheckoutModal({ open, onClose, onSuccess }) {
   const [error, setError] = useState('')
   const [createdOrder, setCreatedOrder] = useState(null)
   const [showConfetti, setShowConfetti] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      setTableNumber(localStorage.getItem('restobar-table-number') || getInitialTableNumber())
+    }
+  }, [open])
 
   const normalizedItems = useMemo(
     () =>
@@ -58,6 +64,8 @@ export default function CheckoutModal({ open, onClose, onSuccess }) {
       setCreatedOrder(order)
       setShowConfetti(true)
       try {
+        localStorage.setItem('restobar-table-number', tableNumber)
+        window.dispatchEvent(new CustomEvent('restobar-table-changed', { detail: tableNumber }))
         localStorage.setItem('restobar-tracking-id', order.id)
         localStorage.setItem('restobar-tracking-cache', JSON.stringify(order))
         window.dispatchEvent(new CustomEvent('restobar-order-created', { detail: order }))

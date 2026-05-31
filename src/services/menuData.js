@@ -12,6 +12,26 @@ export const categories = [
   { id: 'cervezas', label: 'Cervezas' },
 ]
 
+export const standardAddons = {
+  burgers: [
+    { id: 'extra-cheddar', name: 'Extra Cheddar', price: 1200 },
+    { id: 'extra-panceta', name: 'Extra Panceta', price: 1500 },
+    { id: 'cebolla-caramelizada', name: 'Cebolla Caramelizada', price: 800 },
+    { id: 'medallon-extra', name: 'Medallón Smash Extra', price: 3000 },
+    { id: 'sin-cebolla', name: 'Sin Cebolla', price: 0, isRemoval: true },
+    { id: 'sin-pepinillos', name: 'Sin Pepinillos', price: 0, isRemoval: true },
+  ],
+  papas: [
+    { id: 'extra-cheddar-papas', name: 'Extra Salsa Cheddar', price: 1200 },
+    { id: 'bacon-picado', name: 'Extra Panceta Picada', price: 1000 },
+    { id: 'cebolla-verdeo', name: 'Cebolla de Verdeo', price: 600 },
+  ],
+  bebidas: [
+    { id: 'hielo', name: 'Hielo Extra', price: 0 },
+    { id: 'limon', name: 'Rodaja de Limón', price: 0 },
+  ]
+}
+
 export const products = [
   // ---- CHEESEBURGERS ----
   {
@@ -83,7 +103,7 @@ export const products = [
     name: 'La Gran Pérez',
     description: 'Dos medallones de carne casero con cuádruple queso cheddar, cuádruple panceta, cebolla caramelizada, cebolla crispy y aderezo Pérez-H. Con papas!',
     price: 19900,
-    image: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=800&q=85',
+    image: '/images/products/la-gran-perez.png',
     badge: 'Premium',
   },
   {
@@ -92,7 +112,7 @@ export const products = [
     name: 'Mar de Cheddar',
     description: 'Tres medallones cubiertos de tres capas de queso cheddar, panceta y cebolla caramelizada. Bañala vos en una catarata de cheddar y panceta topping! Con papas!',
     price: 22900,
-    image: 'https://images.unsplash.com/photo-1607013407627-6ee814358751?auto=format&fit=crop&w=800&q=85',
+    image: '/images/products/mar-de-cheddar.png',
     badge: 'Signature',
   },
   {
@@ -110,7 +130,7 @@ export const products = [
     name: 'La Mantequita',
     description: 'Doble medallón de carne casero con cuádruple queso cheddar y baño de manteca ahumada envuelta en papel aluminio. Con papas!',
     price: 16900,
-    image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=800&q=85',
+    image: '/images/products/la-mantequita.png',
     badge: 'Chef',
   },
 
@@ -129,7 +149,7 @@ export const products = [
     name: 'Tequeburger',
     description: 'Tequeño gigante, medallón premium, cheddar, panceta, cebolla y salsa de ajo. Con papas!',
     price: 19900,
-    image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=800&q=85',
+    image: '/images/products/tequeburger.png',
     badge: 'Nueva',
   },
   {
@@ -164,7 +184,7 @@ export const products = [
     name: 'Papas con Cheddar y Panceta',
     description: 'Papas fritas naturales con nuestra salsa especial de queso cheddar y cubierta de panceta crocante.',
     price: 12500,
-    image: 'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=800&q=85',
+    image: '/images/products/papas-cheddar-bacon.png',
   },
   {
     id: 'tequenos',
@@ -172,7 +192,7 @@ export const products = [
     name: 'Tequeños',
     description: 'Porción de tequeños con salsa de ajo.',
     price: 10900,
-    image: 'https://images.unsplash.com/photo-1604467707321-70d009801bf4?auto=format&fit=crop&w=800&q=85',
+    image: '/images/products/tequenos.png',
   },
   {
     id: 'triangulitos-muzza',

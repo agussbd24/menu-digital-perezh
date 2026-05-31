@@ -4,6 +4,7 @@ import { useOrders } from '../hooks/useOrders.js'
 import { useCountUpOnView } from '../hooks/useCountUp.js'
 import OrderCard from './OrderCard.jsx'
 import { SkeletonKitchen } from './Skeleton.jsx'
+import { isRealSupabase } from '../lib/supabaseClient.js'
 
 function AnimatedMetric({ value, label, color, icon: Icon, delay = 0 }) {
   const [ref, count] = useCountUpOnView(value, 800)
@@ -115,8 +116,9 @@ export default function KitchenDashboard() {
               {soundEnabled ? <Bell size={17} /> : <BellOff size={17} />}
               Sonido {soundEnabled ? 'activo' : 'silenciado'}
             </button>
-            <span className="rounded-xl glass px-4 py-2.5 text-sm text-neutral-400">
-              Sin refresh · Supabase Realtime
+            <span className="rounded-xl glass px-4 py-2.5 text-xs sm:text-sm text-neutral-400 inline-flex items-center gap-2">
+              <span className={`h-2.5 w-2.5 rounded-full ${isRealSupabase ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.4)] animate-pulse' : 'bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.4)] animate-pulse'}`} />
+              {isRealSupabase ? 'Supabase Realtime Cloud' : 'Base de datos Local Emulada (Offline Demo)'}
             </span>
           </div>
         </div>
@@ -142,8 +144,8 @@ export default function KitchenDashboard() {
                 Los nuevos pedidos van a aparecer acá automáticamente en tiempo real.
               </p>
               <div className="mt-6 inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-xs text-neutral-500">
-                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                Conectado a Supabase Realtime
+                <span className={`h-2 w-2 rounded-full ${isRealSupabase ? 'bg-emerald-400' : 'bg-amber-400'} animate-pulse`} />
+                {isRealSupabase ? 'Conectado a Supabase Realtime' : 'Modo Demostración · Realtime Emulado'}
               </div>
             </div>
           </div>
