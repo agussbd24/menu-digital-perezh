@@ -66,8 +66,8 @@ export default function KitchenDashboard() {
                 </a>
               </div>
               <div className="mt-5 flex items-center gap-4">
-                <span className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-perez-orange to-perez-gold text-perez-navy-dark shadow-glow animate-float">
-                  <ChefHat size={28} />
+                <span className="grid h-14 w-14 place-items-center rounded-full bg-perez-navy-dark/80 border border-perez-orange/20 shadow-glow animate-float overflow-hidden">
+                  <img src="/logo-perezh.png" alt="PÉREZ H" className="h-full w-full object-cover" />
                 </span>
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.3em] text-perez-gold/70">

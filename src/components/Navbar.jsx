@@ -1,4 +1,4 @@
-import { ChefHat, BarChart3, ShoppingBag, UtensilsCrossed } from 'lucide-react'
+import { ChefHat, BarChart3, ShoppingBag } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useCart } from '../hooks/useCart.js'
 
@@ -22,8 +22,8 @@ export default function Navbar({ onCartOpen }) {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <a href="/" className="group flex items-center gap-3" aria-label="Volver al menú">
-          <span className="grid h-12 w-12 place-items-center rounded-2xl border border-perez-orange/30 bg-gradient-to-br from-perez-orange/20 to-perez-gold/10 text-perez-gold shadow-glow transition-all duration-300 group-hover:scale-110 group-hover:from-perez-orange/30 group-hover:to-perez-gold/20 group-hover:shadow-[0_0_30px_rgba(216,102,10,0.3)]">
-            <UtensilsCrossed size={22} />
+          <span className="grid h-12 w-12 place-items-center rounded-full border border-perez-orange/20 bg-perez-navy-dark/80 shadow-glow transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(216,102,10,0.3)] overflow-hidden">
+            <img src="/logo-perezh.png" alt="PÉREZ H" className="h-full w-full object-cover" />
           </span>
           <span>
             <span className="block text-xs font-bold uppercase tracking-[0.35em] text-perez-gold/70">

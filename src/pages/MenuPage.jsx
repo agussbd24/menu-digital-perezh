@@ -10,6 +10,8 @@ import ProductGrid from '../components/ProductGrid.jsx'
 import SearchBar from '../components/SearchBar.jsx'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import Footer from '../components/Footer.jsx'
+import WhatsAppButton from '../components/WhatsAppButton.jsx'
+import ScrollToTop from '../components/ScrollToTop.jsx'
 import { products } from '../services/menuData.js'
 
 export default function MenuPage() {
@@ -77,6 +79,8 @@ export default function MenuPage() {
         onSuccess={() => setCartOpen(false)}
       />
       <FloatingCartButton onClick={() => setCartOpen(true)} />
+      <WhatsAppButton />
+      <ScrollToTop />
       <OrderTracker />
     </main>
   )

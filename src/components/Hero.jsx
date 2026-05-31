@@ -32,8 +32,8 @@ export default function Hero() {
 
       <div className="relative mx-auto flex min-h-[75vh] max-w-7xl items-end px-4 pb-14 pt-32 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-perez-orange/30 glass px-4 py-2 text-sm font-medium text-perez-cream animate-fade-in-up stagger-1">
-            <Sparkles size={16} className="text-perez-gold animate-pulse" />
+          <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-perez-orange/30 glass px-5 py-2.5 text-sm font-medium text-perez-cream animate-fade-in-up stagger-1">
+            <img src="/logo-perezh.png" alt="PÉREZ H" className="h-7 w-7 rounded-full object-cover" />
             Pedí desde tu mesa
           </div>
           <h1 className="max-w-2xl text-5xl font-bold leading-[0.95] text-white sm:text-6xl lg:text-7xl animate-fade-in-up stagger-2">

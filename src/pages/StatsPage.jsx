@@ -1,5 +1,4 @@
 import {
-  BarChart3,
   Clock3,
   ChefHat,
   DollarSign,
@@ -296,8 +295,8 @@ export default function StatsPage() {
                 </a>
               </div>
               <div className="mt-5 flex items-center gap-4">
-                <span className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-perez-teal to-perez-teal text-perez-navy-dark shadow-lg shadow-perez-teal/30">
-                  <BarChart3 size={28} />
+                <span className="grid h-14 w-14 place-items-center rounded-full bg-perez-navy-dark/80 border border-perez-teal/20 shadow-lg shadow-perez-teal/30 overflow-hidden">
+                  <img src="/logo-perezh.png" alt="PÉREZ H" className="h-full w-full object-cover" />
                 </span>
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.3em] text-perez-teal/70">
