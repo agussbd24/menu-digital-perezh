@@ -1,12 +1,10 @@
 import {
   BarChart3,
-  Calendar,
   Clock3,
   ChefHat,
   DollarSign,
   ShoppingBag,
   TrendingUp,
-  TrendingDown,
   Minus,
   ArrowUpRight,
   ArrowDownRight,
@@ -15,6 +13,7 @@ import { useMemo, useState } from 'react'
 import { useOrders } from '../hooks/useOrders.js'
 import { formatCurrency } from '../services/menuData.js'
 import { products } from '../services/menuData.js'
+import Footer from '../components/Footer.jsx'
 
 const DATE_FILTERS = [
   { key: 'today', label: 'Hoy' },
@@ -70,6 +69,26 @@ function getYesterdayRange() {
 function getTodayRange() {
   const now = new Date()
   return { start: startOfDay(now), end: now }
+}
+
+function ComparisonBadge({ current, previous }) {
+  if (previous === 0 && current === 0) return <Minus size={14} className="text-neutral-500" />
+  if (previous === 0)
+    return <ArrowUpRight size={14} className="text-emerald-400" />
+  const pct = ((current - previous) / previous) * 100
+  if (pct > 0)
+    return (
+      <span className="inline-flex items-center gap-0.5 text-xs font-bold text-emerald-400">
+        <ArrowUpRight size={14} />+{Math.round(pct)}%
+      </span>
+    )
+  if (pct < 0)
+    return (
+      <span className="inline-flex items-center gap-0.5 text-xs font-bold text-red-400">
+        <ArrowDownRight size={14} />{Math.round(pct)}%
+      </span>
+    )
+  return <Minus size={14} className="text-neutral-500" />
 }
 
 export default function StatsPage() {
@@ -254,26 +273,6 @@ export default function StatsPage() {
     [stats.salesByCategory],
   )
 
-  function ComparisonBadge({ current, previous }) {
-    if (previous === 0 && current === 0) return <Minus size={14} className="text-neutral-500" />
-    if (previous === 0)
-      return <ArrowUpRight size={14} className="text-emerald-400" />
-    const pct = ((current - previous) / previous) * 100
-    if (pct > 0)
-      return (
-        <span className="inline-flex items-center gap-0.5 text-xs font-bold text-emerald-400">
-          <ArrowUpRight size={14} />+{Math.round(pct)}%
-        </span>
-      )
-    if (pct < 0)
-      return (
-        <span className="inline-flex items-center gap-0.5 text-xs font-bold text-red-400">
-          <ArrowDownRight size={14} />{Math.round(pct)}%
-        </span>
-      )
-    return <Minus size={14} className="text-neutral-500" />
-  }
-
   return (
     <main className="min-h-screen bg-perez-navy text-perez-cream">
       <section className="border-b border-white/[0.06] bg-[radial-gradient(ellipse_at_top_right,rgba(122,180,194,0.1),transparent_40%),#1b2c58]">
@@ -346,13 +345,13 @@ export default function StatsPage() {
         ) : (
           <>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="glass-strong rounded-[1.75rem] p-6 animate-fade-in-up stagger-1">
+              <div className="glass-strong rounded-[1.75rem] p-6 animate-fade-in-up stagger-1 card-hover">
                 <div className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-perez-orange/10">
                   <ShoppingBag className="text-perez-gold" size={22} />
                 </div>
                 <p className="text-sm font-bold text-neutral-400">Total Pedidos</p>
                 <div className="mt-2 flex items-center gap-3">
-                  <p className="text-4xl font-bold text-white">{stats.totalOrders}</p>
+                  <p className="text-4xl font-bold text-white tabular-nums">{stats.totalOrders}</p>
                   <ComparisonBadge
                     current={stats.comparison.todayOrders}
                     previous={stats.comparison.yesterdayOrders}
@@ -360,7 +359,7 @@ export default function StatsPage() {
                 </div>
               </div>
 
-              <div className="glass-strong rounded-[1.75rem] p-6 animate-fade-in-up stagger-2">
+              <div className="glass-strong rounded-[1.75rem] p-6 animate-fade-in-up stagger-2 card-hover">
                 <div className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-perez-orange/10">
                   <DollarSign className="text-perez-gold" size={22} />
                 </div>
@@ -376,7 +375,7 @@ export default function StatsPage() {
                 </div>
               </div>
 
-              <div className="glass-strong rounded-[1.75rem] p-6 animate-fade-in-up stagger-3">
+              <div className="glass-strong rounded-[1.75rem] p-6 animate-fade-in-up stagger-3 card-hover">
                 <div className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-perez-teal/10">
                   <TrendingUp className="text-perez-teal" size={22} />
                 </div>
@@ -386,7 +385,7 @@ export default function StatsPage() {
                 </p>
               </div>
 
-              <div className="glass-strong rounded-[1.75rem] p-6 animate-fade-in-up stagger-4">
+              <div className="glass-strong rounded-[1.75rem] p-6 animate-fade-in-up stagger-4 card-hover">
                 <div className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-perez-orange/10">
                   <Clock3 className="text-perez-orange" size={22} />
                 </div>
@@ -587,7 +586,7 @@ export default function StatsPage() {
                       {stats.recentOrders.map((order) => (
                         <tr
                           key={order.id}
-                          className="border-b border-white/[0.03] transition-colors hover:bg-white/[0.02]"
+                          className="border-b border-white/[0.03] transition-colors hover:bg-white/[0.04]"
                         >
                           <td className="py-4 font-bold text-white">{order.tableNumber}</td>
                           <td className="py-4 text-neutral-300">{order.customerName || '-'}</td>
@@ -626,6 +625,7 @@ export default function StatsPage() {
           </>
         )}
       </section>
+      <Footer />
     </main>
   )
 }

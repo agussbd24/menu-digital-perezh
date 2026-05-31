@@ -23,7 +23,7 @@ export default function OrderCard({ order, onStatusChange }) {
     <article
       className={`animate-fade-in-up rounded-[1.75rem] border p-6 shadow-card transition-all duration-300 ${
         isUrgent
-          ? 'border-perez-orange/30 bg-perez-orange/10'
+          ? 'border-perez-orange/30 bg-perez-orange/10 animate-urgent-pulse'
           : 'border-white/[0.08] bg-white/[0.03]'
       }`}
     >
@@ -33,7 +33,9 @@ export default function OrderCard({ order, onStatusChange }) {
             <Table2 size={16} />
             <span className="text-xs font-bold uppercase tracking-wide">Mesa</span>
           </div>
-          <h3 className="mt-1 text-4xl font-bold text-white">{order.tableNumber}</h3>
+          <h3 className="mt-1 text-4xl font-bold text-white transition-colors duration-300 hover:text-perez-gold">
+            {order.tableNumber}
+          </h3>
           {order.customerName && (
             <div className="mt-2 flex items-center gap-2 text-neutral-400">
               <User size={14} />
@@ -49,14 +51,16 @@ export default function OrderCard({ order, onStatusChange }) {
           <Clock3 size={14} />
           {createdTime}
         </span>
-        <span className="rounded-xl glass px-3 py-1.5">{elapsed}</span>
+        <span className={`rounded-xl glass px-3 py-1.5 tabular-nums ${isUrgent ? 'text-perez-gold font-bold' : ''}`}>
+          {elapsed}
+        </span>
       </div>
 
       <div className="mt-5 space-y-3">
         {order.items.map((item) => (
           <div
             key={`${order.id}-${item.id}`}
-            className="flex justify-between gap-4 rounded-xl bg-white/[0.02] p-3"
+            className="flex justify-between gap-4 rounded-xl bg-white/[0.02] p-3 transition-colors duration-200 hover:bg-white/[0.05]"
           >
             <div>
               <p className="font-bold text-white">
@@ -64,13 +68,13 @@ export default function OrderCard({ order, onStatusChange }) {
               </p>
               <p className="mt-0.5 text-xs text-neutral-500">{formatCurrency(item.price)} c/u</p>
             </div>
-            <span className="font-bold text-neutral-100">{formatCurrency(item.subtotal)}</span>
+            <span className="font-bold text-neutral-100 tabular-nums">{formatCurrency(item.subtotal)}</span>
           </div>
         ))}
       </div>
 
       {order.notes && (
-        <div className="mt-5 rounded-2xl border border-perez-orange/20 bg-perez-orange/10 p-4 text-sm">
+        <div className="mt-5 rounded-2xl border border-perez-orange/20 bg-perez-orange/10 p-4 text-sm animate-fade-in">
           <div className="mb-2 flex items-center gap-2 font-bold text-perez-gold">
             <StickyNote size={16} />
             Observaciones
@@ -91,7 +95,7 @@ export default function OrderCard({ order, onStatusChange }) {
             type="button"
             disabled={order.status === status.value}
             onClick={() => onStatusChange(order.id, status.value)}
-            className={`rounded-xl border border-white/10 px-3 py-2.5 text-sm font-bold text-neutral-300 transition-all duration-300 disabled:cursor-default disabled:border-perez-orange/30 disabled:bg-gradient-to-r disabled:from-perez-orange disabled:to-perez-gold disabled:text-perez-navy-dark ${status.color}`}
+            className={`btn-ripple rounded-xl border border-white/10 px-3 py-2.5 text-sm font-bold text-neutral-300 transition-all duration-300 active:scale-95 disabled:cursor-default disabled:border-perez-orange/30 disabled:bg-gradient-to-r disabled:from-perez-orange disabled:to-perez-gold disabled:text-perez-navy-dark ${status.color}`}
           >
             {status.label}
           </button>

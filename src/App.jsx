@@ -3,6 +3,7 @@ import { ToastProvider } from './context/ToastContext.jsx'
 import KitchenPage from './pages/KitchenPage.jsx'
 import MenuPage from './pages/MenuPage.jsx'
 import StatsPage from './pages/StatsPage.jsx'
+import CursorTrail from './components/CursorTrail.jsx'
 
 export default function App() {
   const pathname = window.location.pathname
@@ -11,6 +12,7 @@ export default function App() {
     return (
       <ToastProvider>
         <CartProvider>
+          <CursorTrail />
           <KitchenPage />
         </CartProvider>
       </ToastProvider>
@@ -21,6 +23,7 @@ export default function App() {
     return (
       <ToastProvider>
         <CartProvider>
+          <CursorTrail />
           <StatsPage />
         </CartProvider>
       </ToastProvider>
@@ -30,6 +33,7 @@ export default function App() {
   return (
     <ToastProvider>
       <CartProvider>
+        <CursorTrail />
         <MenuPage />
       </CartProvider>
     </ToastProvider>

@@ -15,7 +15,7 @@
 :root {
   color-scheme: dark;
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: #1b2c58;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -39,6 +39,19 @@ body {
     radial-gradient(ellipse at 85% 5%, rgba(231, 160, 17, 0.05), transparent 40%),
     radial-gradient(ellipse at 50% 100%, rgba(122, 180, 194, 0.04), transparent 50%),
     #1b2c58;
+  animation: meshShift 20s ease-in-out infinite alternate;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
 }
 
 button,
@@ -55,6 +68,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* Premium shadows */
 .shadow-soft {
   box-shadow: 0 16px 50px rgba(0, 0, 0, 0.3);
 }
@@ -73,12 +87,52 @@ button:disabled {
   box-shadow: 0 22px 80px rgba(216, 102, 10, 0.3);
 }
 
+.shadow-premium {
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 20px 50px -12px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
 .no-scrollbar {
   scrollbar-width: none;
 }
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* === KEYFRAMES === */
+
+@keyframes meshShift {
+  0% {
+    background:
+      radial-gradient(ellipse at 15% 0%, rgba(216, 102, 10, 0.08), transparent 50%),
+      radial-gradient(ellipse at 85% 5%, rgba(231, 160, 17, 0.05), transparent 40%),
+      radial-gradient(ellipse at 50% 100%, rgba(122, 180, 194, 0.04), transparent 50%),
+      #1b2c58;
+  }
+  33% {
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(231, 160, 17, 0.07), transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(216, 102, 10, 0.06), transparent 40%),
+      radial-gradient(ellipse at 10% 60%, rgba(122, 180, 194, 0.05), transparent 50%),
+      #1b2c58;
+  }
+  66% {
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(122, 180, 194, 0.06), transparent 50%),
+      radial-gradient(ellipse at 20% 80%, rgba(231, 160, 17, 0.04), transparent 40%),
+      radial-gradient(ellipse at 60% 10%, rgba(216, 102, 10, 0.07), transparent 50%),
+      #1b2c58;
+  }
+  100% {
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(216, 102, 10, 0.06), transparent 50%),
+      radial-gradient(ellipse at 10% 30%, rgba(122, 180, 194, 0.05), transparent 40%),
+      radial-gradient(ellipse at 90% 70%, rgba(231, 160, 17, 0.06), transparent 50%),
+      #1b2c58;
+  }
 }
 
 @keyframes fadeInUp {
@@ -157,6 +211,62 @@ button:disabled {
   }
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes progressFill {
+  from { width: 0; }
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes border-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* === ANIMATION CLASSES === */
+
 .animate-fade-in-up {
   animation: fadeInUp 0.5s ease-out forwards;
 }
@@ -181,6 +291,14 @@ button:disabled {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
 .animate-toast-in {
   animation: toast-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -189,12 +307,18 @@ button:disabled {
   animation: toast-out 0.2s ease-in forwards;
 }
 
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Skeleton shimmer */
 .skeleton {
   background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
 
+/* Glass morphism */
 .glass {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(12px);
@@ -209,6 +333,7 @@ button:disabled {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Gradient border */
 .gradient-border {
   position: relative;
 }
@@ -226,6 +351,33 @@ button:disabled {
   pointer-events: none;
 }
 
+/* Animated gradient border */
+.gradient-border-animated {
+  position: relative;
+}
+
+.gradient-border-animated::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(216, 102, 10, 0.4),
+    rgba(231, 160, 17, 0.3),
+    rgba(122, 180, 194, 0.3),
+    rgba(216, 102, 10, 0.4)
+  );
+  background-size: 300% 300%;
+  animation: border-flow 4s ease infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Text gradient */
 .text-gradient {
   background: linear-gradient(135deg, #e7a011, #d8660a);
   -webkit-background-clip: text;
@@ -233,13 +385,115 @@ button:disabled {
   background-clip: text;
 }
 
+.text-gradient-teal {
+  background: linear-gradient(135deg, #7ab4c2, #5a9aaa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Button ripple effect */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ripple::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.btn-ripple:active::after {
+  transform: translate(-50%, -50%) scale(2.5);
+  opacity: 1;
+  transition: 0s;
+}
+
+/* Navbar scroll glass */
+.navbar-scrolled {
+  background: rgba(20, 31, 58, 0.85) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Timer progress bar */
+.timer-progress {
+  animation: progressFill linear forwards;
+}
+
+/* Confetti particle */
+.confetti-particle {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  z-index: 99999;
+  pointer-events: none;
+  animation: confetti-fall linear forwards;
+}
+
+/* Stagger delays */
 .stagger-1 { animation-delay: 0.05s; }
 .stagger-2 { animation-delay: 0.1s; }
 .stagger-3 { animation-delay: 0.15s; }
 .stagger-4 { animation-delay: 0.2s; }
 .stagger-5 { animation-delay: 0.25s; }
 .stagger-6 { animation-delay: 0.3s; }
+.stagger-7 { animation-delay: 0.35s; }
+.stagger-8 { animation-delay: 0.4s; }
 
+/* Scroll reveal - initially hidden */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Premium card hover */
+.card-hover {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(216, 102, 10, 0.08);
+}
+
+/* Urgent pulse */
+@keyframes urgentPulse {
+  0%, 100% {
+    border-color: rgba(216, 102, 10, 0.3);
+    box-shadow: 0 0 0 0 rgba(216, 102, 10, 0.2);
+  }
+  50% {
+    border-color: rgba(216, 102, 10, 0.5);
+    box-shadow: 0 0 20px 4px rgba(216, 102, 10, 0.15);
+  }
+}
+
+.animate-urgent-pulse {
+  animation: urgentPulse 2s ease-in-out infinite;
+}
+
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

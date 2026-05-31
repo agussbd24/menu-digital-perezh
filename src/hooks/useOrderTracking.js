@@ -35,13 +35,13 @@ function clearCache() {
   try {
     localStorage.removeItem(CACHE_KEY)
     localStorage.removeItem(TRACKING_KEY)
-  } catch {}
+  } catch { /* storage may be unavailable */ }
 }
 
 function saveCache(order) {
   try {
     localStorage.setItem(CACHE_KEY, JSON.stringify(order))
-  } catch {}
+  } catch { /* storage may be unavailable */ }
 }
 
 export function useOrderTracking() {

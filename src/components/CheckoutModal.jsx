@@ -3,6 +3,7 @@ import { CheckCircle2, Loader2, Send, X } from 'lucide-react'
 import { useCart } from '../hooks/useCart.js'
 import { createOrder } from '../services/orderService.js'
 import { formatCurrency } from '../services/menuData.js'
+import Confetti from './Confetti.jsx'
 
 function getInitialTableNumber() {
   const params = new URLSearchParams(window.location.search)
@@ -17,6 +18,7 @@ export default function CheckoutModal({ open, onClose, onSuccess }) {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [createdOrder, setCreatedOrder] = useState(null)
+  const [showConfetti, setShowConfetti] = useState(false)
 
   const normalizedItems = useMemo(
     () =>
@@ -54,11 +56,12 @@ export default function CheckoutModal({ open, onClose, onSuccess }) {
         total,
       })
       setCreatedOrder(order)
+      setShowConfetti(true)
       try {
         localStorage.setItem('restobar-tracking-id', order.id)
         localStorage.setItem('restobar-tracking-cache', JSON.stringify(order))
         window.dispatchEvent(new CustomEvent('restobar-order-created', { detail: order }))
-      } catch {}
+      } catch { /* storage may be unavailable */ }
       clearCart()
       onSuccess?.()
     } catch (submitError) {
@@ -70,6 +73,7 @@ export default function CheckoutModal({ open, onClose, onSuccess }) {
 
   const closeAndReset = () => {
     setCreatedOrder(null)
+    setShowConfetti(false)
     setError('')
     onClose()
   }
@@ -79,114 +83,121 @@ export default function CheckoutModal({ open, onClose, onSuccess }) {
   }
 
   return (
-    <div className="fixed inset-0 z-[60] grid place-items-end bg-black/80 p-0 backdrop-blur-sm sm:place-items-center sm:p-4 animate-fade-in">
-      <div className="max-h-[94vh] w-full max-w-lg overflow-y-auto rounded-t-[2rem] border border-white/[0.08] bg-perez-navy/95 p-6 shadow-2xl backdrop-blur-2xl sm:rounded-[2rem] animate-slide-up">
-        <div className="mb-6 flex items-start justify-between gap-4">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-perez-gold/70">
-              Checkout
-            </p>
-            <h2 className="mt-1 text-2xl font-bold text-white">
-              {createdOrder ? 'Pedido enviado' : 'Confirmá tu pedido'}
-            </h2>
-          </div>
-          <button
-            type="button"
-            onClick={closeAndReset}
-            className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 glass text-neutral-300 transition-all duration-300 hover:bg-white/10 hover:text-white"
-            aria-label="Cerrar checkout"
-          >
-            <X size={20} />
-          </button>
-        </div>
-
-        {createdOrder ? (
-          <div className="py-10 text-center animate-bounce-in">
-            <div className="mx-auto mb-4 grid h-20 w-20 place-items-center rounded-full bg-perez-orange/20">
-              <CheckCircle2 className="text-perez-gold" size={40} />
+    <>
+      <Confetti active={showConfetti} onComplete={() => setShowConfetti(false)} />
+      <div className="fixed inset-0 z-[60] grid place-items-end bg-black/80 p-0 backdrop-blur-sm sm:place-items-center sm:p-4 animate-fade-in">
+        <div className="max-h-[94vh] w-full max-w-lg overflow-y-auto rounded-t-[2rem] border border-white/[0.08] bg-perez-navy/95 p-6 shadow-2xl backdrop-blur-2xl sm:rounded-[2rem] animate-slide-up">
+          <div className="mb-6 flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-perez-gold/70">
+                Checkout
+              </p>
+              <h2 className="mt-1 text-2xl font-bold text-white">
+                {createdOrder ? 'Pedido enviado' : 'Confirmá tu pedido'}
+              </h2>
             </div>
-            <p className="text-2xl font-bold text-white">Cocina ya recibió tu orden.</p>
-            <p className="mt-3 text-neutral-400">
-              Mesa {createdOrder.tableNumber} · Total {formatCurrency(createdOrder.total)}
-            </p>
             <button
               type="button"
               onClick={closeAndReset}
-              className="mt-10 w-full rounded-2xl bg-perez-cream px-5 py-4 font-bold text-perez-navy-dark transition-all duration-300 hover:bg-perez-gold"
+              className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 glass text-neutral-300 transition-all duration-300 hover:bg-white/10 hover:text-white active:scale-90"
+              aria-label="Cerrar checkout"
             >
-              Volver al menú
+              <X size={20} />
             </button>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="mb-2 block text-sm font-bold text-neutral-200">Número de mesa</label>
-              <input
-                value={tableNumber}
-                onChange={(event) => setTableNumber(event.target.value)}
-                inputMode="numeric"
-                placeholder="Ej: 12"
-                className="h-14 w-full rounded-2xl border border-white/[0.08] glass px-5 py-4 text-white outline-none transition-all duration-300 placeholder:text-neutral-500 focus:border-perez-orange/40 focus:ring-4 focus:ring-perez-orange/10"
-              />
-            </div>
-            <div>
-              <label className="mb-2 block text-sm font-bold text-neutral-200">Nombre opcional</label>
-              <input
-                value={customerName}
-                onChange={(event) => setCustomerName(event.target.value)}
-                placeholder="Para identificar tu pedido"
-                className="h-14 w-full rounded-2xl border border-white/[0.08] glass px-5 py-4 text-white outline-none transition-all duration-300 placeholder:text-neutral-500 focus:border-perez-orange/40 focus:ring-4 focus:ring-perez-orange/10"
-              />
-            </div>
-            <div>
-              <label className="mb-2 block text-sm font-bold text-neutral-200">
-                Observaciones opcionales
-              </label>
-              <textarea
-                value={notes}
-                onChange={(event) => setNotes(event.target.value)}
-                rows="4"
-                placeholder="Sin cebolla, punto de cocción, alergias..."
-                className="w-full resize-none rounded-2xl border border-white/[0.08] glass px-5 py-4 text-white outline-none transition-all duration-300 placeholder:text-neutral-500 focus:border-perez-orange/40 focus:ring-4 focus:ring-perez-orange/10"
-              />
-            </div>
 
-            <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5">
-              <div className="mb-4 flex items-center justify-between text-sm text-neutral-300">
-                <span>{items.length} productos</span>
-                <strong className="text-white">{formatCurrency(total)}</strong>
+          {createdOrder ? (
+            <div className="py-10 text-center animate-bounce-in">
+              <div className="mx-auto mb-5 grid h-24 w-24 place-items-center rounded-full bg-gradient-to-br from-perez-orange/20 to-perez-gold/10 ring-2 ring-perez-gold/30 animate-pulse-glow">
+                <CheckCircle2 className="text-perez-gold" size={44} />
               </div>
-              <div className="space-y-3">
-                {items.map((item) => (
-                  <div key={item.id} className="flex justify-between gap-4 text-sm">
-                    <span className="text-neutral-300">
-                      {item.quantity}x {item.name}
-                    </span>
-                    <span className="font-semibold text-neutral-100">
-                      {formatCurrency(item.price * item.quantity)}
-                    </span>
-                  </div>
-                ))}
+              <p className="text-2xl font-bold text-white">Cocina ya recibió tu orden</p>
+              <p className="mt-3 text-neutral-400">
+                Mesa {createdOrder.tableNumber} · Total {formatCurrency(createdOrder.total)}
+              </p>
+              <div className="mt-4 inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-xs text-neutral-500">
+                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                Notificación enviada a cocina
               </div>
+              <button
+                type="button"
+                onClick={closeAndReset}
+                className="btn-ripple mt-8 w-full rounded-2xl bg-perez-cream px-5 py-4 font-bold text-perez-navy-dark transition-all duration-300 hover:bg-perez-gold hover:scale-[1.02] active:scale-95"
+              >
+                Volver al menú
+              </button>
             </div>
-
-            {error && (
-              <div className="rounded-2xl border border-red-400/20 bg-red-500/10 px-5 py-4 text-sm font-medium text-red-200">
-                {error}
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="animate-fade-in-up">
+                <label className="mb-2 block text-sm font-bold text-neutral-200">Número de mesa</label>
+                <input
+                  value={tableNumber}
+                  onChange={(event) => setTableNumber(event.target.value)}
+                  inputMode="numeric"
+                  placeholder="Ej: 12"
+                  className="h-14 w-full rounded-2xl border border-white/[0.08] glass px-5 py-4 text-white outline-none transition-all duration-300 placeholder:text-neutral-500 focus:border-perez-orange/40 focus:ring-4 focus:ring-perez-orange/10 focus:scale-[1.01]"
+                />
               </div>
-            )}
+              <div className="animate-fade-in-up stagger-1">
+                <label className="mb-2 block text-sm font-bold text-neutral-200">Nombre opcional</label>
+                <input
+                  value={customerName}
+                  onChange={(event) => setCustomerName(event.target.value)}
+                  placeholder="Para identificar tu pedido"
+                  className="h-14 w-full rounded-2xl border border-white/[0.08] glass px-5 py-4 text-white outline-none transition-all duration-300 placeholder:text-neutral-500 focus:border-perez-orange/40 focus:ring-4 focus:ring-perez-orange/10 focus:scale-[1.01]"
+                />
+              </div>
+              <div className="animate-fade-in-up stagger-2">
+                <label className="mb-2 block text-sm font-bold text-neutral-200">
+                  Observaciones opcionales
+                </label>
+                <textarea
+                  value={notes}
+                  onChange={(event) => setNotes(event.target.value)}
+                  rows="4"
+                  placeholder="Sin cebolla, punto de cocción, alergias..."
+                  className="w-full resize-none rounded-2xl border border-white/[0.08] glass px-5 py-4 text-white outline-none transition-all duration-300 placeholder:text-neutral-500 focus:border-perez-orange/40 focus:ring-4 focus:ring-perez-orange/10 focus:scale-[1.01]"
+                />
+              </div>
 
-            <button
-              type="submit"
-              disabled={submitting}
-              className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-perez-orange to-perez-gold px-5 py-4 font-bold text-perez-navy-dark shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:from-perez-orange-dark hover:to-perez-orange disabled:cursor-wait disabled:from-perez-navy-light disabled:to-perez-navy-light disabled:text-neutral-400 disabled:shadow-none"
-            >
-              {submitting ? <Loader2 className="animate-spin" size={19} /> : <Send size={19} />}
-              Enviar pedido
-            </button>
-          </form>
-        )}
+              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 animate-fade-in-up stagger-3">
+                <div className="mb-4 flex items-center justify-between text-sm text-neutral-300">
+                  <span>{items.length} productos</span>
+                  <strong className="text-white">{formatCurrency(total)}</strong>
+                </div>
+                <div className="space-y-3">
+                  {items.map((item) => (
+                    <div key={item.id} className="flex justify-between gap-4 text-sm">
+                      <span className="text-neutral-300">
+                        {item.quantity}x {item.name}
+                      </span>
+                      <span className="font-semibold text-neutral-100 tabular-nums">
+                        {formatCurrency(item.price * item.quantity)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {error && (
+                <div className="rounded-2xl border border-red-400/20 bg-red-500/10 px-5 py-4 text-sm font-medium text-red-200 animate-fade-in">
+                  {error}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="btn-ripple inline-flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-perez-orange to-perez-gold px-5 py-4 font-bold text-perez-navy-dark shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:from-perez-orange-dark hover:to-perez-orange hover:shadow-floating active:scale-[0.98] disabled:cursor-wait disabled:from-perez-navy-light disabled:to-perez-navy-light disabled:text-neutral-400 disabled:shadow-none disabled:hover:translate-y-0"
+              >
+                {submitting ? <Loader2 className="animate-spin" size={19} /> : <Send size={19} />}
+                Enviar pedido
+              </button>
+            </form>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }

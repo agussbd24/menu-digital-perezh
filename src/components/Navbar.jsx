@@ -1,35 +1,51 @@
 import { ChefHat, BarChart3, ShoppingBag, UtensilsCrossed } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useCart } from '../hooks/useCart.js'
 
 export default function Navbar({ onCartOpen }) {
   const { totalItems } = useCart()
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/5 glass-strong">
+    <header
+      className={`sticky top-0 z-40 transition-all duration-500 ${
+        scrolled
+          ? 'navbar-scrolled border-b border-white/[0.08]'
+          : 'border-b border-white/5 glass-strong'
+      }`}
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <a href="/" className="group flex items-center gap-3" aria-label="Volver al menú">
-          <span className="grid h-12 w-12 place-items-center rounded-2xl border border-perez-orange/30 bg-gradient-to-br from-perez-orange/20 to-perez-gold/10 text-perez-gold shadow-glow transition-all duration-300 group-hover:scale-105 group-hover:from-perez-orange/30 group-hover:to-perez-gold/20">
+          <span className="grid h-12 w-12 place-items-center rounded-2xl border border-perez-orange/30 bg-gradient-to-br from-perez-orange/20 to-perez-gold/10 text-perez-gold shadow-glow transition-all duration-300 group-hover:scale-110 group-hover:from-perez-orange/30 group-hover:to-perez-gold/20 group-hover:shadow-[0_0_30px_rgba(216,102,10,0.3)]">
             <UtensilsCrossed size={22} />
           </span>
           <span>
             <span className="block text-xs font-bold uppercase tracking-[0.35em] text-perez-gold/70">
               PÉREZ H
             </span>
-            <span className="block text-lg font-bold text-perez-cream">Menú Digital</span>
+            <span className="block text-lg font-bold text-perez-cream transition-colors group-hover:text-white">
+              Menú Digital
+            </span>
           </span>
         </a>
 
         <nav className="flex items-center gap-3">
           <a
             href="/stats"
-            className="hidden items-center gap-2 rounded-full border border-white/10 glass px-4 py-2.5 text-sm font-semibold text-neutral-300 transition-all duration-300 hover:border-perez-teal/40 hover:bg-perez-teal/10 hover:text-perez-cream sm:flex"
+            className="hidden items-center gap-2 rounded-full border border-white/10 glass px-4 py-2.5 text-sm font-semibold text-neutral-300 transition-all duration-300 hover:border-perez-teal/40 hover:bg-perez-teal/10 hover:text-perez-cream hover:scale-105 active:scale-95 sm:flex"
           >
             <BarChart3 size={17} />
             Estadísticas
           </a>
           <a
             href="/kitchen"
-            className="hidden items-center gap-2 rounded-full border border-white/10 glass px-4 py-2.5 text-sm font-semibold text-neutral-300 transition-all duration-300 hover:border-perez-orange/40 hover:bg-perez-orange/10 hover:text-perez-gold sm:flex"
+            className="hidden items-center gap-2 rounded-full border border-white/10 glass px-4 py-2.5 text-sm font-semibold text-neutral-300 transition-all duration-300 hover:border-perez-orange/40 hover:bg-perez-orange/10 hover:text-perez-gold hover:scale-105 active:scale-95 sm:flex"
           >
             <ChefHat size={17} />
             Cocina
@@ -37,7 +53,7 @@ export default function Navbar({ onCartOpen }) {
           <button
             type="button"
             onClick={onCartOpen}
-            className="relative grid h-12 w-12 place-items-center rounded-2xl bg-perez-cream text-perez-navy-dark shadow-soft transition-all duration-300 hover:scale-105 hover:bg-perez-gold"
+            className="relative grid h-12 w-12 place-items-center rounded-2xl bg-perez-cream text-perez-navy-dark shadow-soft transition-all duration-300 hover:scale-110 hover:bg-perez-gold hover:shadow-glow active:scale-95"
             aria-label="Abrir carrito"
           >
             <ShoppingBag size={20} />

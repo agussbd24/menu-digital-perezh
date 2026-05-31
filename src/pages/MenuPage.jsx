@@ -8,6 +8,8 @@ import Navbar from '../components/Navbar.jsx'
 import OrderTracker from '../components/OrderTracker.jsx'
 import ProductGrid from '../components/ProductGrid.jsx'
 import SearchBar from '../components/SearchBar.jsx'
+import ScrollReveal from '../components/ScrollReveal.jsx'
+import Footer from '../components/Footer.jsx'
 import { products } from '../services/menuData.js'
 
 export default function MenuPage() {
@@ -40,25 +42,29 @@ export default function MenuPage() {
       <Navbar onCartOpen={() => setCartOpen(true)} />
       <Hero />
 
-      <section className="relative z-10 mx-auto max-w-7xl px-4 pb-32 pt-10 sm:px-6 lg:px-8">
-        <div className="mb-8 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div className="animate-fade-in-up">
+      <section className="relative z-10 mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6 lg:px-8">
+        <ScrollReveal>
+          <div className="mb-8 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div>
               <p className="text-xs font-bold uppercase tracking-[0.35em] text-perez-gold/70">
                 Carta digital
               </p>
               <h2 className="mt-3 text-4xl font-bold sm:text-5xl text-white">Elegí tu próximo antojo</h2>
+            </div>
+            <div className="w-full lg:w-[420px]">
+              <SearchBar value={search} onChange={setSearch} />
+            </div>
           </div>
-          <div className="w-full lg:w-[420px] animate-fade-in-up stagger-2">
-            <SearchBar value={search} onChange={setSearch} />
-          </div>
-        </div>
+        </ScrollReveal>
 
-        <div className="sticky top-[72px] z-20 mb-8 border-y border-white/[0.06] bg-perez-navy/85 py-4 backdrop-blur-2xl animate-fade-in-up stagger-3">
+        <div className="sticky top-[72px] z-20 mb-8 border-y border-white/[0.06] bg-perez-navy/85 py-4 backdrop-blur-2xl">
           <CategoryFilter activeCategory={activeCategory} onChange={setActiveCategory} />
         </div>
 
         <ProductGrid products={filteredProducts} />
       </section>
+
+      <Footer />
 
       <CartDrawer
         open={cartOpen}

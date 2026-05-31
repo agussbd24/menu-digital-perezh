@@ -11,11 +11,11 @@ export default function CategoryFilter({ activeCategory, onChange }) {
             type="button"
             onClick={() => onChange(category.id)}
             className={`
-              shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300
+              shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300 active:scale-95
               ${
                 isActive
                   ? 'bg-gradient-to-r from-perez-orange to-perez-gold text-perez-navy-dark shadow-glow'
-                  : 'border border-white/10 glass text-neutral-300 hover:border-white/20 hover:bg-white/5 hover:text-white'
+                  : 'border border-white/10 glass text-neutral-300 hover:border-white/20 hover:bg-white/5 hover:text-white hover:scale-105'
               }
             `}
           >

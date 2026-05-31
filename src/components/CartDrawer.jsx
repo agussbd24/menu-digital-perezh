@@ -35,7 +35,7 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
           <button
             type="button"
             onClick={onClose}
-            className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 glass text-neutral-300 transition-all duration-300 hover:bg-white/10 hover:text-white"
+            className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 glass text-neutral-300 transition-all duration-300 hover:bg-white/10 hover:text-white active:scale-90"
             aria-label="Cerrar carrito"
           >
             <X size={20} />
@@ -44,9 +44,9 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
 
         {items.length === 0 ? (
           <div className="grid flex-1 place-items-center px-8 text-center animate-fade-in">
-            <div>
-              <div className="mx-auto mb-4 grid h-20 w-20 place-items-center rounded-full bg-neutral-800/50">
-                <ShoppingBag className="text-neutral-500" size={32} />
+            <div className="animate-float">
+              <div className="mx-auto mb-5 grid h-24 w-24 place-items-center rounded-full bg-gradient-to-br from-neutral-800/50 to-neutral-800/30 ring-1 ring-white/5">
+                <ShoppingBag className="text-neutral-500" size={36} />
               </div>
               <p className="text-xl font-bold text-white">Carrito vacío</p>
               <p className="mt-2 text-sm text-neutral-400">Sumá productos del menú para continuar.</p>
@@ -64,21 +64,21 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="h-20 w-20 rounded-xl object-cover"
+                    className="h-20 w-20 rounded-xl object-cover ring-1 ring-white/5"
                     loading="lazy"
                   />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <h3 className="font-bold text-white">{item.name}</h3>
-                        <p className="mt-1 text-sm font-semibold text-perez-gold">
+                        <p className="mt-1 text-sm font-semibold text-perez-gold tabular-nums">
                           {formatCurrency(item.price)}
                         </p>
                       </div>
                       <button
                         type="button"
                         onClick={() => removeItem(item.id)}
-                        className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-neutral-400 transition-all duration-300 hover:bg-red-500/10 hover:text-red-300"
+                        className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-neutral-400 transition-all duration-300 hover:bg-red-500/10 hover:text-red-300 active:scale-90"
                         aria-label={`Eliminar ${item.name}`}
                       >
                         <Trash2 size={17} />
@@ -89,24 +89,24 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
                         <button
                           type="button"
                           onClick={() => decreaseItem(item.id)}
-                          className="grid h-10 w-10 place-items-center text-neutral-300 transition-colors hover:text-white"
+                          className="grid h-10 w-10 place-items-center text-neutral-300 transition-all duration-200 hover:text-white hover:scale-110 active:scale-90"
                           aria-label={`Disminuir ${item.name}`}
                         >
                           <Minus size={16} />
                         </button>
-                        <span className="min-w-[2.5rem] text-center text-sm font-bold text-white">
+                        <span className="min-w-[2.5rem] text-center text-sm font-bold text-white tabular-nums">
                           {item.quantity}
                         </span>
                         <button
                           type="button"
                           onClick={() => increaseItem(item.id)}
-                          className="grid h-10 w-10 place-items-center text-neutral-300 transition-colors hover:text-white"
+                          className="grid h-10 w-10 place-items-center text-neutral-300 transition-all duration-200 hover:text-white hover:scale-110 active:scale-90"
                           aria-label={`Aumentar ${item.name}`}
                         >
                           <Plus size={16} />
                         </button>
                       </div>
-                      <span className="font-bold text-white">
+                      <span className="font-bold text-white tabular-nums">
                         {formatCurrency(item.price * item.quantity)}
                       </span>
                     </div>
@@ -120,17 +120,17 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
         <div className="border-t border-white/[0.06] p-6">
           <div className="mb-3 flex items-center justify-between text-neutral-400">
             <span>Subtotal</span>
-            <span>{formatCurrency(total)}</span>
+            <span className="tabular-nums">{formatCurrency(total)}</span>
           </div>
           <div className="mb-6 flex items-center justify-between text-2xl font-bold text-white">
             <span>Total</span>
-            <span className="text-gradient">{formatCurrency(total)}</span>
+            <span className="text-gradient tabular-nums">{formatCurrency(total)}</span>
           </div>
           <button
             type="button"
             disabled={items.length === 0}
             onClick={onCheckout}
-            className="h-14 w-full rounded-2xl bg-gradient-to-r from-perez-orange to-perez-gold px-5 py-4 text-base font-bold text-perez-navy-dark shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:from-perez-orange-dark hover:to-perez-orange disabled:cursor-not-allowed disabled:from-perez-navy-light disabled:to-perez-navy-light disabled:text-neutral-400 disabled:shadow-none"
+            className="btn-ripple h-14 w-full rounded-2xl bg-gradient-to-r from-perez-orange to-perez-gold px-5 py-4 text-base font-bold text-perez-navy-dark shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:from-perez-orange-dark hover:to-perez-orange hover:shadow-floating active:scale-[0.98] disabled:cursor-not-allowed disabled:from-perez-navy-light disabled:to-perez-navy-light disabled:text-neutral-400 disabled:shadow-none disabled:hover:translate-y-0"
           >
             Confirmar mesa y enviar
           </button>
