@@ -96,7 +96,7 @@ export default function ProductModal({ product, open, onClose }) {
         </div>
 
         {/* Hero image and close button */}
-        <div className="relative w-full shrink-0 bg-neutral-900 h-[40vw] min-h-[160px] max-h-[240px] sm:aspect-[16/9] sm:h-auto">
+        <div className="relative w-full shrink-0 bg-neutral-900 h-[30vw] min-h-[120px] max-h-[180px] sm:aspect-[16/9] sm:h-auto">
           {imgError ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-perez-navy-dark to-neutral-900 text-center p-6">
               <ShoppingBag className="mb-4 text-perez-orange/40" size={56} />
