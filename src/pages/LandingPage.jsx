@@ -1,20 +1,63 @@
 import { useEffect, useState } from 'react'
 
+function PedidosYaLogo({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none">
+      <circle cx="24" cy="24" r="24" fill="#FA002F" />
+      <path d="M20 12h6c5.5 0 10 4.5 10 10s-4.5 10-10 10h-6V12zm6 16c3.3 0 6-2.7 6-6s-2.7-6-6-6h-2v12h2z" fill="white" />
+    </svg>
+  )
+}
+
+function RappiLogo({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none">
+      <rect width="48" height="48" rx="12" fill="#FF4500" />
+      <path d="M14 34V18l10-6 10 6v16l-10 6-10-6z" fill="white" opacity="0.9" />
+      <path d="M24 12v22" stroke="#FF4500" strokeWidth="2" />
+      <path d="M14 18l10 6 10-6" stroke="#FF4500" strokeWidth="2" fill="none" />
+      <circle cx="24" cy="22" r="4" fill="#FF4500" />
+    </svg>
+  )
+}
+
+function MercadoPagoLogo({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none">
+      <rect width="48" height="48" rx="12" fill="#009EE3" />
+      <path d="M12 20h24v4H12v-4z" fill="white" opacity="0.3" />
+      <path d="M14 24c0-3 2-5 5-5s5 2 5 5-2 5-5 5-5-2-5-5z" fill="white" />
+      <path d="M24 24c0-3 2-5 5-5s5 2 5 5-2 5-5 5-5-2-5-5z" fill="#00A650" />
+      <path d="M20 22l4 4 4-4" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function WhatsAppLogo({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none">
+      <circle cx="24" cy="24" r="24" fill="#25D366" />
+      <path d="M34.5 25.5c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z" fill="white" />
+      <path d="M24 12c-6.6 0-12 5.4-12 12 0 2.1.5 4.1 1.5 5.9L12 36l6.3-1.6c1.7.9 3.6 1.4 5.7 1.4 6.6 0 12-5.4 12-12s-5.4-12-12-12z" stroke="white" strokeWidth="1.5" fill="none" />
+    </svg>
+  )
+}
+
 const deliveryLinks = [
   {
     name: 'PEDIDOS YA',
     url: 'https://www.pedidosya.com.ar/cadenas/perez-h',
-    logo: '/logos/pedidosya.png',
+    Logo: PedidosYaLogo,
   },
   {
     name: 'RAPPI',
     url: 'https://www.rappi.com.ar/restaurantes/delivery/3451-perez-h',
-    logo: '/logos/rappi.png',
+    Logo: RappiLogo,
   },
   {
     name: 'MERCADO PAGO',
     url: 'https://www.mercadolibre.com.ar/landing/restaurantes#from=/pm-delivery-social-network',
-    logo: '/logos/mercadopago.png',
+    Logo: MercadoPagoLogo,
   },
 ]
 
@@ -22,12 +65,12 @@ const whatsappLinks = [
   {
     name: 'PALERMO',
     url: 'https://api.whatsapp.com/send/?phone=1136429912&text&type=phone_number&app_absent=0',
-    logo: '/logos/whatsapp.png',
+    Logo: WhatsAppLogo,
   },
   {
     name: 'MICROCENTRO',
     url: 'https://api.whatsapp.com/send/?phone=5491144221293&text&type=phone_number&app_absent=0',
-    logo: '/logos/whatsapp.png',
+    Logo: WhatsAppLogo,
   },
 ]
 
@@ -114,7 +157,7 @@ export default function LandingPage() {
                 rel="noopener noreferrer"
                 className={`card-hover glass btn-ripple flex w-full items-center justify-center gap-3 rounded-2xl border border-perez-orange/20 px-6 py-4 text-base font-bold text-white transition-all duration-300 hover:border-perez-orange/50 hover:bg-perez-orange/10 hover:shadow-glow animate-fade-in-up stagger-${i + 1}`}
               >
-                <img src={link.logo} alt={link.name} className="h-7 w-7 object-contain" />
+                <link.Logo className="h-8 w-8 shrink-0" />
                 {link.name}
               </a>
             ))}
@@ -133,7 +176,7 @@ export default function LandingPage() {
                 rel="noopener noreferrer"
                 className={`card-hover glass btn-ripple flex w-full items-center justify-center gap-3 rounded-2xl border border-perez-orange/20 px-6 py-4 text-base font-bold text-white transition-all duration-300 hover:border-perez-orange/50 hover:bg-perez-orange/10 hover:shadow-glow animate-fade-in-up stagger-${i + 1}`}
               >
-                <img src={link.logo} alt="WhatsApp" className="h-7 w-7 object-contain" />
+                <link.Logo className="h-8 w-8 shrink-0" />
                 {link.name}
               </a>
             ))}
