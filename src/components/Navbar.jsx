@@ -9,18 +9,6 @@ export default function Navbar({ onCartOpen }) {
   const [tableNumber, setTableNumber] = useState('')
   const [tableModalOpen, setTableModalOpen] = useState(false)
   const [animateCart, setAnimateCart] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)
-
-  useEffect(() => {
-    const handleOpen = () => setModalOpen(true)
-    const handleClose = () => setModalOpen(false)
-    window.addEventListener('restobar-modal-open', handleOpen)
-    window.addEventListener('restobar-modal-close', handleClose)
-    return () => {
-      window.removeEventListener('restobar-modal-open', handleOpen)
-      window.removeEventListener('restobar-modal-close', handleClose)
-    }
-  }, [])
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
@@ -54,8 +42,6 @@ export default function Navbar({ onCartOpen }) {
     <>
       <header
         className={`sticky top-0 z-40 transition-all duration-500 ${
-          modalOpen ? '-translate-y-full opacity-0 pointer-events-none' : ''
-        } ${
           scrolled
             ? 'navbar-scrolled border-b border-white/[0.08]'
             : 'border-b border-white/5 glass-strong'

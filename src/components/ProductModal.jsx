@@ -95,11 +95,12 @@ export default function ProductModal({ product, open, onClose }) {
           <div className="h-1 w-10 rounded-full bg-white/20" />
         </div>
 
-        {/* Floating close button */}
+        {/* Floating close button - below navbar */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-10 z-10 grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-black/50 text-neutral-300 backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:text-white hover:scale-110 active:scale-90 sm:top-6"
+          className="absolute right-4 z-10 grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-black/50 text-neutral-300 backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:text-white hover:scale-110 active:scale-90"
+          style={{ top: 'max(1rem, env(safe-area-inset-top, 0px))' }}
           aria-label="Cerrar modal"
         >
           <X size={18} />
