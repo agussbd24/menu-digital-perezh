@@ -95,39 +95,39 @@ export default function ProductModal({ product, open, onClose }) {
           <div className="h-1 w-10 rounded-full bg-white/20" />
         </div>
 
+        {/* Hero image - outside scroll area so it's always visible */}
+        <div className="relative w-full shrink-0 bg-neutral-900 h-[30vw] min-h-[120px] max-h-[180px] sm:aspect-[16/9] sm:h-auto overflow-hidden">
+          {imgError ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-perez-navy-dark to-neutral-900 text-center p-6">
+              <ShoppingBag className="mb-4 text-perez-orange/40" size={56} />
+              <span className="text-2xl font-bold text-perez-cream/80">{product.name}</span>
+            </div>
+          ) : (
+            <img
+              src={product.image}
+              alt={product.name}
+              className="h-full w-full object-cover"
+              onError={() => setImgError(true)}
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-perez-navy via-transparent to-transparent" />
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-black/40 text-neutral-300 transition-all duration-300 hover:bg-white/20 hover:text-white hover:scale-110 active:scale-90"
+            aria-label="Cerrar modal"
+          >
+            <X size={20} />
+          </button>
+          {product.badge && (
+            <span className="absolute left-4 top-4 rounded-full bg-gradient-to-r from-perez-orange to-perez-gold px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-perez-navy-dark shadow-lg">
+              {product.badge}
+            </span>
+          )}
+        </div>
+
         {/* Scrollable content area */}
         <div className="flex-1 overflow-y-auto p-5 sm:p-8 space-y-5 sm:space-y-6">
-          {/* Hero image */}
-          <div className="relative w-full bg-neutral-900 h-[30vw] min-h-[120px] max-h-[180px] sm:aspect-[16/9] sm:h-auto -mx-5 -mt-5 sm:-mx-8 sm:-mt-8 overflow-hidden rounded-t-[2.5rem] sm:rounded-t-[2.5rem]">
-            {imgError ? (
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-perez-navy-dark to-neutral-900 text-center p-6">
-                <ShoppingBag className="mb-4 text-perez-orange/40" size={56} />
-                <span className="text-2xl font-bold text-perez-cream/80">{product.name}</span>
-              </div>
-            ) : (
-              <img
-                src={product.image}
-                alt={product.name}
-                className="h-full w-full object-cover"
-                onError={() => setImgError(true)}
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-perez-navy via-transparent to-transparent" />
-            <button
-              type="button"
-              onClick={onClose}
-              className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-black/40 text-neutral-300 transition-all duration-300 hover:bg-white/20 hover:text-white hover:scale-110 active:scale-90"
-              aria-label="Cerrar modal"
-            >
-              <X size={20} />
-            </button>
-            {product.badge && (
-              <span className="absolute left-4 top-4 rounded-full bg-gradient-to-r from-perez-orange to-perez-gold px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-perez-navy-dark shadow-lg">
-                {product.badge}
-              </span>
-            )}
-          </div>
-
           <div>
             <h2 className="text-3xl font-extrabold text-white sm:text-4xl">{product.name}</h2>
             <p className="mt-3 text-base leading-7 text-neutral-300">{product.description}</p>
