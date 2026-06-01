@@ -104,6 +104,7 @@ export default function ProductCard({ product, index = 0 }) {
                 onClick={(e) => {
                   e.stopPropagation()
                   setModalOpen(true)
+                  window.dispatchEvent(new CustomEvent('restobar-modal-open'))
                 }}
                 className="btn-ripple inline-flex items-center justify-center gap-2.5 rounded-2xl bg-perez-cream px-6 py-4 text-[15px] font-bold text-perez-navy-dark shadow-soft transition-all duration-300 hover:scale-105 hover:bg-perez-gold hover:shadow-glow active:scale-95 cursor-pointer w-full sm:w-auto sm:px-5 sm:py-3 sm:text-sm"
               >
