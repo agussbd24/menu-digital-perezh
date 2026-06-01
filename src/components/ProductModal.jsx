@@ -83,8 +83,8 @@ export default function ProductModal({ product, open, onClose }) {
         onClick={onClose}
       />
       <div
-        className="relative max-h-[85vh] w-full max-w-2xl overflow-hidden rounded-t-[2.5rem] border border-white/[0.08] bg-perez-navy/95 shadow-2xl backdrop-blur-2xl sm:rounded-[2.5rem] sm:max-h-[92vh] animate-slide-up flex flex-col"
-        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)', transform: `translateY(${dragY}px)`, opacity: dragY > 0 ? Math.max(0, 1 - dragY / 400) : 1, transition: dragging ? 'none' : 'transform 0.3s ease-out, opacity 0.3s ease-out' }}
+        className="relative w-full max-w-2xl overflow-hidden rounded-t-[2.5rem] border border-white/[0.08] bg-perez-navy/95 shadow-2xl backdrop-blur-2xl sm:rounded-[2.5rem] sm:max-h-[92vh] animate-slide-up flex flex-col"
+        style={{ maxHeight: 'calc(100vh - env(safe-area-inset-bottom, 0px))', transform: `translateY(${dragY}px)`, opacity: dragY > 0 ? Math.max(0, 1 - dragY / 400) : 1, transition: dragging ? 'none' : 'transform 0.3s ease-out, opacity 0.3s ease-out' }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
