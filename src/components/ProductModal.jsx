@@ -77,7 +77,7 @@ export default function ProductModal({ product, open, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/80 p-0 backdrop-blur-md sm:items-center sm:p-4 animate-fade-in">
+    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/80 p-0 backdrop-blur-md sm:items-center sm:p-4 animate-fade-in">
       <div
         className="absolute inset-0"
         onClick={onClose}
@@ -99,8 +99,8 @@ export default function ProductModal({ product, open, onClose }) {
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 z-10 grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-black/50 text-neutral-300 backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:text-white hover:scale-110 active:scale-90"
-          style={{ top: 'max(1rem, env(safe-area-inset-top, 0px))' }}
+          className="absolute right-4 z-10 grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-black/60 text-neutral-300 backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:text-white hover:scale-110 active:scale-90"
+          style={{ top: 'max(5.5rem, calc(env(safe-area-inset-top, 0px) + 5.5rem))' }}
           aria-label="Cerrar modal"
         >
           <X size={18} />
