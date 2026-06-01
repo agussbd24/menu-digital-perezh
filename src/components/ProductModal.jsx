@@ -77,7 +77,7 @@ export default function ProductModal({ product, open, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 p-0 backdrop-blur-md sm:items-center sm:p-4 animate-fade-in">
+    <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/80 p-0 backdrop-blur-md sm:items-center sm:p-4 animate-fade-in">
       <div
         className="absolute inset-0"
         onClick={onClose}
@@ -95,56 +95,59 @@ export default function ProductModal({ product, open, onClose }) {
           <div className="h-1 w-10 rounded-full bg-white/20" />
         </div>
 
-        {/* Hero image - outside scroll area so it's always visible */}
-        <div className="relative w-full shrink-0 bg-neutral-900 h-[30vw] min-h-[120px] max-h-[180px] sm:aspect-[16/9] sm:h-auto overflow-hidden">
-          {imgError ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-perez-navy-dark to-neutral-900 text-center p-6">
-              <ShoppingBag className="mb-4 text-perez-orange/40" size={56} />
-              <span className="text-2xl font-bold text-perez-cream/80">{product.name}</span>
-            </div>
-          ) : (
-            <img
-              src={product.image}
-              alt={product.name}
-              className="h-full w-full object-cover"
-              onError={() => setImgError(true)}
-            />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-perez-navy via-transparent to-transparent" />
-          <button
-            type="button"
-            onClick={onClose}
-            className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-black/40 text-neutral-300 transition-all duration-300 hover:bg-white/20 hover:text-white hover:scale-110 active:scale-90"
-            aria-label="Cerrar modal"
-          >
-            <X size={20} />
-          </button>
-          {product.badge && (
-            <span className="absolute left-4 top-4 rounded-full bg-gradient-to-r from-perez-orange to-perez-gold px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-perez-navy-dark shadow-lg">
-              {product.badge}
-            </span>
-          )}
-        </div>
+        {/* Floating close button */}
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-4 top-10 z-10 grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-black/50 text-neutral-300 backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:text-white hover:scale-110 active:scale-90 sm:top-6"
+          aria-label="Cerrar modal"
+        >
+          <X size={18} />
+        </button>
 
         {/* Scrollable content area */}
-        <div className="flex-1 overflow-y-auto p-5 sm:p-8 space-y-5 sm:space-y-6">
-          <div>
-            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">{product.name}</h2>
-            <p className="mt-3 text-base leading-7 text-neutral-300">{product.description}</p>
-            <div className="mt-4 flex items-center justify-between border-b border-white/[0.06] pb-4">
-              <span className="text-sm font-bold uppercase tracking-widest text-perez-gold/70">Precio unitario base</span>
-              <span className="text-2xl font-black text-white">{formatCurrency(product.price)}</span>
-            </div>
+        <div className="flex-1 overflow-y-auto space-y-0">
+          {/* Hero image - inside scroll area */}
+          <div className="relative w-full bg-neutral-900 h-[40vw] min-h-[140px] max-h-[220px] sm:aspect-[16/9] sm:h-auto overflow-hidden">
+            {imgError ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-perez-navy-dark to-neutral-900 text-center p-6">
+                <ShoppingBag className="mb-4 text-perez-orange/40" size={56} />
+                <span className="text-2xl font-bold text-perez-cream/80">{product.name}</span>
+              </div>
+            ) : (
+              <img
+                src={product.image}
+                alt={product.name}
+                className="h-full w-full object-cover"
+                onError={() => setImgError(true)}
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-perez-navy via-transparent to-transparent" />
+            {product.badge && (
+              <span className="absolute left-4 top-4 rounded-full bg-gradient-to-r from-perez-orange to-perez-gold px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-perez-navy-dark shadow-lg">
+                {product.badge}
+              </span>
+            )}
           </div>
 
-          {/* Applicable addons */}
-          {applicableAddons.length > 0 && (
-            <div className="space-y-4">
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <span>Personalizá tu pedido</span>
-                <span className="rounded-full bg-perez-orange/10 px-2.5 py-0.5 text-xs text-perez-gold border border-perez-orange/20 font-medium">Opcional</span>
-              </h3>
-              <div className="grid gap-3 sm:grid-cols-2">
+          <div className="p-5 sm:p-8 space-y-5 sm:space-y-6">
+            <div>
+              <h2 className="text-3xl font-extrabold text-white sm:text-4xl">{product.name}</h2>
+              <p className="mt-3 text-base leading-7 text-neutral-300">{product.description}</p>
+              <div className="mt-4 flex items-center justify-between border-b border-white/[0.06] pb-4">
+                <span className="text-sm font-bold uppercase tracking-widest text-perez-gold/70">Precio unitario base</span>
+                <span className="text-2xl font-black text-white">{formatCurrency(product.price)}</span>
+              </div>
+            </div>
+
+            {/* Applicable addons */}
+            {applicableAddons.length > 0 && (
+              <div className="space-y-4">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <span>Personalizá tu pedido</span>
+                  <span className="rounded-full bg-perez-orange/10 px-2.5 py-0.5 text-xs text-perez-gold border border-perez-orange/20 font-medium">Opcional</span>
+                </h3>
+                <div className="grid gap-3 sm:grid-cols-2">
                 {applicableAddons.map((addon) => {
                   const isSelected = selectedAddons.some((a) => a.id === addon.id)
                   return (
@@ -179,6 +182,7 @@ export default function ProductModal({ product, open, onClose }) {
               placeholder="Ej: sin cebolla, panceta bien cocida, aderezo aparte..."
               className="w-full resize-none rounded-2xl border border-white/[0.08] glass px-5 py-4 text-sm text-white outline-none transition-all duration-300 placeholder:text-neutral-500 focus:border-perez-orange/40 focus:ring-4 focus:ring-perez-orange/10"
             />
+          </div>
           </div>
         </div>
 
