@@ -1,6 +1,7 @@
 import { Heart, Minus, Plus, ShoppingBag } from 'lucide-react'
 import { useState } from 'react'
 import { useCart } from '../hooks/useCart.js'
+import { useCountUp } from '../hooks/useCountUp.js'
 import { useToast } from '../hooks/useToast.js'
 import { formatCurrency } from '../services/menuData.js'
 import ProductModal from './ProductModal.jsx'
@@ -21,12 +22,11 @@ export default function ProductCard({ product, index = 0 }) {
   const [imgError, setImgError] = useState(false)
   const [animateHeart, setAnimateHeart] = useState(false)
 
-  // Calculate sum of quantities for all variants of this product in the cart
   const quantity = items
     .filter((item) => item.id === product.id)
     .reduce((sum, item) => sum + item.quantity, 0)
 
-  // Find the first variant in the cart to increment/decrement from the card if needed
+  const animatedQuantity = useCountUp(quantity, 300)
   const cartItem = items.find((item) => item.id === product.id)
 
   const toggleFavorite = (e) => {
@@ -61,8 +61,7 @@ export default function ProductCard({ product, index = 0 }) {
     <>
       <article
         onClick={handleCardClick}
-        className="animate-fade-in-up group overflow-hidden rounded-[2rem] border border-white/[0.08] bg-white/[0.03] shadow-card transition-all duration-500 hover:-translate-y-2 hover:border-perez-orange/30 hover:bg-white/[0.06] hover:shadow-glow card-hover cursor-pointer"
-        style={{ animationDelay: `${index * 0.06}s` }}
+        className="reveal-up group overflow-hidden rounded-[2rem] border border-white/[0.08] bg-white/[0.03] shadow-card transition-all duration-500 hover:-translate-y-2 hover:border-perez-orange/30 hover:bg-white/[0.06] hover:shadow-glow card-hover cursor-pointer"
       >
         <div className="relative aspect-[4/3] overflow-hidden bg-neutral-900">
           {!imgLoaded && !imgError && <div className="absolute inset-0 skeleton" />}
@@ -76,7 +75,7 @@ export default function ProductCard({ product, index = 0 }) {
             <img
               src={product.image}
               alt={product.name}
-              className={`h-full w-full object-cover transition-all duration-700 group-hover:scale-110 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+              className={`h-full w-full object-cover transition-all duration-700 group-hover:scale-110 img-blur-load ${imgLoaded ? 'loaded' : ''}`}
               loading="lazy"
               onLoad={() => setImgLoaded(true)}
               onError={() => setImgError(true)}
@@ -122,7 +121,7 @@ export default function ProductCard({ product, index = 0 }) {
 
           <div className="flex items-center justify-between gap-4">
             {quantity > 0 ? (
-              <div 
+              <div
                 className="inline-flex items-center rounded-2xl border border-perez-orange/30 bg-perez-orange/10 animate-scale-in"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -135,7 +134,7 @@ export default function ProductCard({ product, index = 0 }) {
                   <Minus size={18} />
                 </button>
                 <span className="min-w-[2.75rem] text-center text-base font-bold text-white tabular-nums">
-                  {quantity}
+                  {animatedQuantity}
                 </span>
                 <button
                   type="button"
@@ -163,10 +162,10 @@ export default function ProductCard({ product, index = 0 }) {
         </div>
       </article>
 
-      <ProductModal 
-        product={product} 
-        open={modalOpen} 
-        onClose={() => setModalOpen(false)} 
+      <ProductModal
+        product={product}
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
       />
     </>
   )

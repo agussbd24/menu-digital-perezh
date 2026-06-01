@@ -1,21 +1,44 @@
+import { useRef, useEffect, useState } from 'react'
 import { categories } from '../services/menuData.js'
 
 export default function CategoryFilter({ activeCategory, onChange }) {
+  const scrollRef = useRef(null)
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 })
+  const btnRefs = useRef({})
+
+  useEffect(() => {
+    const btn = btnRefs.current[activeCategory]
+    if (btn && scrollRef.current) {
+      const container = scrollRef.current
+      const btnRect = btn.getBoundingClientRect()
+      const containerRect = container.getBoundingClientRect()
+      setIndicator({
+        left: btn.offsetLeft,
+        width: btn.offsetWidth,
+      })
+      btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+    }
+  }, [activeCategory])
+
   return (
-    <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
+    <div
+      ref={scrollRef}
+      className="no-scrollbar relative flex gap-1 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-1"
+    >
       {categories.map((category) => {
         const isActive = activeCategory === category.id
         return (
           <button
             key={category.id}
+            ref={(el) => { btnRefs.current[category.id] = el }}
             type="button"
             onClick={() => onChange(category.id)}
             className={`
-              shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300 active:scale-95
+              shrink-0 snap-center rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300 active:scale-95
               ${
                 isActive
-                  ? 'bg-gradient-to-r from-perez-orange to-perez-gold text-perez-navy-dark shadow-glow'
-                  : 'border border-white/10 glass text-neutral-300 hover:border-white/20 hover:bg-white/5 hover:text-white hover:scale-105'
+                  ? 'text-white'
+                  : 'text-neutral-400 hover:text-neutral-200 hover:bg-white/5'
               }
             `}
           >
@@ -23,6 +46,10 @@ export default function CategoryFilter({ activeCategory, onChange }) {
           </button>
         )
       })}
+      <div
+        className="absolute bottom-0 h-[3px] rounded-full bg-gradient-to-r from-perez-orange to-perez-gold shadow-[0_0_8px_rgba(216,102,10,0.4)] transition-all duration-300 ease-out"
+        style={{ left: indicator.left, width: indicator.width }}
+      />
     </div>
   )
 }

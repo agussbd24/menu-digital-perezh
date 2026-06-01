@@ -1,11 +1,14 @@
 import { Minus, Plus, ShoppingBag, Trash2, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useCart } from '../hooks/useCart.js'
+import { useCountUp } from '../hooks/useCountUp.js'
 import { formatCurrency } from '../services/menuData.js'
+import CartItem from './CartItem.jsx'
 
 export default function CartDrawer({ open, onClose, onCheckout }) {
   const { items, total, totalItems, increaseItem, decreaseItem, removeItem } = useCart()
   const [animateTotal, setAnimateTotal] = useState(false)
+  const animatedTotal = useCountUp(total, 350)
 
   useEffect(() => {
     if (total > 0) {
@@ -64,90 +67,14 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
           </div>
         ) : (
           <div className="flex-1 space-y-3 overflow-y-auto p-5">
-            {items.map((item, index) => (
-              <div
+            {items.map((item) => (
+              <CartItem
                 key={item.cartId}
-                className="animate-slide-in-right rounded-2xl border border-white/[0.06] bg-white/[0.03] p-4 transition-all duration-300 hover:bg-white/[0.06]"
-                style={{ animationDelay: `${index * 0.05}s` }}
-              >
-                <div className="flex gap-4">
-                  <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl ring-1 ring-white/5 bg-neutral-800 flex items-center justify-center">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="h-full w-full object-cover"
-                      loading="lazy"
-                      onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
-                    />
-                    <div className="hidden items-center justify-center h-full w-full">
-                      <ShoppingBag className="text-neutral-600" size={20} />
-                    </div>
-                  </div>
-                  <div className="min-w-0 flex-1 flex flex-col justify-between">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0 flex-1">
-                        <h3 className="font-bold text-white truncate">{item.name}</h3>
-                        
-                        {/* Display custom selected addons */}
-                        {item.selectedAddons && item.selectedAddons.length > 0 && (
-                          <div className="mt-1 flex flex-wrap gap-1">
-                            {item.selectedAddons.map((addon) => (
-                              <span key={addon.id} className="rounded bg-white/5 border border-white/5 px-1.5 py-0.5 text-[10px] text-neutral-400 font-semibold">
-                                + {addon.name}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                        
-                        {/* Display custom notes */}
-                        {item.notes && (
-                          <p className="mt-1 text-[11px] text-perez-gold italic truncate">
-                            "{item.notes}"
-                          </p>
-                        )}
-                        
-                        <p className="mt-2 text-sm font-semibold text-perez-gold tabular-nums">
-                          {formatCurrency(item.price)}
-                        </p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => removeItem(item.cartId)}
-                        className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-neutral-400 transition-all duration-300 hover:bg-red-500/10 hover:text-red-300 active:scale-90 cursor-pointer"
-                        aria-label={`Eliminar ${item.name}`}
-                      >
-                        <Trash2 size={17} />
-                      </button>
-                    </div>
-                    <div className="mt-4 flex items-center justify-between">
-                      <div className="inline-flex items-center rounded-xl border border-white/10 bg-black/20">
-                        <button
-                          type="button"
-                          onClick={() => decreaseItem(item.cartId)}
-                          className="grid h-10 w-10 place-items-center text-neutral-300 transition-all duration-200 hover:text-white hover:scale-110 active:scale-90 cursor-pointer"
-                          aria-label={`Disminuir ${item.name}`}
-                        >
-                          <Minus size={16} />
-                        </button>
-                        <span className="min-w-[2.5rem] text-center text-sm font-bold text-white tabular-nums">
-                          {item.quantity}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => increaseItem(item.cartId)}
-                          className="grid h-10 w-10 place-items-center text-neutral-300 transition-all duration-200 hover:text-white hover:scale-110 active:scale-90 cursor-pointer"
-                          aria-label={`Aumentar ${item.name}`}
-                        >
-                          <Plus size={16} />
-                        </button>
-                      </div>
-                      <span className="font-bold text-white tabular-nums">
-                        {formatCurrency(item.price * item.quantity)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                item={item}
+                onIncrease={increaseItem}
+                onDecrease={decreaseItem}
+                onRemove={removeItem}
+              />
             ))}
           </div>
         )}
@@ -155,11 +82,11 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
         <div className="border-t border-white/[0.06] p-6">
           <div className="mb-3 flex items-center justify-between text-neutral-400">
             <span>Subtotal</span>
-            <span className="tabular-nums">{formatCurrency(total)}</span>
+            <span className="tabular-nums">{formatCurrency(animatedTotal)}</span>
           </div>
           <div className="mb-6 flex items-center justify-between text-2xl font-bold text-white">
             <span>Total</span>
-            <span className={`text-gradient tabular-nums inline-block ${animateTotal ? 'animate-cart-pop' : ''}`}>{formatCurrency(total)}</span>
+            <span className={`text-gradient tabular-nums inline-block ${animateTotal ? 'animate-cart-pop' : ''}`}>{formatCurrency(animatedTotal)}</span>
           </div>
           <button
             type="button"

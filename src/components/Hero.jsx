@@ -1,14 +1,15 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Clock3, Sparkles, Wifi } from 'lucide-react'
 
 export default function Hero() {
   const imageRef = useRef(null)
+  const [heroImgLoaded, setHeroImgLoaded] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
       if (imageRef.current) {
         const scrollY = window.scrollY
-        imageRef.current.style.transform = `translateY(${scrollY * 0.3}px) scale(1.1)`
+        imageRef.current.style.transform = `translateY(${scrollY * 0.25}px) scale(1.1)`
       }
     }
 
@@ -23,7 +24,8 @@ export default function Hero() {
           ref={imageRef}
           src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=1800&q=90"
           alt="Hamburguesa premium sobre mesa oscura"
-          className="h-full w-full object-cover scale-110 will-change-transform"
+          className={`h-full w-full object-cover scale-110 will-change-transform img-blur-load ${heroImgLoaded ? 'loaded' : ''}`}
+          onLoad={() => setHeroImgLoaded(true)}
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(27,44,88,0.3)_0%,rgba(27,44,88,0.6)_40%,rgba(27,44,88,0.9)_70%,rgba(27,44,88,1)_100%)]" />
         <div className="absolute inset-0 bg-gradient-to-r from-perez-navy-dark/60 via-transparent to-transparent" />

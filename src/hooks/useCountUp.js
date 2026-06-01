@@ -1,84 +1,83 @@
 import { useEffect, useRef, useState } from 'react'
 
-export function useCountUp(end, duration = 1200, startOnView = true) {
-  const [count, setCount] = useState(0)
-  const [hasStarted, setHasStarted] = useState(!startOnView)
-  const animFrame = useRef(null)
+export function useCountUp(target, duration = 400) {
+  const [display, setDisplay] = useState(target)
+  const frameRef = useRef(null)
+  const startRef = useRef(null)
+  const fromRef = useRef(target)
 
   useEffect(() => {
-    if (!hasStarted) return
+    const from = fromRef.current
+    const diff = target - from
+    if (diff === 0) return
 
-    if (end === 0) {
-      return
-    }
-
-    let startTime = null
+    fromRef.current = target
+    startRef.current = null
 
     const animate = (timestamp) => {
-      if (!startTime) startTime = timestamp
-      const progress = Math.min((timestamp - startTime) / duration, 1)
+      if (!startRef.current) startRef.current = timestamp
+      const elapsed = timestamp - startRef.current
+      const progress = Math.min(elapsed / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 3)
-      setCount(Math.floor(eased * end))
+      setDisplay(Math.round(from + diff * eased))
 
       if (progress < 1) {
-        animFrame.current = requestAnimationFrame(animate)
+        frameRef.current = requestAnimationFrame(animate)
       }
     }
 
-    animFrame.current = requestAnimationFrame(animate)
+    frameRef.current = requestAnimationFrame(animate)
     return () => {
-      if (animFrame.current) cancelAnimationFrame(animFrame.current)
+      if (frameRef.current) cancelAnimationFrame(frameRef.current)
     }
-  }, [end, duration, hasStarted])
+  }, [target, duration])
 
-  return {
-    count,
-    start: () => setHasStarted(true),
-  }
+  return display
 }
 
-export function useCountUpOnView(end, duration = 1200) {
-  const [ref, setRef] = useState(null)
-  const [hasStarted, setHasStarted] = useState(false)
-  const [count, setCount] = useState(0)
-  const animFrame = useRef(null)
+export function useCountUpOnView(target, duration = 800) {
+  const [display, setDisplay] = useState(0)
+  const [started, setStarted] = useState(false)
+  const ref = useRef(null)
+  const frameRef = useRef(null)
 
   useEffect(() => {
-    if (!ref) return
+    const el = ref.current
+    if (!el) return
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setHasStarted(true)
+        if (entry.isIntersecting && !started) {
+          setStarted(true)
           observer.disconnect()
         }
       },
-      { threshold: 0.3 },
+      { threshold: 0.3 }
     )
-    observer.observe(ref)
+    observer.observe(el)
     return () => observer.disconnect()
-  }, [ref])
+  }, [started])
 
   useEffect(() => {
-    if (!hasStarted || end === 0) return
+    if (!started) return
 
-    let startTime = null
-
+    const start = performance.now()
     const animate = (timestamp) => {
-      if (!startTime) startTime = timestamp
-      const progress = Math.min((timestamp - startTime) / duration, 1)
+      const elapsed = timestamp - start
+      const progress = Math.min(elapsed / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 3)
-      setCount(Math.floor(eased * end))
+      setDisplay(Math.round(target * eased))
 
       if (progress < 1) {
-        animFrame.current = requestAnimationFrame(animate)
+        frameRef.current = requestAnimationFrame(animate)
       }
     }
 
-    animFrame.current = requestAnimationFrame(animate)
+    frameRef.current = requestAnimationFrame(animate)
     return () => {
-      if (animFrame.current) cancelAnimationFrame(animFrame.current)
+      if (frameRef.current) cancelAnimationFrame(frameRef.current)
     }
-  }, [end, duration, hasStarted])
+  }, [started, target, duration])
 
-  return [setRef, count]
+  return [ref, display]
 }

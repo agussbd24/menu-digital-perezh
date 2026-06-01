@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react'
 import { useCart } from '../hooks/useCart.js'
 import { useToast } from '../hooks/useToast.js'
@@ -11,6 +11,28 @@ export default function ProductModal({ product, open, onClose }) {
   const [notes, setNotes] = useState('')
   const [quantity, setQuantity] = useState(1)
   const [imgError, setImgError] = useState(false)
+  const [dragY, setDragY] = useState(0)
+  const [dragging, setDragging] = useState(false)
+  const touchStart = useRef({ y: 0, time: 0 })
+
+  const handleTouchStart = useCallback((e) => {
+    touchStart.current = { y: e.touches[0].clientY, time: Date.now() }
+    setDragging(true)
+  }, [])
+
+  const handleTouchMove = useCallback((e) => {
+    if (!dragging) return
+    const delta = e.touches[0].clientY - touchStart.current.y
+    if (delta > 0) setDragY(delta)
+  }, [dragging])
+
+  const handleTouchEnd = useCallback(() => {
+    setDragging(false)
+    if (dragY > 120) {
+      onClose()
+    }
+    setDragY(0)
+  }, [dragY, onClose])
 
   useEffect(() => {
     if (open) {
@@ -56,12 +78,23 @@ export default function ProductModal({ product, open, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 p-0 backdrop-blur-md sm:items-center sm:p-4 animate-fade-in">
-      <div 
-        className="absolute inset-0" 
-        onClick={onClose} 
+      <div
+        className="absolute inset-0"
+        onClick={onClose}
       />
-      <div className="relative max-h-[92vh] w-full max-w-2xl overflow-hidden rounded-t-[2.5rem] border border-white/[0.08] bg-perez-navy/95 shadow-2xl backdrop-blur-2xl sm:rounded-[2.5rem] animate-slide-up flex flex-col" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+      <div
+        className="relative max-h-[92vh] w-full max-w-2xl overflow-hidden rounded-t-[2.5rem] border border-white/[0.08] bg-perez-navy/95 shadow-2xl backdrop-blur-2xl sm:rounded-[2.5rem] animate-slide-up flex flex-col"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)', transform: `translateY(${dragY}px)`, opacity: dragY > 0 ? Math.max(0, 1 - dragY / 400) : 1, transition: dragging ? 'none' : 'transform 0.3s ease-out, opacity 0.3s ease-out' }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         
+        {/* Drag indicator */}
+        <div className="flex justify-center pt-3 sm:hidden">
+          <div className="h-1 w-10 rounded-full bg-white/20" />
+        </div>
+
         {/* Hero image and close button */}
         <div className="relative aspect-[16/9] w-full shrink-0 bg-neutral-900">
           {imgError ? (

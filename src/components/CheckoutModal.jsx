@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useRef, useCallback } from 'react'
 import { CheckCircle2, Loader2, Send, X } from 'lucide-react'
 import { useCart } from '../hooks/useCart.js'
 import { createOrder } from '../services/orderService.js'
@@ -19,6 +19,26 @@ export default function CheckoutModal({ open, onClose, onSuccess }) {
   const [error, setError] = useState('')
   const [createdOrder, setCreatedOrder] = useState(null)
   const [showConfetti, setShowConfetti] = useState(false)
+  const [dragY, setDragY] = useState(0)
+  const [dragging, setDragging] = useState(false)
+  const touchStart = useRef({ y: 0 })
+
+  const handleTouchStart = useCallback((e) => {
+    touchStart.current = { y: e.touches[0].clientY }
+    setDragging(true)
+  }, [])
+
+  const handleTouchMove = useCallback((e) => {
+    if (!dragging) return
+    const delta = e.touches[0].clientY - touchStart.current.y
+    if (delta > 0) setDragY(delta)
+  }, [dragging])
+
+  const handleTouchEnd = useCallback(() => {
+    setDragging(false)
+    if (dragY > 120) onClose()
+    setDragY(0)
+  }, [dragY, onClose])
 
   useEffect(() => {
     if (open) {
@@ -94,7 +114,13 @@ export default function CheckoutModal({ open, onClose, onSuccess }) {
     <>
       <Confetti active={showConfetti} onComplete={() => setShowConfetti(false)} />
       <div className="fixed inset-0 z-[60] grid place-items-end bg-black/80 p-0 backdrop-blur-sm sm:place-items-center sm:p-4 animate-fade-in">
-        <div className="max-h-[94vh] w-full max-w-lg overflow-y-auto rounded-t-[2rem] border border-white/[0.08] bg-perez-navy/95 px-20 py-6 shadow-2xl backdrop-blur-2xl sm:rounded-[2rem] sm:p-6 animate-slide-up">
+        <div
+          className="max-h-[94vh] w-full max-w-lg overflow-y-auto rounded-t-[2rem] border border-white/[0.08] bg-perez-navy/95 px-20 py-6 shadow-2xl backdrop-blur-2xl sm:rounded-[2rem] sm:p-6 animate-slide-up"
+          style={{ transform: `translateY(${dragY}px)`, opacity: dragY > 0 ? Math.max(0, 1 - dragY / 400) : 1, transition: dragging ? 'none' : 'transform 0.3s ease-out, opacity 0.3s ease-out' }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <div className="mb-6 flex items-start justify-between gap-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.3em] text-perez-gold/70">

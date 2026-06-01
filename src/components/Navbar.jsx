@@ -109,7 +109,7 @@ export default function Navbar({ onCartOpen }) {
             >
               <ShoppingBag size={20} />
               {totalItems > 0 && (
-                <span className="absolute -right-1.5 -top-1.5 grid h-6 min-w-6 place-items-center rounded-full bg-gradient-to-r from-perez-orange to-perez-gold px-1.5 text-xs font-bold text-perez-navy-dark ring-4 ring-perez-navy animate-bounce-in">
+                <span className="absolute -right-1.5 -top-1.5 grid h-6 min-w-6 place-items-center rounded-full bg-gradient-to-r from-perez-orange to-perez-gold px-1.5 text-xs font-bold text-perez-navy-dark ring-4 ring-perez-navy animate-badge-pulse">
                   {totalItems}
                 </span>
               )}
