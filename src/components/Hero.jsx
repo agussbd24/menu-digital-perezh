@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { Clock3, Sparkles, Wifi } from 'lucide-react'
 
 export default function Hero() {
   const imageRef = useRef(null)
@@ -46,23 +45,6 @@ export default function Hero() {
           <p className="mt-6 max-w-xl text-base leading-7 text-neutral-300 sm:text-lg animate-fade-in-up stagger-3">
             Elegí tus favoritos, sumá observaciones y enviá el pedido directo a cocina. Las mejores hamburguesas, desde tu mesa.
           </p>
-          <div className="mt-8 grid max-w-2xl gap-3 sm:mt-10 sm:grid-cols-3 animate-fade-in-up stagger-4">
-            <div className="glass-strong group rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:border-perez-orange/30 hover:bg-perez-orange/10 hover:scale-[1.03] hover:shadow-glow cursor-default">
-              <Clock3 className="mb-2.5 text-perez-gold transition-transform duration-300 group-hover:scale-110" size={22} />
-              <p className="text-sm font-bold text-perez-cream">Pedido ágil</p>
-              <p className="mt-1 text-[13px] text-neutral-400">Sin esperar al mozo</p>
-            </div>
-            <div className="glass-strong group rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:border-perez-gold/30 hover:bg-perez-gold/10 hover:scale-[1.03] hover:shadow-glow cursor-default">
-              <Wifi className="mb-2.5 text-perez-gold transition-transform duration-300 group-hover:scale-110 group-hover:animate-pulse" size={22} />
-              <p className="text-sm font-bold text-perez-cream">Realtime</p>
-              <p className="mt-1 text-[13px] text-neutral-400">Cocina recibe al instante</p>
-            </div>
-            <div className="glass-strong group rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:border-perez-teal/30 hover:bg-perez-teal/10 hover:scale-[1.03] hover:shadow-glow cursor-default">
-              <Sparkles className="mb-2.5 text-perez-teal transition-transform duration-300 group-hover:scale-110" size={22} />
-              <p className="text-sm font-bold text-perez-cream">Premium UX</p>
-              <p className="mt-1 text-[13px] text-neutral-400">Mobile-first y fluido</p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
