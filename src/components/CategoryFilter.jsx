@@ -5,17 +5,19 @@ export default function CategoryFilter({ activeCategory, onChange }) {
   const scrollRef = useRef(null)
   const [indicator, setIndicator] = useState({ left: 0, width: 0 })
   const btnRefs = useRef({})
+  const isFirstRender = useRef(true)
 
   useEffect(() => {
     const btn = btnRefs.current[activeCategory]
     if (btn && scrollRef.current) {
-      const container = scrollRef.current
-      const btnRect = btn.getBoundingClientRect()
-      const containerRect = container.getBoundingClientRect()
       setIndicator({
         left: btn.offsetLeft,
         width: btn.offsetWidth,
       })
+      if (isFirstRender.current) {
+        isFirstRender.current = false
+        return
+      }
       btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
     }
   }, [activeCategory])
