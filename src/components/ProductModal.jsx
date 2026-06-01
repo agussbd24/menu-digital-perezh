@@ -10,6 +10,7 @@ export default function ProductModal({ product, open, onClose }) {
   const [selectedAddons, setSelectedAddons] = useState([])
   const [notes, setNotes] = useState('')
   const [quantity, setQuantity] = useState(1)
+  const [imgError, setImgError] = useState(false)
 
   useEffect(() => {
     if (open) {
@@ -63,11 +64,19 @@ export default function ProductModal({ product, open, onClose }) {
         
         {/* Hero image and close button */}
         <div className="relative aspect-[16/9] w-full shrink-0 bg-neutral-900">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="h-full w-full object-cover"
-          />
+          {imgError ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-perez-navy-dark to-neutral-900 text-center p-6">
+              <ShoppingBag className="mb-4 text-perez-orange/40" size={56} />
+              <span className="text-2xl font-bold text-perez-cream/80">{product.name}</span>
+            </div>
+          ) : (
+            <img
+              src={product.image}
+              alt={product.name}
+              className="h-full w-full object-cover"
+              onError={() => setImgError(true)}
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-perez-navy via-transparent to-transparent" />
           <button
             type="button"

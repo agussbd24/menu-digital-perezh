@@ -71,12 +71,18 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 <div className="flex gap-4">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="h-20 w-20 rounded-xl object-cover ring-1 ring-white/5"
-                    loading="lazy"
-                  />
+                  <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl ring-1 ring-white/5 bg-neutral-800 flex items-center justify-center">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                      onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+                    />
+                    <div className="hidden items-center justify-center h-full w-full">
+                      <ShoppingBag className="text-neutral-600" size={20} />
+                    </div>
+                  </div>
                   <div className="min-w-0 flex-1 flex flex-col justify-between">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0 flex-1">

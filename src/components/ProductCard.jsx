@@ -18,6 +18,7 @@ export default function ProductCard({ product, index = 0 }) {
     }
   })
   const [imgLoaded, setImgLoaded] = useState(false)
+  const [imgError, setImgError] = useState(false)
   const [animateHeart, setAnimateHeart] = useState(false)
 
   // Calculate sum of quantities for all variants of this product in the cart
@@ -64,14 +65,23 @@ export default function ProductCard({ product, index = 0 }) {
         style={{ animationDelay: `${index * 0.06}s` }}
       >
         <div className="relative aspect-[4/3] overflow-hidden bg-neutral-900">
-          {!imgLoaded && <div className="absolute inset-0 skeleton" />}
-          <img
-            src={product.image}
-            alt={product.name}
-            className={`h-full w-full object-cover transition-all duration-700 group-hover:scale-110 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
-            loading="lazy"
-            onLoad={() => setImgLoaded(true)}
-          />
+          {!imgLoaded && !imgError && <div className="absolute inset-0 skeleton" />}
+          {imgError ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-perez-navy-dark to-neutral-900 text-center p-4">
+              <ShoppingBag className="mb-3 text-perez-orange/50" size={40} />
+              <span className="text-sm font-bold text-perez-cream/80">{product.name}</span>
+              <span className="mt-1 text-xs text-neutral-500">{formatCurrency(product.price)}</span>
+            </div>
+          ) : (
+            <img
+              src={product.image}
+              alt={product.name}
+              className={`h-full w-full object-cover transition-all duration-700 group-hover:scale-110 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+              loading="lazy"
+              onLoad={() => setImgLoaded(true)}
+              onError={() => setImgError(true)}
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500 group-hover:from-black/70" />
 
           <button
