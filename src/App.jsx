@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { CartProvider } from './context/CartContext.jsx'
 import { ToastProvider } from './context/ToastContext.jsx'
 import KitchenPage from './pages/KitchenPage.jsx'
+import LandingPage from './pages/LandingPage.jsx'
 import MenuPage from './pages/MenuPage.jsx'
 import StatsPage from './pages/StatsPage.jsx'
 import CursorTrail from './components/CursorTrail.jsx'
@@ -65,12 +66,24 @@ export default function App() {
     )
   }
 
+  if (pathname.startsWith('/menu')) {
+    return (
+      <ToastProvider>
+        <CartProvider>
+          <CursorTrail />
+          <ScrollRevealObserver />
+          <MenuPage />
+        </CartProvider>
+      </ToastProvider>
+    )
+  }
+
   return (
     <ToastProvider>
       <CartProvider>
         <CursorTrail />
         <ScrollRevealObserver />
-        <MenuPage />
+        <LandingPage />
       </CartProvider>
     </ToastProvider>
   )
