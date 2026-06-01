@@ -59,7 +59,7 @@ export default function ProductModal({ product, open, onClose }) {
         className="absolute inset-0" 
         onClick={onClose} 
       />
-      <div className="relative max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-t-[2.5rem] border border-white/[0.08] bg-perez-navy/95 shadow-2xl backdrop-blur-2xl sm:rounded-[2.5rem] animate-slide-up flex flex-col no-scrollbar">
+      <div className="relative max-h-[92vh] w-full max-w-2xl overflow-hidden rounded-t-[2.5rem] border border-white/[0.08] bg-perez-navy/95 shadow-2xl backdrop-blur-2xl sm:rounded-[2.5rem] animate-slide-up flex flex-col" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
         
         {/* Hero image and close button */}
         <div className="relative aspect-[16/9] w-full shrink-0 bg-neutral-900">
@@ -85,8 +85,8 @@ export default function ProductModal({ product, open, onClose }) {
           )}
         </div>
 
-        {/* Content area */}
-        <div className="flex-1 p-6 sm:p-8 space-y-6">
+        {/* Scrollable content area */}
+        <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6">
           <div>
             <h2 className="text-3xl font-extrabold text-white sm:text-4xl">{product.name}</h2>
             <p className="mt-3 text-base leading-7 text-neutral-300">{product.description}</p>
@@ -139,40 +139,40 @@ export default function ProductModal({ product, open, onClose }) {
               className="w-full resize-none rounded-2xl border border-white/[0.08] glass px-5 py-4 text-sm text-white outline-none transition-all duration-300 placeholder:text-neutral-500 focus:border-perez-orange/40 focus:ring-4 focus:ring-perez-orange/10"
             />
           </div>
+        </div>
 
-          {/* Bottom actions sticky panel */}
-          <div className="flex flex-col gap-4 border-t border-white/[0.06] pt-6 sm:flex-row sm:items-center sm:justify-between">
-            {/* Quantity Selector */}
-            <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/[0.08] bg-black/20 p-2 sm:self-start">
-              <button
-                type="button"
-                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="grid h-11 w-11 place-items-center rounded-xl text-perez-gold transition-all duration-200 hover:bg-white/5 hover:text-white hover:scale-105 active:scale-90"
-              >
-                <Minus size={18} />
-              </button>
-              <span className="min-w-[2.5rem] text-center text-lg font-black text-white tabular-nums">
-                {quantity}
-              </span>
-              <button
-                type="button"
-                onClick={() => setQuantity((q) => q + 1)}
-                className="grid h-11 w-11 place-items-center rounded-xl text-perez-gold transition-all duration-200 hover:bg-white/5 hover:text-white hover:scale-105 active:scale-90"
-              >
-                <Plus size={18} />
-              </button>
-            </div>
-
-            {/* Action button */}
+        {/* Sticky bottom actions bar */}
+        <div className="shrink-0 border-t border-white/[0.08] bg-perez-navy/95 backdrop-blur-xl p-4 sm:p-6 space-y-3 sm:space-y-0 sm:flex sm:items-center sm:gap-4" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 0px))' }}>
+          {/* Quantity Selector */}
+          <div className="flex items-center justify-center gap-3 rounded-2xl border border-white/[0.08] bg-black/20 p-2 sm:self-start">
             <button
               type="button"
-              onClick={handleAdd}
-              className="btn-ripple flex h-14 flex-1 items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-perez-orange to-perez-gold px-6 text-base font-black text-perez-navy-dark shadow-glow transition-all duration-300 hover:scale-[1.01] hover:from-perez-orange-dark hover:to-perez-orange hover:shadow-floating active:scale-95"
+              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+              className="grid h-12 w-12 place-items-center rounded-xl text-perez-gold transition-all duration-200 hover:bg-white/5 hover:text-white active:scale-90"
             >
-              <ShoppingBag size={18} />
-              Agregar al Pedido · {formatCurrency(totalPrice)}
+              <Minus size={20} />
+            </button>
+            <span className="min-w-[2.5rem] text-center text-xl font-black text-white tabular-nums">
+              {quantity}
+            </span>
+            <button
+              type="button"
+              onClick={() => setQuantity((q) => q + 1)}
+              className="grid h-12 w-12 place-items-center rounded-xl text-perez-gold transition-all duration-200 hover:bg-white/5 hover:text-white active:scale-90"
+            >
+              <Plus size={20} />
             </button>
           </div>
+
+          {/* Action button */}
+          <button
+            type="button"
+            onClick={handleAdd}
+            className="btn-ripple flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-perez-orange to-perez-gold px-6 text-base font-black text-perez-navy-dark shadow-glow transition-all duration-300 hover:scale-[1.01] hover:from-perez-orange-dark hover:to-perez-orange hover:shadow-floating active:scale-95"
+          >
+            <ShoppingBag size={20} />
+            Agregar al Pedido · {formatCurrency(totalPrice)}
+          </button>
         </div>
       </div>
     </div>
