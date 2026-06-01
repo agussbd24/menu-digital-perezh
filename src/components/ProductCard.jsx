@@ -61,7 +61,7 @@ export default function ProductCard({ product, index = 0 }) {
     <>
       <article
         onClick={handleCardClick}
-        className="reveal-up group overflow-hidden rounded-[2rem] border border-white/[0.08] bg-white/[0.03] shadow-card transition-all duration-500 hover:-translate-y-2 hover:border-perez-orange/30 hover:bg-white/[0.06] hover:shadow-glow card-hover cursor-pointer"
+        className="reveal-up group overflow-hidden rounded-3xl sm:rounded-[2rem] border border-white/[0.08] bg-white/[0.03] shadow-card transition-all duration-500 hover:-translate-y-2 hover:border-perez-orange/30 hover:bg-white/[0.06] hover:shadow-glow card-hover cursor-pointer"
       >
         <div className="relative aspect-[4/3] overflow-hidden bg-neutral-900">
           {!imgLoaded && !imgError && <div className="absolute inset-0 skeleton" />}
@@ -86,7 +86,7 @@ export default function ProductCard({ product, index = 0 }) {
           <button
             type="button"
             onClick={toggleFavorite}
-            className={`absolute left-4 top-4 grid h-10 w-10 place-items-center rounded-full backdrop-blur-xl transition-all duration-300 active:scale-90 cursor-pointer ${
+            className={`absolute left-4 top-4 grid h-11 w-11 place-items-center rounded-full backdrop-blur-xl transition-all duration-300 active:scale-90 cursor-pointer ${
               favorite
                 ? 'bg-rose-500/90 text-white shadow-lg shadow-rose-500/30'
                 : 'glass text-neutral-300 hover:bg-white/15 hover:text-white hover:scale-110'
@@ -111,7 +111,7 @@ export default function ProductCard({ product, index = 0 }) {
 
         <div className="p-5">
           <div className="mb-4">
-            <h3 className="text-xl font-bold text-white transition-colors duration-300 group-hover:text-perez-gold">
+            <h3 className="line-clamp-1 text-xl font-bold text-white transition-colors duration-300 group-hover:text-perez-gold">
               {product.name}
             </h3>
             <p className="mt-2 min-h-[2.5rem] text-sm leading-6 text-neutral-400 transition-colors duration-300 group-hover:text-neutral-300 line-clamp-2">

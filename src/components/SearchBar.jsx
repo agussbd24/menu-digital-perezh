@@ -40,7 +40,7 @@ export default function SearchBar({ value, onChange }) {
             onChange('')
             inputRef.current?.focus()
           }}
-          className="absolute right-4 top-1/2 -translate-y-1/2 grid h-7 w-7 place-items-center rounded-full text-neutral-400 transition-all duration-200 hover:bg-white/10 hover:text-white active:scale-90"
+          className="absolute right-3 top-1/2 -translate-y-1/2 grid h-11 w-11 place-items-center rounded-full text-neutral-400 transition-all duration-200 hover:bg-white/10 hover:text-white active:scale-90"
         >
           <X size={16} />
         </button>

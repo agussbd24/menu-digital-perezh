@@ -23,10 +23,11 @@ export default function CategoryFilter({ activeCategory, onChange }) {
   }, [activeCategory])
 
   return (
-    <div
-      ref={scrollRef}
-      className="no-scrollbar relative flex gap-1 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-1"
-    >
+    <div className="relative">
+      <div
+        ref={scrollRef}
+        className="no-scrollbar relative flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-1"
+      >
       {categories.map((category) => {
         const isActive = activeCategory === category.id
         return (
@@ -36,7 +37,7 @@ export default function CategoryFilter({ activeCategory, onChange }) {
             type="button"
             onClick={() => onChange(category.id)}
             className={`
-              shrink-0 snap-center rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300 active:scale-95
+              shrink-0 snap-center rounded-full px-5 py-3 text-sm font-semibold transition-all duration-300 active:scale-95
               ${
                 isActive
                   ? 'text-white'
@@ -52,6 +53,8 @@ export default function CategoryFilter({ activeCategory, onChange }) {
         className="absolute bottom-0 h-[3px] rounded-full bg-gradient-to-r from-perez-orange to-perez-gold shadow-[0_0_8px_rgba(216,102,10,0.4)] transition-all duration-300 ease-out"
         style={{ left: indicator.left, width: indicator.width }}
       />
+      </div>
+      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-perez-navy to-transparent sm:hidden" />
     </div>
   )
 }

@@ -32,7 +32,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-perez-navy via-transparent to-transparent opacity-50" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[75vh] max-w-7xl items-end px-4 pb-14 pt-32 sm:px-6 lg:px-8">
+      <div className="relative mx-auto flex min-h-[60vh] max-w-7xl items-end px-4 pb-10 pt-24 sm:min-h-[65vh] sm:px-6 sm:pb-14 sm:pt-32 lg:px-8">
         <div className="max-w-3xl">
           <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-perez-orange/30 glass px-5 py-2.5 text-sm font-medium text-perez-cream animate-fade-in-up stagger-1">
             <img src="/logo-perezh.png" alt="PÉREZ H" className="h-7 w-7 rounded-full object-cover" />
@@ -46,21 +46,21 @@ export default function Hero() {
           <p className="mt-6 max-w-xl text-base leading-7 text-neutral-300 sm:text-lg animate-fade-in-up stagger-3">
             Elegí tus favoritos, sumá observaciones y enviá el pedido directo a cocina. Las mejores hamburguesas, desde tu mesa.
           </p>
-          <div className="mt-10 grid max-w-2xl gap-4 sm:grid-cols-3 animate-fade-in-up stagger-4">
-            <div className="glass-strong group rounded-2xl p-5 transition-all duration-300 hover:border-perez-orange/30 hover:bg-perez-orange/10 hover:scale-[1.03] hover:shadow-glow cursor-default">
-              <Clock3 className="mb-3 text-perez-gold transition-transform duration-300 group-hover:scale-110" size={22} />
+          <div className="mt-8 grid max-w-2xl gap-3 sm:mt-10 sm:grid-cols-3 animate-fade-in-up stagger-4">
+            <div className="glass-strong group rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:border-perez-orange/30 hover:bg-perez-orange/10 hover:scale-[1.03] hover:shadow-glow cursor-default">
+              <Clock3 className="mb-2.5 text-perez-gold transition-transform duration-300 group-hover:scale-110" size={22} />
               <p className="text-sm font-bold text-perez-cream">Pedido ágil</p>
-              <p className="mt-1 text-xs text-neutral-400">Sin esperar al mozo</p>
+              <p className="mt-1 text-[13px] text-neutral-400">Sin esperar al mozo</p>
             </div>
-            <div className="glass-strong group rounded-2xl p-5 transition-all duration-300 hover:border-perez-gold/30 hover:bg-perez-gold/10 hover:scale-[1.03] hover:shadow-glow cursor-default">
-              <Wifi className="mb-3 text-perez-gold transition-transform duration-300 group-hover:scale-110 group-hover:animate-pulse" size={22} />
+            <div className="glass-strong group rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:border-perez-gold/30 hover:bg-perez-gold/10 hover:scale-[1.03] hover:shadow-glow cursor-default">
+              <Wifi className="mb-2.5 text-perez-gold transition-transform duration-300 group-hover:scale-110 group-hover:animate-pulse" size={22} />
               <p className="text-sm font-bold text-perez-cream">Realtime</p>
-              <p className="mt-1 text-xs text-neutral-400">Cocina recibe al instante</p>
+              <p className="mt-1 text-[13px] text-neutral-400">Cocina recibe al instante</p>
             </div>
-            <div className="glass-strong group rounded-2xl p-5 transition-all duration-300 hover:border-perez-teal/30 hover:bg-perez-teal/10 hover:scale-[1.03] hover:shadow-glow cursor-default">
-              <Sparkles className="mb-3 text-perez-teal transition-transform duration-300 group-hover:scale-110" size={22} />
+            <div className="glass-strong group rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:border-perez-teal/30 hover:bg-perez-teal/10 hover:scale-[1.03] hover:shadow-glow cursor-default">
+              <Sparkles className="mb-2.5 text-perez-teal transition-transform duration-300 group-hover:scale-110" size={22} />
               <p className="text-sm font-bold text-perez-cream">Premium UX</p>
-              <p className="mt-1 text-xs text-neutral-400">Mobile-first y fluido</p>
+              <p className="mt-1 text-[13px] text-neutral-400">Mobile-first y fluido</p>
             </div>
           </div>
         </div>

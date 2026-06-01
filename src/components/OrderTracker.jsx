@@ -67,7 +67,7 @@ export default function OrderTracker() {
               <button
                 type="button"
                 onClick={() => setExpanded(false)}
-                className="grid h-8 w-8 place-items-center rounded-xl text-neutral-400 transition-all duration-200 hover:bg-white/10 hover:text-white active:scale-90"
+                className="grid h-11 w-11 place-items-center rounded-xl text-neutral-400 transition-all duration-200 hover:bg-white/10 hover:text-white active:scale-90"
               >
                 <X size={16} />
               </button>
@@ -75,8 +75,8 @@ export default function OrderTracker() {
 
             <div className="mb-4 space-y-2">
               {order.items.map((item, i) => (
-                <div key={i} className="flex justify-between text-sm">
-                  <span className="text-neutral-300">
+                <div key={i} className="flex items-center justify-between gap-2 text-sm">
+                  <span className="min-w-0 truncate text-neutral-300">
                     {item.quantity}x {item.name}
                   </span>
                   <span className="text-neutral-100 tabular-nums">{formatCurrency(item.subtotal)}</span>
@@ -133,7 +133,7 @@ export default function OrderTracker() {
             <button
               type="button"
               onClick={() => setExpanded(false)}
-              className="mt-2 w-full rounded-xl border border-white/[0.08] bg-white/[0.03] py-2.5 text-xs font-semibold text-neutral-400 transition-all duration-300 hover:bg-white/[0.08] hover:text-white active:scale-[0.98]"
+              className="mt-2 w-full rounded-xl border border-white/[0.08] bg-white/[0.03] py-3.5 text-xs font-semibold text-neutral-400 transition-all duration-300 hover:bg-white/[0.08] hover:text-white active:scale-[0.98]"
             >
               Minimizar
             </button>
@@ -142,7 +142,7 @@ export default function OrderTracker() {
           <button
             type="button"
             onClick={() => setExpanded(true)}
-            className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.1] bg-neutral-900/90 px-4 py-2.5 text-sm font-semibold text-white shadow-xl backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 animate-fade-in gradient-border-animated"
+            className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.1] bg-neutral-900/90 px-4 py-3 text-sm font-semibold text-white shadow-xl backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 animate-fade-in gradient-border-animated"
           >
             <span
               className={`h-2 w-2 rounded-full ${order ? dotColors[order.status] : 'bg-neutral-500'} animate-pulse`}

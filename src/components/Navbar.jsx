@@ -52,7 +52,7 @@ export default function Navbar({ onCartOpen }) {
             <span className="grid h-12 w-12 place-items-center rounded-full border border-perez-orange/20 bg-perez-navy-dark/80 shadow-glow transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(216,102,10,0.3)] overflow-hidden">
               <img src="/logo-perezh.png" alt="PÉREZ H" className="h-full w-full object-cover" />
             </span>
-            <span className="hidden xs:block">
+            <span className="hidden sm:block">
               <span className="block text-xs font-bold uppercase tracking-[0.35em] text-perez-gold/70">
                 PÉREZ H
               </span>
