@@ -1,9 +1,19 @@
 import { Minus, Plus, ShoppingBag, Trash2, X } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useCart } from '../hooks/useCart.js'
 import { formatCurrency } from '../services/menuData.js'
 
 export default function CartDrawer({ open, onClose, onCheckout }) {
   const { items, total, totalItems, increaseItem, decreaseItem, removeItem } = useCart()
+  const [animateTotal, setAnimateTotal] = useState(false)
+
+  useEffect(() => {
+    if (total > 0) {
+      setAnimateTotal(true)
+      const timer = setTimeout(() => setAnimateTotal(false), 400)
+      return () => clearTimeout(timer)
+    }
+  }, [total])
 
   return (
     <div
@@ -143,7 +153,7 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
           </div>
           <div className="mb-6 flex items-center justify-between text-2xl font-bold text-white">
             <span>Total</span>
-            <span className="text-gradient tabular-nums">{formatCurrency(total)}</span>
+            <span className={`text-gradient tabular-nums inline-block ${animateTotal ? 'animate-cart-pop' : ''}`}>{formatCurrency(total)}</span>
           </div>
           <button
             type="button"
