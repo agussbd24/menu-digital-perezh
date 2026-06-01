@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react'
 import { useCart } from '../hooks/useCart.js'
 import { useToast } from '../hooks/useToast.js'
@@ -76,7 +77,7 @@ export default function ProductModal({ product, open, onClose }) {
     onClose()
   }
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/80 p-0 backdrop-blur-md sm:items-center sm:p-4 animate-fade-in">
       <div
         className="absolute inset-0"
@@ -221,6 +222,7 @@ export default function ProductModal({ product, open, onClose }) {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
