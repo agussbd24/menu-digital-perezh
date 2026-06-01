@@ -57,7 +57,7 @@ export default function OrderTracker() {
         className={`fixed z-[56] transition-all duration-300 ease-out ${
           expanded
             ? 'bottom-4 right-4 left-4 sm:left-auto sm:w-[340px] animate-slide-up'
-            : 'bottom-6 right-6'
+            : 'bottom-[4.5rem] right-6'
         }`}
       >
         {expanded ? (

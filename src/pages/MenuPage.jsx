@@ -56,7 +56,7 @@ export default function MenuPage() {
           </div>
         </div>
 
-        <div className="sticky top-[72px] z-20 mb-8 border-b border-white/[0.06] bg-perez-navy/85 py-4 backdrop-blur-2xl">
+        <div className="sticky top-20 z-20 mb-8 border-b border-white/[0.06] bg-perez-navy/85 py-4 backdrop-blur-2xl">
           <CategoryFilter activeCategory={activeCategory} onChange={setActiveCategory} />
         </div>
 

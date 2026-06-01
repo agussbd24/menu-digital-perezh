@@ -61,7 +61,7 @@ export default function ProductCard({ product, index = 0 }) {
     <>
       <article
         onClick={handleCardClick}
-        className="reveal-up group overflow-hidden rounded-3xl sm:rounded-[2rem] border border-white/[0.08] bg-white/[0.03] shadow-card transition-all duration-500 hover:-translate-y-2 hover:border-perez-orange/30 hover:bg-white/[0.06] hover:shadow-glow card-hover cursor-pointer"
+        className="reveal-up group overflow-hidden rounded-2xl sm:rounded-[2rem] border border-white/[0.08] bg-white/[0.03] shadow-card transition-all duration-500 hover:-translate-y-2 hover:border-perez-orange/30 hover:bg-white/[0.06] hover:shadow-glow card-hover cursor-pointer"
       >
         <div className="relative aspect-[4/3] overflow-hidden bg-neutral-900">
           {!imgLoaded && !imgError && <div className="absolute inset-0 skeleton" />}
@@ -109,7 +109,7 @@ export default function ProductCard({ product, index = 0 }) {
           </div>
         </div>
 
-        <div className="p-5">
+        <div className="p-4 sm:p-5">
           <div className="mb-4">
             <h3 className="line-clamp-1 text-xl font-bold text-white transition-colors duration-300 group-hover:text-perez-gold">
               {product.name}

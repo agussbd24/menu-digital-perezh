@@ -69,14 +69,14 @@ export default function CartItem({ item, onIncrease, onDecrease, onRemove }) {
                 {item.selectedAddons && item.selectedAddons.length > 0 && (
                   <div className="mt-1 flex flex-wrap gap-1">
                     {item.selectedAddons.map((addon) => (
-                      <span key={addon.id} className="rounded bg-white/5 border border-white/5 px-1.5 py-0.5 text-[10px] text-neutral-400 font-semibold">
+                      <span key={addon.id} className="rounded bg-white/5 border border-white/5 px-2 py-0.5 text-[11px] text-neutral-400 font-semibold">
                         + {addon.name}
                       </span>
                     ))}
                   </div>
                 )}
                 {item.notes && (
-                  <p className="mt-1 text-[11px] text-perez-gold italic truncate">
+                  <p className="mt-1 text-xs text-perez-gold italic truncate">
                     "{item.notes}"
                   </p>
                 )}
@@ -87,7 +87,7 @@ export default function CartItem({ item, onIncrease, onDecrease, onRemove }) {
               <button
                 type="button"
                 onClick={() => onRemove(item.cartId)}
-                className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-neutral-400 transition-all duration-300 hover:bg-red-500/10 hover:text-red-300 active:scale-90 cursor-pointer"
+                className="grid h-11 w-11 shrink-0 place-items-center rounded-xl text-neutral-400 transition-all duration-300 hover:bg-red-500/10 hover:text-red-300 active:scale-90 cursor-pointer"
                 aria-label={`Eliminar ${item.name}`}
               >
                 <Trash2 size={17} />
@@ -98,7 +98,7 @@ export default function CartItem({ item, onIncrease, onDecrease, onRemove }) {
                 <button
                   type="button"
                   onClick={() => onDecrease(item.cartId)}
-                  className="grid h-10 w-10 place-items-center text-neutral-300 transition-all duration-200 hover:text-white hover:scale-110 active:scale-90 cursor-pointer"
+                  className="grid h-11 w-11 place-items-center text-neutral-300 transition-all duration-200 hover:text-white hover:scale-110 active:scale-90 cursor-pointer"
                   aria-label={`Disminuir ${item.name}`}
                 >
                   <Minus size={16} />
@@ -109,7 +109,7 @@ export default function CartItem({ item, onIncrease, onDecrease, onRemove }) {
                 <button
                   type="button"
                   onClick={() => onIncrease(item.cartId)}
-                  className="grid h-10 w-10 place-items-center text-neutral-300 transition-all duration-200 hover:text-white hover:scale-110 active:scale-90 cursor-pointer"
+                  className="grid h-11 w-11 place-items-center text-neutral-300 transition-all duration-200 hover:text-white hover:scale-110 active:scale-90 cursor-pointer"
                   aria-label={`Aumentar ${item.name}`}
                 >
                   <Plus size={16} />

@@ -30,7 +30,7 @@ export default function SearchBar({ value, onChange }) {
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         placeholder="Buscar hamburguesas, papas, bebidas..."
-        className="h-13 w-full rounded-2xl border border-white/[0.08] glass pl-12 pr-12 text-white outline-none transition-all duration-300 placeholder:text-neutral-500 focus:border-perez-orange/40 focus:bg-white/[0.06] focus:ring-4 focus:ring-perez-orange/10 focus:shadow-[0_0_20px_rgba(216,102,10,0.1)]"
+        className="h-13 w-full rounded-2xl border border-white/[0.08] glass pl-12 pr-12 text-base text-white outline-none transition-all duration-300 placeholder:text-neutral-500 focus:border-perez-orange/40 focus:bg-white/[0.06] focus:ring-4 focus:ring-perez-orange/10 focus:shadow-[0_0_20px_rgba(216,102,10,0.1)]"
       />
       {localValue && (
         <button

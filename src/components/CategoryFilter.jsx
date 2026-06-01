@@ -54,6 +54,7 @@ export default function CategoryFilter({ activeCategory, onChange }) {
         style={{ left: indicator.left, width: indicator.width }}
       />
       </div>
+      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-perez-navy to-transparent sm:hidden" />
       <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-perez-navy to-transparent sm:hidden" />
     </div>
   )

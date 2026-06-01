@@ -36,7 +36,7 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between border-b border-white/[0.06] p-6">
+        <div className="flex items-center justify-between border-b border-white/[0.06] px-5 py-4 sm:p-6">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-perez-gold/70">
               Tu pedido
@@ -66,7 +66,7 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
             </div>
           </div>
         ) : (
-          <div className="flex-1 space-y-3 overflow-y-auto p-5">
+          <div className="flex-1 space-y-3 overflow-y-auto p-5 pb-8">
             {items.map((item) => (
               <CartItem
                 key={item.cartId}
@@ -79,7 +79,7 @@ export default function CartDrawer({ open, onClose, onCheckout }) {
           </div>
         )}
 
-        <div className="border-t border-white/[0.06] p-6">
+        <div className="border-t border-white/[0.06] px-6 pb-6 pt-6" style={{ paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom, 0px))' }}>
           <div className="mb-3 flex items-center justify-between text-neutral-400">
             <span>Subtotal</span>
             <span className="tabular-nums">{formatCurrency(animatedTotal)}</span>

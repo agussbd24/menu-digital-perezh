@@ -35,6 +35,9 @@ export default function TableSelectorModal({ open, onClose }) {
       <div className="absolute inset-0" onClick={onClose} />
       
       <div className="relative max-h-[92vh] w-full max-w-md overflow-y-auto rounded-t-[2.5rem] border border-white/[0.08] bg-perez-navy/95 p-6 shadow-2xl backdrop-blur-2xl sm:rounded-[2.5rem] animate-slide-up flex flex-col no-scrollbar">
+        <div className="flex justify-center pt-3 sm:hidden">
+          <div className="h-1 w-10 rounded-full bg-white/20" />
+        </div>
         <div className="mb-6 flex items-start justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-perez-gold/70">Ubicación</p>
