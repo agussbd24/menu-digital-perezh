@@ -92,13 +92,6 @@ button:disabled {
   box-shadow: 0 22px 80px rgba(216, 102, 10, 0.3);
 }
 
-.shadow-premium {
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 20px 50px -12px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.03);
-}
-
 .no-scrollbar {
   scrollbar-width: none;
   overscroll-behavior: contain;
@@ -351,25 +344,7 @@ button:disabled {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Gradient border */
-.gradient-border {
-  position: relative;
-}
-
-.gradient-border::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(216, 102, 10, 0.3), rgba(231, 160, 17, 0.2), rgba(122, 180, 194, 0.2));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-/* Animated gradient border */
+/* Gradient border animated */
 .gradient-border-animated {
   position: relative;
 }
@@ -398,13 +373,6 @@ button:disabled {
 /* Text gradient */
 .text-gradient {
   background: linear-gradient(135deg, #e7a011, #d8660a);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-gradient-teal {
-  background: linear-gradient(135deg, #7ab4c2, #5a9aaa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -552,13 +520,6 @@ button:disabled {
 .img-blur-load.loaded {
   filter: blur(0);
   transform: scale(1);
-}
-
-/* Swipe dismissible */
-.swipe-dismiss {
-  touch-action: pan-x;
-  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
-  user-select: none;
 }
 
 /* Cart badge pulse */

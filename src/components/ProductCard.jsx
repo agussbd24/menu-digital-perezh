@@ -1,26 +1,15 @@
-import { Heart, Minus, Plus, ShoppingBag } from 'lucide-react'
+import { Minus, Plus, ShoppingBag } from 'lucide-react'
 import { useState } from 'react'
 import { useCart } from '../hooks/useCart.js'
 import { useCountUp } from '../hooks/useCountUp.js'
-import { useToast } from '../hooks/useToast.js'
 import { formatCurrency } from '../services/menuData.js'
 import ProductModal from './ProductModal.jsx'
 
 export default function ProductCard({ product, index = 0 }) {
   const { items, increaseItem, decreaseItem } = useCart()
-  const { addToast } = useToast()
   const [modalOpen, setModalOpen] = useState(false)
-  const [favorite, setFavorite] = useState(() => {
-    try {
-      const stored = localStorage.getItem('restobar-favorites')
-      return stored ? JSON.parse(stored).includes(product.id) : false
-    } catch {
-      return false
-    }
-  })
   const [imgLoaded, setImgLoaded] = useState(false)
   const [imgError, setImgError] = useState(false)
-  const [animateHeart, setAnimateHeart] = useState(false)
 
   const quantity = items
     .filter((item) => item.id === product.id)
@@ -28,30 +17,6 @@ export default function ProductCard({ product, index = 0 }) {
 
   const animatedQuantity = useCountUp(quantity, 300)
   const cartItem = items.find((item) => item.id === product.id)
-
-  const toggleFavorite = (e) => {
-    e.stopPropagation()
-    const newState = !favorite
-    setFavorite(newState)
-    setAnimateHeart(true)
-    setTimeout(() => setAnimateHeart(false), 500)
-
-    try {
-      const stored = localStorage.getItem('restobar-favorites')
-      const favorites = stored ? JSON.parse(stored) : []
-      if (newState) {
-        localStorage.setItem('restobar-favorites', JSON.stringify([...favorites, product.id]))
-        addToast(`${product.name} agregado a favoritos`, { type: 'success' })
-      } else {
-        localStorage.setItem(
-          'restobar-favorites',
-          JSON.stringify(favorites.filter((id) => id !== product.id)),
-        )
-      }
-    } catch {
-      // silently fail
-    }
-  }
 
   const handleCardClick = () => {
     setModalOpen(true)
@@ -83,19 +48,6 @@ export default function ProductCard({ product, index = 0 }) {
             />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500 group-hover:from-black/70" />
-
-          <button
-            type="button"
-            onClick={toggleFavorite}
-            className={`absolute left-4 top-4 grid h-11 w-11 place-items-center rounded-full backdrop-blur-xl transition-all duration-300 active:scale-90 cursor-pointer ${
-              favorite
-                ? 'bg-rose-500/90 text-white shadow-lg shadow-rose-500/30'
-                : 'glass text-neutral-300 hover:bg-white/15 hover:text-white hover:scale-110'
-            } ${animateHeart ? 'animate-bounce-in scale-110' : ''}`}
-            aria-label={favorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-          >
-            <Heart size={18} fill={favorite ? 'currentColor' : 'none'} />
-          </button>
 
           {product.badge && (
             <span className="absolute right-4 top-4 rounded-full bg-gradient-to-r from-perez-orange/90 to-perez-gold/90 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-perez-navy-dark backdrop-blur-sm shadow-lg">
