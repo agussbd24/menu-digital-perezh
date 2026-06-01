@@ -72,7 +72,7 @@ function ToastItem({ toast, onRemove }) {
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([])
 
-  const addToast = useCallback((message, { type = 'success', duration = 3500 } = {}) => {
+  const addToast = useCallback((message, { type = 'success', duration = 1750 } = {}) => {
     const id = ++toastId
     setToasts((current) => [...current, { id, message, type, duration, exiting: false }])
 
