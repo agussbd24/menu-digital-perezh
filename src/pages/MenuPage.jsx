@@ -75,7 +75,7 @@ export default function MenuPage() {
         onClose={() => setCheckoutOpen(false)}
         onSuccess={() => setCartOpen(false)}
       />
-      <FloatingCartButton onClick={() => setCartOpen(true)} />
+      <FloatingCartButton onClick={() => setCartOpen(true)} hidden={cartOpen || checkoutOpen} />
       <WhatsAppButton />
       <ScrollToTop />
       <OrderTracker />

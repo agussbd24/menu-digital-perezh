@@ -83,7 +83,7 @@ export default function ProductModal({ product, open, onClose }) {
         onClick={onClose}
       />
       <div
-        className="relative max-h-[92vh] w-full max-w-2xl overflow-hidden rounded-t-[2.5rem] border border-white/[0.08] bg-perez-navy/95 shadow-2xl backdrop-blur-2xl sm:rounded-[2.5rem] animate-slide-up flex flex-col"
+        className="relative max-h-[85vh] w-full max-w-2xl overflow-hidden rounded-t-[2.5rem] border border-white/[0.08] bg-perez-navy/95 shadow-2xl backdrop-blur-2xl sm:rounded-[2.5rem] sm:max-h-[92vh] animate-slide-up flex flex-col"
         style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)', transform: `translateY(${dragY}px)`, opacity: dragY > 0 ? Math.max(0, 1 - dragY / 400) : 1, transition: dragging ? 'none' : 'transform 0.3s ease-out, opacity 0.3s ease-out' }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -96,7 +96,7 @@ export default function ProductModal({ product, open, onClose }) {
         </div>
 
         {/* Hero image and close button */}
-        <div className="relative aspect-[16/9] w-full shrink-0 bg-neutral-900">
+        <div className="relative w-full shrink-0 bg-neutral-900 h-[40vw] min-h-[160px] max-h-[240px] sm:aspect-[16/9] sm:h-auto">
           {imgError ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-perez-navy-dark to-neutral-900 text-center p-6">
               <ShoppingBag className="mb-4 text-perez-orange/40" size={56} />
@@ -128,7 +128,7 @@ export default function ProductModal({ product, open, onClose }) {
         </div>
 
         {/* Scrollable content area */}
-        <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6">
+        <div className="flex-1 overflow-y-auto p-5 sm:p-8 space-y-5 sm:space-y-6">
           <div>
             <h2 className="text-3xl font-extrabold text-white sm:text-4xl">{product.name}</h2>
             <p className="mt-3 text-base leading-7 text-neutral-300">{product.description}</p>

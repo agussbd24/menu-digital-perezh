@@ -55,6 +55,7 @@ export default function ProductCard({ product, index = 0 }) {
 
   const handleCardClick = () => {
     setModalOpen(true)
+    window.dispatchEvent(new CustomEvent('restobar-modal-open'))
   }
 
   return (
@@ -165,7 +166,7 @@ export default function ProductCard({ product, index = 0 }) {
       <ProductModal
         product={product}
         open={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={() => { setModalOpen(false); window.dispatchEvent(new CustomEvent('restobar-modal-close')) }}
       />
     </>
   )

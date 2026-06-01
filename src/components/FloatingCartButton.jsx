@@ -3,9 +3,21 @@ import { useEffect, useState } from 'react'
 import { useCart } from '../hooks/useCart.js'
 import { formatCurrency } from '../services/menuData.js'
 
-export default function FloatingCartButton({ onClick }) {
+export default function FloatingCartButton({ onClick, hidden }) {
   const { totalItems, total } = useCart()
   const [animate, setAnimate] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+
+  useEffect(() => {
+    const handleOpen = () => setModalOpen(true)
+    const handleClose = () => setModalOpen(false)
+    window.addEventListener('restobar-modal-open', handleOpen)
+    window.addEventListener('restobar-modal-close', handleClose)
+    return () => {
+      window.removeEventListener('restobar-modal-open', handleOpen)
+      window.removeEventListener('restobar-modal-close', handleClose)
+    }
+  }, [])
 
   useEffect(() => {
     if (totalItems > 0) {
@@ -15,7 +27,7 @@ export default function FloatingCartButton({ onClick }) {
     }
   }, [totalItems])
 
-  if (totalItems === 0) {
+  if (totalItems === 0 || hidden || modalOpen) {
     return null
   }
 
