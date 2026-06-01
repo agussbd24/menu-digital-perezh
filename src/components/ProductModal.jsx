@@ -142,7 +142,7 @@ export default function ProductModal({ product, open, onClose }) {
         </div>
 
         {/* Sticky bottom actions bar */}
-        <div className="shrink-0 border-t border-white/[0.08] bg-perez-navy/95 backdrop-blur-xl p-4 sm:p-6 space-y-3 sm:space-y-0 sm:flex sm:items-center sm:gap-4" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 0px))' }}>
+        <div className="shrink-0 border-t border-white/[0.08] bg-perez-navy/95 backdrop-blur-xl px-20 py-4 sm:px-6 sm:py-6 space-y-3 sm:space-y-0 sm:flex sm:items-center sm:gap-4" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 0px))' }}>
           {/* Quantity Selector */}
           <div className="flex items-center justify-center gap-3 rounded-2xl border border-white/[0.08] bg-black/20 p-2 sm:self-start">
             <button
