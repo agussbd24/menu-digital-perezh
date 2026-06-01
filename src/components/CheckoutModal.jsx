@@ -94,7 +94,7 @@ export default function CheckoutModal({ open, onClose, onSuccess }) {
     <>
       <Confetti active={showConfetti} onComplete={() => setShowConfetti(false)} />
       <div className="fixed inset-0 z-[60] grid place-items-end bg-black/80 p-0 backdrop-blur-sm sm:place-items-center sm:p-4 animate-fade-in">
-        <div className="max-h-[94vh] w-full max-w-lg overflow-y-auto rounded-t-[2rem] border border-white/[0.08] bg-perez-navy/95 p-6 shadow-2xl backdrop-blur-2xl sm:rounded-[2rem] animate-slide-up">
+        <div className="max-h-[94vh] w-full max-w-lg overflow-y-auto rounded-t-[2rem] border border-white/[0.08] bg-perez-navy/95 px-20 py-6 shadow-2xl backdrop-blur-2xl sm:rounded-[2rem] sm:p-6 animate-slide-up">
           <div className="mb-6 flex items-start justify-between gap-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.3em] text-perez-gold/70">
