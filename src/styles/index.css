@@ -545,3 +545,45 @@ button:disabled {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
+
+/* === MENU LIST PREMIUM === */
+
+.menu-section-header {
+  position: relative;
+}
+
+.menu-section-line {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(231, 160, 17, 0.4), rgba(231, 160, 17, 0.1) 70%, transparent);
+}
+
+.menu-list-item {
+  position: relative;
+  border-radius: 0.5rem;
+}
+
+.menu-list-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(231, 160, 17, 0.04), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.menu-list-item:hover::before {
+  opacity: 1;
+}
+
+.menu-list-item:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.menu-price-leader {
+  flex: 1;
+  min-width: 20px;
+  border-bottom: 1px dotted rgba(231, 160, 17, 0.25);
+  margin-bottom: 4px;
+}
