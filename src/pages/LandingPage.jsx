@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react'
 function PedidosYaLogo({ className }) {
   return (
     <svg className={className} viewBox="0 0 48 48" fill="none">
-      <circle cx="24" cy="24" r="24" fill="#FA002F" />
-      <path d="M20 12h6c5.5 0 10 4.5 10 10s-4.5 10-10 10h-6V12zm6 16c3.3 0 6-2.7 6-6s-2.7-6-6-6h-2v12h2z" fill="white" />
+      <path d="M18.5 8C15.5 8 13 10.5 13 13.5V20H9v4h4v16h4V24h5l2-4h-7v-6.5c0-1.4 1.1-2.5 2.5-2.5H25v-4h-6.5z" fill="#E23744" />
+      <path d="M25 8v4h7.5c1.4 0 2.5 1.1 2.5 2.5V16h-4v-2.5c0-.3-.2-.5-.5-.5H25V8z" fill="#E23744" />
+      <circle cx="16" cy="36" r="3" fill="#E23744" />
+      <circle cx="32" cy="36" r="3" fill="#E23744" />
     </svg>
   )
 }
@@ -12,11 +14,17 @@ function PedidosYaLogo({ className }) {
 function RappiLogo({ className }) {
   return (
     <svg className={className} viewBox="0 0 48 48" fill="none">
-      <rect width="48" height="48" rx="12" fill="#FF4500" />
-      <path d="M14 34V18l10-6 10 6v16l-10 6-10-6z" fill="white" opacity="0.9" />
-      <path d="M24 12v22" stroke="#FF4500" strokeWidth="2" />
-      <path d="M14 18l10 6 10-6" stroke="#FF4500" strokeWidth="2" fill="none" />
-      <circle cx="24" cy="22" r="4" fill="#FF4500" />
+      <defs>
+        <linearGradient id="rappiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FF6B35" />
+          <stop offset="50%" stopColor="#FF4500" />
+          <stop offset="100%" stopColor="#E63900" />
+        </linearGradient>
+      </defs>
+      <rect width="48" height="48" rx="12" fill="url(#rappiGrad)" />
+      <path d="M12 28c0 0 3-8 6-8s3 4 6 4 3-4 6-4 6 8 6 8" stroke="white" strokeWidth="4" strokeLinecap="round" fill="none" />
+      <circle cx="18" cy="22" r="2" fill="white" />
+      <circle cx="30" cy="22" r="2" fill="white" />
     </svg>
   )
 }
@@ -24,11 +32,10 @@ function RappiLogo({ className }) {
 function MercadoPagoLogo({ className }) {
   return (
     <svg className={className} viewBox="0 0 48 48" fill="none">
-      <rect width="48" height="48" rx="12" fill="#009EE3" />
-      <path d="M12 20h24v4H12v-4z" fill="white" opacity="0.3" />
-      <path d="M14 24c0-3 2-5 5-5s5 2 5 5-2 5-5 5-5-2-5-5z" fill="white" />
-      <path d="M24 24c0-3 2-5 5-5s5 2 5 5-2 5-5 5-5-2-5-5z" fill="#00A650" />
-      <path d="M20 22l4 4 4-4" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <circle cx="24" cy="24" r="24" fill="#009EE3" />
+      <path d="M14 20c0-2 1.5-3.5 3.5-3.5S21 18 21 20v2h-3.5c-2 0-3.5 1.5-3.5 3.5S15.5 29 17.5 29H21v2c0 2 1.5 3.5 3.5 3.5S28 33 28 31v-2h-3.5c-2 0-3.5-1.5-3.5-3.5" stroke="white" strokeWidth="3" strokeLinecap="round" fill="none" />
+      <path d="M28 16v16" stroke="white" strokeWidth="3" strokeLinecap="round" />
+      <path d="M32 16v4c0 2 1.5 3.5 3.5 3.5S39 22 39 20v-4" stroke="white" strokeWidth="3" strokeLinecap="round" fill="none" />
     </svg>
   )
 }
