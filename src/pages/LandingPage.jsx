@@ -1,15 +1,5 @@
 import { useEffect, useState } from 'react'
 
-function WhatsAppLogo({ className }) {
-  return (
-    <svg className={className} viewBox="0 0 48 48" fill="none">
-      <circle cx="24" cy="24" r="24" fill="#25D366" />
-      <path d="M34.5 25.5c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z" fill="white" />
-      <path d="M24 12c-6.6 0-12 5.4-12 12 0 2.1.5 4.1 1.5 5.9L12 36l6.3-1.6c1.7.9 3.6 1.4 5.7 1.4 6.6 0 12-5.4 12-12s-5.4-12-12-12z" stroke="white" strokeWidth="1.5" fill="none" />
-    </svg>
-  )
-}
-
 const deliveryLinks = [
   {
     name: 'PEDIDOS YA',
@@ -32,10 +22,12 @@ const whatsappLinks = [
   {
     name: 'PALERMO',
     url: 'https://api.whatsapp.com/send/?phone=1136429912&text&type=phone_number&app_absent=0',
+    logo: '/images/logos/whatsapp.jpg',
   },
   {
     name: 'MICROCENTRO',
     url: 'https://api.whatsapp.com/send/?phone=5491144221293&text&type=phone_number&app_absent=0',
+    logo: '/images/logos/whatsapp.jpg',
   },
 ]
 
@@ -142,8 +134,8 @@ export default function LandingPage() {
                 rel="noopener noreferrer"
                 className={`group card-hover glass btn-ripple flex w-full items-center gap-4 rounded-2xl border border-white/[0.06] px-5 py-4 text-base font-bold text-white/90 transition-all duration-500 hover:border-white/15 hover:bg-white/[0.06] hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] animate-fade-in-up stagger-${i + 1}`}
               >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/[0.06] transition-all duration-300 group-hover:bg-white/[0.1] group-hover:scale-105">
-                  <img src={link.logo} alt={link.name} className="h-8 w-8 object-contain" />
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/[0.06] transition-all duration-300 group-hover:bg-white/[0.1] group-hover:scale-105">
+                  <img src={link.logo} alt={link.name} className="h-8 w-8 rounded-full object-cover" />
                 </div>
                 <span className="flex-1 tracking-wide">{link.name}</span>
                 <svg className="h-4 w-4 text-white/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white/60" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -172,8 +164,8 @@ export default function LandingPage() {
                 rel="noopener noreferrer"
                 className={`group card-hover glass btn-ripple flex w-full items-center gap-4 rounded-2xl border border-white/[0.06] px-5 py-4 text-base font-bold text-white/90 transition-all duration-500 hover:border-white/15 hover:bg-white/[0.06] hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] animate-fade-in-up stagger-${i + 1}`}
               >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/[0.06] transition-all duration-300 group-hover:bg-white/[0.1] group-hover:scale-105">
-                  <WhatsAppLogo className="h-8 w-8" />
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/[0.06] transition-all duration-300 group-hover:bg-white/[0.1] group-hover:scale-105">
+                  <img src={link.logo} alt={link.name} className="h-8 w-8 rounded-full object-cover" />
                 </div>
                 <span className="flex-1 tracking-wide">{link.name}</span>
                 <svg className="h-4 w-4 text-white/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white/60" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
