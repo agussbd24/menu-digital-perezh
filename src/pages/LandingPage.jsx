@@ -110,9 +110,7 @@ export default function LandingPage() {
           className="btn-ripple group relative mt-12 flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-r from-perez-orange to-perez-orange-dark px-6 py-5 text-lg font-bold text-white shadow-[0_8px_40px_rgba(216,102,10,0.35)] transition-all duration-500 hover:shadow-[0_12px_50px_rgba(216,102,10,0.5)] hover:scale-[1.02] active:scale-[0.98]"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
-          <svg className="h-6 w-6 relative z-10" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 21V3h4v18M7 3h4v7H7M14 21V10m0 0l3-7m-3 7l3 7" />
-          </svg>
+          <img src="/images/logos/menu.png" alt="Menú" className="h-6 w-6 relative z-10" />
           <span className="relative z-10 tracking-wide">COMER EN EL LOCAL</span>
         </a>
 
