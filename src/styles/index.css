@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 @theme {
   --color-perez-orange: #d8660a;
@@ -555,6 +555,24 @@ button:disabled {
 .menu-section-line {
   height: 1px;
   background: linear-gradient(90deg, rgba(231, 160, 17, 0.4), rgba(231, 160, 17, 0.1) 70%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-section-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(231, 160, 17, 0.6), transparent);
+  animation: lineShine 3s ease-in-out infinite;
+}
+
+@keyframes lineShine {
+  0% { left: -50%; }
+  100% { left: 150%; }
 }
 
 .menu-list-item {
@@ -579,6 +597,24 @@ button:disabled {
 
 .menu-list-item:hover {
   background: rgba(255, 255, 255, 0.02);
+  transform: translateX(4px);
+}
+
+.menu-list-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 0;
+  background: linear-gradient(180deg, rgba(231, 160, 17, 0.8), rgba(231, 160, 17, 0.2));
+  border-radius: 9999px;
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu-list-item:hover::after {
+  height: 60%;
 }
 
 .menu-price-leader {

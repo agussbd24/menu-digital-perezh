@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+﻿import { useMemo, useState } from 'react'
 import CartDrawer from '../components/CartDrawer.jsx'
 import CategoryFilter from '../components/CategoryFilter.jsx'
 import CheckoutModal from '../components/CheckoutModal.jsx'
@@ -10,6 +10,7 @@ import ProductGrid from '../components/ProductGrid.jsx'
 import SearchBar from '../components/SearchBar.jsx'
 import Footer from '../components/Footer.jsx'
 import WhatsAppButton from '../components/WhatsAppButton.jsx'
+import ScrollProgress from '../components/ScrollProgress.jsx'
 import { products } from '../services/menuData.js'
 
 export default function MenuPage() {
@@ -39,6 +40,7 @@ export default function MenuPage() {
 
   return (
     <main className="min-h-screen bg-perez-navy text-perez-cream">
+      <ScrollProgress />
       <Navbar onCartOpen={() => setCartOpen(true)} />
       <Hero />
 

@@ -40,25 +40,37 @@ export default function ProductGrid({ products }) {
     )
   }
 
+  let globalIndex = 0
+
   return (
-    <div className='space-y-12'>
+    <div className='space-y-16'>
       {categories
         .filter((cat) => cat.id !== 'all' && groupedProducts[cat.id])
-        .map((category) => (
-          <section key={category.id} className='menu-section'>
-            <div className='menu-section-header mb-6'>
-              <h2 className='text-xs sm:text-sm font-bold uppercase tracking-[0.3em] text-perez-gold/80'>
-                {category.label}
-              </h2>
-              <div className='menu-section-line mt-3' />
-            </div>
-            <div className='divide-y divide-white/[0.06]'>
-              {groupedProducts[category.id].map((product) => (
-                <ProductListItem key={product.id} product={product} />
-              ))}
-            </div>
-          </section>
-        ))}
+        .map((category, catIndex) => {
+          const items = groupedProducts[category.id]
+          const startIndex = globalIndex
+          globalIndex += items.length
+
+          return (
+            <section key={category.id} className='menu-section'>
+              <div className='menu-section-header mb-8 reveal-up' style={{ transitionDelay: (catIndex * 100) + 'ms' }}>
+                <h2 className='text-xs sm:text-sm font-bold uppercase tracking-[0.35em] text-perez-gold/70 transition-colors duration-500 hover:text-perez-gold'>
+                  {category.label}
+                </h2>
+                <div className='menu-section-line mt-4' />
+              </div>
+              <div className='divide-y divide-white/[0.04]'>
+                {items.map((product, itemIndex) => (
+                  <ProductListItem
+                    key={product.id}
+                    product={product}
+                    index={startIndex + itemIndex}
+                  />
+                ))}
+              </div>
+            </section>
+          )
+        })}
     </div>
   )
 }
