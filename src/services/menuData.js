@@ -40,7 +40,7 @@ export const products = [
     name: 'Cheeseburger',
     description: 'Clásica cheeseburger americana. Con medallón de carne smash y queso cheddar. Vienen con papas!',
     price: 9900,
-    image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'doble-cheeseburger',
@@ -48,7 +48,7 @@ export const products = [
     name: 'Doble Cheeseburger',
     description: 'Doble medallón smash, doble cheddar. No defrauda nunca. Con papas!',
     price: 14900,
-    image: 'https://images.pexels.com/photos/1199960/pexels-photo-1199960.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
     badge: 'Popular',
   },
   {
@@ -57,7 +57,7 @@ export const products = [
     name: 'Triple Cheeseburger',
     description: 'Triple medallón smash, triple cheddar. Pedila simple, doble o triple. Con papas!',
     price: 18900,
-    image: 'https://images.pexels.com/photos/3824765/pexels-photo-3824765.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
     badge: 'XL',
   },
 
@@ -68,7 +68,7 @@ export const products = [
     name: 'Clásica',
     description: 'Un medallón de carne casero con salsa big Pérez, lechuga, tomate y pepinos caseros. Con papas!',
     price: 10900,
-    image: 'https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'completa',
@@ -76,7 +76,7 @@ export const products = [
     name: 'Completa',
     description: 'Un medallón de carne casero con panceta, queso cheddar, salsa big Pérez, cebolla caramelizada, lechuga, tomate y pepinos. Con papas!',
     price: 13900,
-    image: 'https://images.pexels.com/photos/3298653/pexels-photo-3298653.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'extra-cheddar',
@@ -84,7 +84,7 @@ export const products = [
     name: 'Extra Cheddar Extra Panceta',
     description: 'Un medallón de carne casero con doble queso cheddar, doble porción de panceta, salsa big Pérez y cebolla caramelizada. Con papas!',
     price: 18900,
-    image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
     badge: 'Top seller',
   },
   {
@@ -93,7 +93,7 @@ export const products = [
     name: 'Pollo Frito Crocante',
     description: 'Un medallón de pollo crocante con queso cheddar, lechuga, tomate, huevo y mostaza dijon. Con papas!',
     price: 13000,
-    image: 'https://images.pexels.com/photos/262897/pexels-photo-262897.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
 
   // ---- LAS PÉREZ ----
@@ -121,7 +121,7 @@ export const products = [
     name: 'LADEMENTE',
     description: 'Doble medallón de carne casero con doble panceta, doble queso cheddar, salsa big Pérez, cebolla caramelizada, lechuga, tomate y pepinos. Con papas!',
     price: 20900,
-    image: 'https://images.pexels.com/photos/1199960/pexels-photo-1199960.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
     badge: 'Más vendido',
   },
   {
@@ -141,16 +141,7 @@ export const products = [
     name: 'Caramel Bacon',
     description: 'Doble medallón de carne casero con cuádruple queso cheddar y panceta caramelizada envuelta en papel aluminio. Con papas!',
     price: 16900,
-    image: 'https://images.pexels.com/photos/1199960/pexels-photo-1199960.jpeg?auto=compress&cs=tinysrgb&w=800',
-  },
-  {
-    id: 'tequeburger',
-    category: 'gourmet',
-    name: 'Tequeburger',
-    description: 'Tequeño gigante, medallón premium, cheddar, panceta, cebolla y salsa de ajo. Con papas!',
-    price: 19900,
-    image: '/images/products/tequeburger.png',
-    badge: 'Nueva',
+    image: null,
   },
   {
     id: 'la-picante',
@@ -158,7 +149,7 @@ export const products = [
     name: 'La Picante',
     description: 'Medallón de carne premium, dos fetas de panceta, doble queso cheddar, aros de cebolla y salsa picante. Con papas!',
     price: 15900,
-    image: 'https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'hongos-salteados',
@@ -166,7 +157,7 @@ export const products = [
     name: 'Hongos Salteados',
     description: 'Pan de campo, medallón de carne premium, queso azul, champiñones, cebolla caramelizada, rúcula, tomate y salsa RANCH. Con papas!',
     price: 15900,
-    image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
 
   // ---- PICAR Y COMPARTIR ----
@@ -176,7 +167,7 @@ export const products = [
     name: 'Papas Fritas Naturales',
     description: 'Porción de papas fritas naturales caseras! Un manjar!',
     price: 7900,
-    image: 'https://images.pexels.com/photos/1893556/pexels-photo-1893556.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'papas-cheddar-panceta',
@@ -200,7 +191,7 @@ export const products = [
     name: 'Triangulitos de Muzza',
     description: 'Triangulitos de muzzarella rebozados bañados en salsa de barbacoa casera!',
     price: 15900,
-    image: 'https://images.pexels.com/photos/1146760/pexels-photo-1146760.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
     badge: 'Para compartir',
   },
   {
@@ -209,7 +200,7 @@ export const products = [
     name: 'Nuggets de Pollo',
     description: 'Bocaditos de pollo rebozado con salsa a elección!',
     price: 10900,
-    image: 'https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'aros-cebolla',
@@ -217,7 +208,7 @@ export const products = [
     name: 'Aros de Cebolla',
     description: 'Porción de aros de cebolla crocantes con dos dips de salsa a elección!',
     price: 13900,
-    image: 'https://images.pexels.com/photos/1893556/pexels-photo-1893556.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
 
   // ---- PEREZ VERDE ----
@@ -227,7 +218,7 @@ export const products = [
     name: 'NOT Pérez',
     description: 'Medallón NOT COW, lechuga, tomate, pepinos caseros y NOT MAYO. Con papas!',
     price: 19900,
-    image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'not-chicken',
@@ -235,7 +226,7 @@ export const products = [
     name: 'NOT Chicken',
     description: 'Medallón NOT CHICKEN, cebolla caramelizada, lechuga y tomate. Con papas!',
     price: 19900,
-    image: 'https://images.pexels.com/photos/262897/pexels-photo-262897.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'vegetariana',
@@ -243,7 +234,7 @@ export const products = [
     name: 'Vegetariana',
     description: 'Medallón de quinoa, lentejas, puerro y zanahorias con queso cheddar, lechuga y tomate fresco. Con papas!',
     price: 11900,
-    image: 'https://images.pexels.com/photos/1213713/pexels-photo-1213713.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'ensalada-cesar',
@@ -251,7 +242,7 @@ export const products = [
     name: 'Ensalada César',
     description: 'Colchón de mix de verdes, triángulos de queso en hebras, croutones y aderezo Pérez-H de queso crema y panceta ahumada.',
     price: 12900,
-    image: 'https://images.pexels.com/photos/1213713/pexels-photo-1213713.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'sin-tacc',
@@ -259,7 +250,7 @@ export const products = [
     name: 'Sin TACC',
     description: 'Un medallón de carne casero, lechuga, tomate y pan artesanal SIN TACC. Con papas!',
     price: 12900,
-    image: 'https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'sin-tacc-extra',
@@ -267,7 +258,7 @@ export const products = [
     name: 'Sin TACC Extra Cheddar Extra Panceta',
     description: 'Un medallón de carne casero, doble queso cheddar y doble panceta en pan artesanal sin tacc. Con papas!',
     price: 16900,
-    image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
     badge: 'Sin TACC',
   },
 
@@ -278,7 +269,7 @@ export const products = [
     name: 'Chocotorta',
     description: 'Nuestra chocotorta casera, cremosa e irresistible.',
     price: 5900,
-    image: 'https://images.pexels.com/photos/1208172/pexels-photo-1208172.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'mousse-chocolate',
@@ -286,7 +277,7 @@ export const products = [
     name: 'Mousse de Chocolate',
     description: 'Mousse de chocolate artesanal, suave y cremosa.',
     price: 5900,
-    image: 'https://images.pexels.com/photos/1208172/pexels-photo-1208172.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'lemon-pie',
@@ -294,7 +285,7 @@ export const products = [
     name: 'Lemon Pie',
     description: 'Clásico lemon pie casero con merengue a punto.',
     price: 5900,
-    image: 'https://images.pexels.com/photos/1854652/pexels-photo-1854652.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
 
   // ---- BEBIDAS ----
@@ -304,7 +295,7 @@ export const products = [
     name: 'Gaseosa Línea Coca',
     description: 'Coca Cola, Sprite o Fanta. Bien fría!',
     price: 3500,
-    image: 'https://images.pexels.com/photos/1306037/pexels-photo-1306037.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'pepsi',
@@ -312,7 +303,7 @@ export const products = [
     name: 'Gaseosa Línea Pepsi',
     description: 'Pepsi, 7Up o Mirinda.',
     price: 3200,
-    image: 'https://images.pexels.com/photos/1306037/pexels-photo-1306037.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'aguas-saborizadas',
@@ -320,7 +311,7 @@ export const products = [
     name: 'Aguas Saborizadas',
     description: 'Agua saborizada natural.',
     price: 3000,
-    image: 'https://images.pexels.com/photos/1002410/pexels-photo-1002410.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'agua-mineral',
@@ -328,7 +319,7 @@ export const products = [
     name: 'Agua Mineral',
     description: 'Agua mineral con o sin gas.',
     price: 3000,
-    image: 'https://images.pexels.com/photos/1002410/pexels-photo-1002410.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'limonada',
@@ -336,7 +327,7 @@ export const products = [
     name: 'Limonada Natural',
     description: 'Limonada natural bien fresca.',
     price: 2500,
-    image: 'https://images.pexels.com/photos/1002410/pexels-photo-1002410.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
 
   // ---- TRAGOS ----
@@ -346,7 +337,7 @@ export const products = [
     name: 'Gin Tonic',
     description: 'Gin tonic clásico con tónica y rodaja de limón.',
     price: 7500,
-    image: 'https://images.pexels.com/photos/602750/pexels-photo-602750.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'campari',
@@ -354,7 +345,7 @@ export const products = [
     name: 'Campari con Naranja',
     description: 'Campari con jugo de naranja natural y hielo.',
     price: 7500,
-    image: 'https://images.pexels.com/photos/219985/pexels-photo-219985.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'cerveza-artesanal',
@@ -362,7 +353,7 @@ export const products = [
     name: 'Cerveza Artesanal',
     description: 'Cerveza artesanal tirada, rubia o roja.',
     price: 5500,
-    image: 'https://images.pexels.com/photos/1552677/pexels-photo-1552677.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'ipa',
@@ -370,7 +361,7 @@ export const products = [
     name: 'IPA',
     description: 'Indian Pale Ale artesanal, amarga y aromática.',
     price: 6900,
-    image: 'https://images.pexels.com/photos/1552677/pexels-photo-1552677.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
     badge: 'Premium',
   },
 
@@ -381,7 +372,7 @@ export const products = [
     name: 'Heineken',
     description: 'Cerveza Heineken en lata o porrón.',
     price: 5500,
-    image: 'https://images.pexels.com/photos/1552677/pexels-photo-1552677.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'corona',
@@ -389,7 +380,7 @@ export const products = [
     name: 'Corona',
     description: 'Cerveza Corona en lata o porrón.',
     price: 5500,
-    image: 'https://images.pexels.com/photos/1552677/pexels-photo-1552677.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'stella',
@@ -397,7 +388,7 @@ export const products = [
     name: 'Stella Artois',
     description: 'Cerveza Stella Artois en lata o porrón.',
     price: 5500,
-    image: 'https://images.pexels.com/photos/1552677/pexels-photo-1552677.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
   },
   {
     id: 'strauss',
@@ -405,7 +396,7 @@ export const products = [
     name: 'Strauss Sin TACC',
     description: 'Cerveza Strauss libre de gluten.',
     price: 5500,
-    image: 'https://images.pexels.com/photos/1552677/pexels-photo-1552677.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: null,
     badge: 'Sin TACC',
   },
 ]

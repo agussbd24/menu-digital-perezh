@@ -4,6 +4,7 @@ import { X, Minus, Plus, ShoppingBag } from 'lucide-react'
 import { useCart } from '../hooks/useCart.js'
 import { useToast } from '../hooks/useToast.js'
 import { formatCurrency, standardAddons } from '../services/menuData.js'
+import ProductImage from './ProductImage.jsx'
 
 export default function ProductModal({ product, open, onClose }) {
   const { addItem } = useCart()
@@ -11,7 +12,6 @@ export default function ProductModal({ product, open, onClose }) {
   const [selectedAddons, setSelectedAddons] = useState([])
   const [notes, setNotes] = useState('')
   const [quantity, setQuantity] = useState(1)
-  const [imgError, setImgError] = useState(false)
   const [dragY, setDragY] = useState(0)
   const [dragging, setDragging] = useState(false)
   const touchStart = useRef({ y: 0, time: 0 })
@@ -111,19 +111,7 @@ export default function ProductModal({ product, open, onClose }) {
         <div className="flex-1 overflow-y-auto space-y-0">
           {/* Hero image - inside scroll area */}
           <div className="relative w-full bg-neutral-900 h-[40vw] min-h-[140px] max-h-[220px] sm:aspect-[16/9] sm:h-auto overflow-hidden">
-            {imgError ? (
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-perez-navy-dark to-neutral-900 text-center p-6">
-                <ShoppingBag className="mb-4 text-perez-orange/40" size={56} />
-                <span className="text-2xl font-bold text-perez-cream/80">{product.name}</span>
-              </div>
-            ) : (
-              <img
-                src={product.image}
-                alt={product.name}
-                className="h-full w-full object-cover"
-                onError={() => setImgError(true)}
-              />
-            )}
+            <ProductImage product={product} variant="modal" className="h-full w-full" />
             <div className="absolute inset-0 bg-gradient-to-t from-perez-navy via-transparent to-transparent" />
             {product.badge && (
               <span className="absolute left-4 top-4 rounded-full bg-gradient-to-r from-perez-orange to-perez-gold px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-perez-navy-dark shadow-lg">

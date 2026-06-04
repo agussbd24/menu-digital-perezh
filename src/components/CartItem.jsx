@@ -1,7 +1,8 @@
-import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react'
+import { Minus, Plus, Trash2 } from 'lucide-react'
 import { useState, useRef } from 'react'
 import { useCountUp } from '../hooks/useCountUp.js'
 import { formatCurrency } from '../services/menuData.js'
+import ProductImage from './ProductImage.jsx'
 
 export default function CartItem({ item, onIncrease, onDecrease, onRemove }) {
   const [dragX, setDragX] = useState(0)
@@ -50,17 +51,8 @@ export default function CartItem({ item, onIncrease, onDecrease, onRemove }) {
         onTouchEnd={handleTouchEnd}
       >
         <div className="flex gap-4">
-          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl ring-1 ring-white/5 bg-neutral-800 flex items-center justify-center">
-            <img
-              src={item.image}
-              alt={item.name}
-              className="h-full w-full object-cover"
-              loading="lazy"
-              onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
-            />
-            <div className="hidden items-center justify-center h-full w-full">
-              <ShoppingBag className="text-neutral-600" size={20} />
-            </div>
+          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl ring-1 ring-white/5 bg-neutral-800">
+            <ProductImage product={item} variant="thumb" className="h-full w-full" />
           </div>
           <div className="min-w-0 flex-1 flex flex-col justify-between">
             <div className="flex items-start justify-between gap-3">
