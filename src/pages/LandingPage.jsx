@@ -2,18 +2,16 @@ import { useEffect, useState } from 'react'
 
 function PedidosYaLogo({ className }) {
   return (
-    <svg className={className} viewBox="0 0 48 48" fill="none">
-      <path d="M18.5 8C15.5 8 13 10.5 13 13.5V20H9v4h4v16h4V24h5l2-4h-7v-6.5c0-1.4 1.1-2.5 2.5-2.5H25v-4h-6.5z" fill="#E23744" />
-      <path d="M25 8v4h7.5c1.4 0 2.5 1.1 2.5 2.5V16h-4v-2.5c0-.3-.2-.5-.5-.5H25V8z" fill="#E23744" />
-      <circle cx="16" cy="36" r="3" fill="#E23744" />
-      <circle cx="32" cy="36" r="3" fill="#E23744" />
+    <svg className={className} viewBox="0 0 100 100" fill="none">
+      <path d="M50 5C25.2 5 5 25.2 5 50s20.2 45 45 45 45-20.2 45-45S74.8 5 50 5zm0 82c-20.4 0-37-16.6-37-37s16.6-37 37-37 37 16.6 37 37-16.6 37-37 37z" fill="#E23744"/>
+      <path d="M68.5 35.2H59v-8.7c0-2.1-1.7-3.8-3.8-3.8H42.3c-2.1 0-3.8 1.7-3.8 3.8v8.7h-9.5c-2.1 0-3.8 1.7-3.8 3.8v25.8c0 2.1 1.7 3.8 3.8 3.8h5.8v10.4c0 2.1 1.7 3.8 3.8 3.8h14.4c2.1 0 3.8-1.7 3.8-3.8V68.6h5.8c2.1 0 3.8-1.7 3.8-3.8V39c.1-2.1-1.7-3.8-3.8-3.8z" fill="#E23744"/>
     </svg>
   )
 }
 
 function RappiLogo({ className }) {
   return (
-    <svg className={className} viewBox="0 0 48 48" fill="none">
+    <svg className={className} viewBox="0 0 100 100" fill="none">
       <defs>
         <linearGradient id="rappiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#FF6B35" />
@@ -21,21 +19,21 @@ function RappiLogo({ className }) {
           <stop offset="100%" stopColor="#E63900" />
         </linearGradient>
       </defs>
-      <rect width="48" height="48" rx="12" fill="url(#rappiGrad)" />
-      <path d="M12 28c0 0 3-8 6-8s3 4 6 4 3-4 6-4 6 8 6 8" stroke="white" strokeWidth="4" strokeLinecap="round" fill="none" />
-      <circle cx="18" cy="22" r="2" fill="white" />
-      <circle cx="30" cy="22" r="2" fill="white" />
+      <rect width="100" height="100" rx="20" fill="url(#rappiGrad)" />
+      <path d="M25 55c0 0 8-18 15-18s7 10 10 10 7-10 10-10 15 18 15 18" stroke="white" strokeWidth="8" strokeLinecap="round" fill="none"/>
+      <circle cx="38" cy="42" r="4" fill="white"/>
+      <circle cx="62" cy="42" r="4" fill="white"/>
     </svg>
   )
 }
 
 function MercadoPagoLogo({ className }) {
   return (
-    <svg className={className} viewBox="0 0 48 48" fill="none">
-      <circle cx="24" cy="24" r="24" fill="#009EE3" />
-      <path d="M14 20c0-2 1.5-3.5 3.5-3.5S21 18 21 20v2h-3.5c-2 0-3.5 1.5-3.5 3.5S15.5 29 17.5 29H21v2c0 2 1.5 3.5 3.5 3.5S28 33 28 31v-2h-3.5c-2 0-3.5-1.5-3.5-3.5" stroke="white" strokeWidth="3" strokeLinecap="round" fill="none" />
-      <path d="M28 16v16" stroke="white" strokeWidth="3" strokeLinecap="round" />
-      <path d="M32 16v4c0 2 1.5 3.5 3.5 3.5S39 22 39 20v-4" stroke="white" strokeWidth="3" strokeLinecap="round" fill="none" />
+    <svg className={className} viewBox="0 0 100 100" fill="none">
+      <circle cx="50" cy="50" r="50" fill="#009EE3"/>
+      <path d="M30 45c0-3 2.5-5.5 5.5-5.5S41 42 41 45v3h-5.5c-3 0-5.5 2.5-5.5 5.5S32.5 59 35.5 59H41v3c0 3 2.5 5.5 5.5 5.5S52 65 52 62v-3h-5.5c-3 0-5.5-2.5-5.5-5.5" stroke="white" strokeWidth="5" strokeLinecap="round" fill="none"/>
+      <path d="M52 35v28" stroke="white" strokeWidth="5" strokeLinecap="round"/>
+      <path d="M60 35v8c0 3 2.5 5.5 5.5 5.5S71 46 71 43v-8" stroke="white" strokeWidth="5" strokeLinecap="round" fill="none"/>
     </svg>
   )
 }
