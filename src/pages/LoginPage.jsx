@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.js'
-import { Lock, Mail, Eye, EyeOff } from 'lucide-react'
+import { Lock, User, Eye, EyeOff } from 'lucide-react'
 
 export default function LoginPage() {
   const { login, loading } = useAuth()
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
@@ -15,13 +15,13 @@ export default function LoginPage() {
     e.preventDefault()
     setError('')
 
-    if (!email.trim() || !password.trim()) {
+    if (!username.trim() || !password.trim()) {
       setError('Completá todos los campos')
       return
     }
 
     try {
-      const user = await login(email.trim(), password)
+      const user = await login(username.trim(), password)
       if (user.role === 'admin') {
         navigate('/admin', { replace: true })
       } else {
@@ -68,17 +68,17 @@ export default function LoginPage() {
           <div className="space-y-5">
             <div>
               <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-neutral-400">
-                Email
+                Usuario
               </label>
               <div className="relative">
-                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" />
+                <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" />
                 <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="w-full rounded-xl border border-white/10 bg-white/[0.05] py-3.5 pl-12 pr-4 text-white placeholder-neutral-500 outline-none transition-all duration-300 focus:border-perez-orange/40 focus:bg-white/[0.08] focus:ring-2 focus:ring-perez-orange/20"
-                  placeholder="tu@email.com"
-                  autoComplete="email"
+                  placeholder="Tu usuario"
+                  autoComplete="username"
                 />
               </div>
             </div>

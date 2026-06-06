@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { getUsers, createUser, updateUser, deleteUser } from '../../services/authService.js'
 import { Plus, Pencil, Trash2, X, Save, Loader2, Shield, ChefHat, Eye, EyeOff } from 'lucide-react'
 
-const EMPTY_USER = { email: '', password: '', displayName: '', role: 'kitchen' }
+const EMPTY_USER = { username: '', password: '', displayName: '', role: 'kitchen' }
 
 export default function UserManagement() {
   const [users, setUsers] = useState([])
@@ -37,7 +37,7 @@ export default function UserManagement() {
 
   function openEdit(user) {
     setEditingUser(user)
-    setForm({ email: user.email, password: '', displayName: user.displayName, role: user.role })
+    setForm({ username: user.username, password: '', displayName: user.displayName, role: user.role })
     setShowPassword(false)
     setShowForm(true)
   }
@@ -49,7 +49,7 @@ export default function UserManagement() {
 
     try {
       if (!form.displayName.trim()) throw new Error('El nombre es obligatorio')
-      if (!editingUser && !form.email.trim()) throw new Error('El email es obligatorio')
+      if (!editingUser && !form.username.trim()) throw new Error('El usuario es obligatorio')
       if (!editingUser && !form.password.trim()) throw new Error('La contraseña es obligatoria')
       if (editingUser && form.password && form.password.length < 6) throw new Error('La contraseña debe tener al menos 6 caracteres')
 
@@ -58,7 +58,7 @@ export default function UserManagement() {
         if (form.password) updates.password = form.password
         await updateUser(editingUser.id, updates)
       } else {
-        await createUser({ email: form.email, password: form.password, displayName: form.displayName, role: form.role })
+        await createUser({ username: form.username, password: form.password, displayName: form.displayName, role: form.role })
       }
       setShowForm(false)
       await loadUsers()
@@ -118,7 +118,7 @@ export default function UserManagement() {
             <thead>
               <tr className="border-b border-white/[0.06] bg-white/[0.02]">
                 <th className="px-4 py-3 font-bold text-neutral-400">Usuario</th>
-                <th className="px-4 py-3 font-bold text-neutral-400">Email</th>
+                <th className="px-4 py-3 font-bold text-neutral-400">Usuario</th>
                 <th className="px-4 py-3 font-bold text-neutral-400">Rol</th>
                 <th className="px-4 py-3 font-bold text-neutral-400">Estado</th>
                 <th className="px-4 py-3 font-bold text-neutral-400 text-right">Acciones</th>
@@ -135,7 +135,7 @@ export default function UserManagement() {
                       <span className="font-bold text-white">{u.displayName}</span>
                     </div>
                   </td>
-                  <td className="px-4 py-4 text-neutral-300">{u.email}</td>
+                  <td className="px-4 py-4 text-neutral-300">{u.username}</td>
                   <td className="px-4 py-4">
                     <span className={`rounded-lg px-2.5 py-1 text-xs font-bold ${u.role === 'admin' ? 'bg-perez-orange/10 text-perez-gold' : 'bg-perez-teal/10 text-perez-teal'}`}>
                       {u.role === 'admin' ? 'Administrador' : 'Cocina'}
@@ -196,13 +196,13 @@ export default function UserManagement() {
 
               {!editingUser && (
                 <div>
-                  <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-neutral-400">Email</label>
+                  <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-neutral-400">Usuario</label>
                   <input
-                    type="email"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    type="text"
+                    value={form.username}
+                    onChange={(e) => setForm({ ...form, username: e.target.value })}
                     className="w-full rounded-xl border border-white/10 bg-white/[0.05] px-4 py-3 text-white text-sm outline-none focus:border-perez-orange/40 focus:ring-2 focus:ring-perez-orange/20"
-                    placeholder="email@perezh.com"
+                    placeholder="nombredeusuario"
                   />
                 </div>
               )}

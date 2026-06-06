@@ -32,16 +32,15 @@ export function getCurrentUser() {
   return getStoredUser()
 }
 
-export async function login(email, password) {
+export async function login(username, password) {
   if (!isSupabaseConfigured) {
-    // Mock login for offline mode
-    if (email === 'admin@perezh.com' && password === 'admin123') {
-      const user = { id: 'mock-admin', email, displayName: 'Administrador', role: 'admin' }
+    if (username === 'admin' && password === 'admin123') {
+      const user = { id: 'mock-admin', username, displayName: 'Administrador', role: 'admin' }
       storeUser(user)
       return user
     }
-    if (email === 'cocina@perezh.com' && password === 'cocina123') {
-      const user = { id: 'mock-kitchen', email, displayName: 'Cocina', role: 'kitchen' }
+    if (username === 'cocina' && password === 'cocina123') {
+      const user = { id: 'mock-kitchen', username, displayName: 'Cocina', role: 'kitchen' }
       storeUser(user)
       return user
     }
@@ -53,7 +52,7 @@ export async function login(email, password) {
   const { data, error } = await supabase
     .from('system_users')
     .select('*')
-    .eq('email', email.toLowerCase().trim())
+    .eq('username', username.toLowerCase().trim())
     .eq('password_hash', passwordHash)
     .eq('active', true)
     .single()
@@ -64,7 +63,7 @@ export async function login(email, password) {
 
   const user = {
     id: data.id,
-    email: data.email,
+    username: data.username,
     displayName: data.display_name,
     role: data.role,
   }
@@ -80,8 +79,8 @@ export function logout() {
 export async function getUsers() {
   if (!isSupabaseConfigured) {
     return [
-      { id: 'mock-admin', email: 'admin@perezh.com', displayName: 'Administrador', role: 'admin', active: true },
-      { id: 'mock-kitchen', email: 'cocina@perezh.com', displayName: 'Cocina', role: 'kitchen', active: true },
+      { id: 'mock-admin', username: 'admin', displayName: 'Administrador', role: 'admin', active: true },
+      { id: 'mock-kitchen', username: 'cocina', displayName: 'Cocina', role: 'kitchen', active: true },
     ]
   }
 
@@ -94,7 +93,7 @@ export async function getUsers() {
 
   return data.map((u) => ({
     id: u.id,
-    email: u.email,
+    username: u.username,
     displayName: u.display_name,
     role: u.role,
     active: u.active,
@@ -102,11 +101,11 @@ export async function getUsers() {
   }))
 }
 
-export async function createUser({ email, password, displayName, role }) {
+export async function createUser({ username, password, displayName, role }) {
   if (!isSupabaseConfigured) {
     return {
       id: 'mock-' + Math.random().toString(36).slice(2, 9),
-      email,
+      username,
       displayName,
       role,
       active: true,
@@ -118,7 +117,7 @@ export async function createUser({ email, password, displayName, role }) {
   const { data, error } = await supabase
     .from('system_users')
     .insert([{
-      email: email.toLowerCase().trim(),
+      username: username.toLowerCase().trim(),
       password_hash: passwordHash,
       display_name: displayName,
       role: role || 'kitchen',
@@ -131,7 +130,7 @@ export async function createUser({ email, password, displayName, role }) {
 
   return {
     id: data.id,
-    email: data.email,
+    username: data.username,
     displayName: data.display_name,
     role: data.role,
     active: data.active,
@@ -164,7 +163,7 @@ export async function updateUser(userId, updates) {
 
   return {
     id: data.id,
-    email: data.email,
+    username: data.username,
     displayName: data.display_name,
     role: data.role,
     active: data.active,

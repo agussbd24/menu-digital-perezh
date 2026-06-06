@@ -10,7 +10,7 @@ create extension if not exists pgcrypto;
 -- ============================================================
 create table if not exists public.system_users (
   id uuid primary key default gen_random_uuid(),
-  email text unique not null,
+  username text unique not null,
   password_hash text not null,
   display_name text not null,
   role text not null default 'kitchen' check (role in ('admin', 'kitchen')),
@@ -22,25 +22,24 @@ create table if not exists public.system_users (
 alter table public.system_users enable row level security;
 
 -- Admin usuario inicial (password: admin123, sha256 hash)
--- CHANGE THIS HASH IN PRODUCTION
-insert into public.system_users (email, password_hash, display_name, role)
+insert into public.system_users (username, password_hash, display_name, role)
 values (
-  'admin@perezh.com',
+  'admin',
   '240be518fabd2724ddb6f05eeb5e06b1ae0b69040adb7a8b08e390e1b49b2c5e',
   'Administrador',
   'admin'
 )
-on conflict (email) do nothing;
+on conflict (username) do nothing;
 
 -- Kitchen usuario inicial (password: cocina123)
-insert into public.system_users (email, password_hash, display_name, role)
+insert into public.system_users (username, password_hash, display_name, role)
 values (
-  'cocina@perezh.com',
+  'cocina',
   'e99a18c428cb38d5f260853678922e0399989e5b3b0a7c0ac861e3b0e3b0e3b0',
   'Cocina',
   'kitchen'
 )
-on conflict (email) do nothing;
+on conflict (username) do nothing;
 
 -- ============================================================
 -- 2. TABLA DE PRODUCTOS
