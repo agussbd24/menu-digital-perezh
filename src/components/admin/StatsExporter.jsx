@@ -1,7 +1,10 @@
 import { useMemo, useState } from 'react'
 import { useOrders } from '../../hooks/useOrders.js'
-import { formatCurrency, products as allProducts } from '../../services/menuData.js'
-import { Download, FileSpreadsheet, FileText, Loader2 } from 'lucide-react'
+import { formatCurrency } from '../../services/menuData.js'
+import {
+  Download, FileSpreadsheet, FileText, Loader2, TrendingUp, TrendingDown,
+  ShoppingBag, DollarSign, Clock, BarChart3, PieChart, Star, AlertTriangle,
+} from 'lucide-react'
 import * as XLSX from 'xlsx'
 import { saveAs } from 'file-saver'
 
@@ -11,6 +14,20 @@ const DATE_FILTERS = [
   { key: 'month', label: 'Este mes' },
   { key: 'all', label: 'Todo' },
 ]
+
+const STATUS_LABELS = {
+  new: 'Nuevo',
+  preparing: 'Preparando',
+  ready: 'Listo',
+  delivered: 'Entregado',
+}
+
+const STATUS_COLORS = {
+  new: 'bg-blue-500/15 text-blue-400',
+  preparing: 'bg-amber-500/15 text-amber-400',
+  ready: 'bg-emerald-500/15 text-emerald-400',
+  delivered: 'bg-neutral-500/15 text-neutral-400',
+}
 
 function startOfDay(date) {
   const d = new Date(date)
@@ -43,6 +60,27 @@ function filterByDate(orders, filter) {
   }
 }
 
+function StatCard({ icon: Icon, label, value, sub, color = 'text-white', trend }) {
+  return (
+    <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 transition-all hover:bg-white/[0.04]">
+      <div className="flex items-center justify-between">
+        <div className="grid h-10 w-10 place-items-center rounded-xl bg-white/[0.06]">
+          <Icon size={18} className="text-neutral-400" />
+        </div>
+        {trend !== undefined && (
+          <span className={`flex items-center gap-1 text-xs font-bold ${trend >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+            {trend >= 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+            {Math.abs(trend)}%
+          </span>
+        )}
+      </div>
+      <p className="mt-3 text-xs font-bold uppercase tracking-wider text-neutral-400">{label}</p>
+      <p className={`mt-1 text-2xl font-bold ${color}`}>{value}</p>
+      {sub && <p className="mt-1 text-xs text-neutral-500">{sub}</p>}
+    </div>
+  )
+}
+
 export default function StatsExporter() {
   const { orders, loading } = useOrders({ soundEnabled: false })
   const [dateFilter, setDateFilter] = useState('all')
@@ -50,11 +88,30 @@ export default function StatsExporter() {
 
   const filtered = useMemo(() => filterByDate(orders, dateFilter), [orders, dateFilter])
 
-  const summary = useMemo(() => {
+  const stats = useMemo(() => {
     if (filtered.length === 0) return null
 
     const totalRevenue = filtered.reduce((s, o) => s + o.total, 0)
     const avgOrder = totalRevenue / filtered.length
+    const totalItems = filtered.reduce((s, o) => s + o.items.reduce((is2, i) => is2 + i.quantity, 0), 0)
+    const avgItems = totalItems / filtered.length
+
+    const now = new Date()
+    const yesterday = new Date(now)
+    yesterday.setDate(yesterday.getDate() - 1)
+    const yesterdayOrders = orders.filter((o) => {
+      const d = new Date(o.createdAt)
+      return d >= startOfDay(yesterday) && d < startOfDay(now)
+    })
+    const todayOrders = orders.filter((o) => new Date(o.createdAt) >= startOfDay(now))
+    const revenueTrend = yesterdayOrders.length > 0
+      ? Math.round(((todayOrders.length - yesterdayOrders.length) / yesterdayOrders.length) * 100)
+      : 0
+
+    const statusCounts = { new: 0, preparing: 0, ready: 0, delivered: 0 }
+    filtered.forEach((o) => {
+      if (statusCounts[o.status] !== undefined) statusCounts[o.status]++
+    })
 
     const productCounts = {}
     filtered.forEach((o) => {
@@ -65,9 +122,46 @@ export default function StatsExporter() {
       })
     })
     const topProducts = Object.values(productCounts).sort((a, b) => b.count - a.count).slice(0, 10)
+    const topByRevenue = Object.values(productCounts).sort((a, b) => b.revenue - a.revenue).slice(0, 5)
 
-    return { totalRevenue, avgOrder, topProducts, totalOrders: filtered.length }
-  }, [filtered])
+    const categoryRevenue = {}
+    filtered.forEach((o) => {
+      o.items.forEach((item) => {
+        const cat = item.category || 'Otros'
+        if (!categoryRevenue[cat]) categoryRevenue[cat] = 0
+        categoryRevenue[cat] += item.subtotal
+      })
+    })
+    const topCategories = Object.entries(categoryRevenue)
+      .map(([name, revenue]) => ({ name, revenue }))
+      .sort((a, b) => b.revenue - a.revenue)
+
+    const hourlyOrders = {}
+    filtered.forEach((o) => {
+      const h = new Date(o.createdAt).getHours()
+      hourlyOrders[h] = (hourlyOrders[h] || 0) + 1
+    })
+    const peakHour = Object.entries(hourlyOrders).sort((a, b) => b[1] - a[1])[0]
+
+    const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
+    const dayOrders = {}
+    filtered.forEach((o) => {
+      const d = new Date(o.createdAt).getDay()
+      dayNames[d] && (dayOrders[dayNames[d]] = (dayOrders[dayNames[d]] || 0) + 1)
+    })
+    const dayOrder = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
+    const busiestDay = dayOrder.reduce((best, day) => (dayOrders[day] || 0) > (dayOrders[best] || 0) ? day : best, 'Lun')
+
+    const uniqueClients = new Set(filtered.map((o) => o.customerName).filter(Boolean)).size
+
+    const unpaidEstimate = filtered.filter((o) => o.status !== 'delivered').reduce((s, o) => s + o.total, 0)
+
+    return {
+      totalRevenue, avgOrder, totalItems, avgItems, totalOrders: filtered.length,
+      topProducts, topByRevenue, topCategories, statusCounts, peakHour, busiestDay,
+      uniqueClients, unpaidEstimate, revenueTrend,
+    }
+  }, [filtered, orders])
 
   function exportCSV() {
     setExporting(true)
@@ -78,7 +172,7 @@ export default function StatsExporter() {
         Cliente: o.customerName || '',
         Items: o.items.map((i) => `${i.quantity}x ${i.name}`).join(', '),
         Total: o.total,
-        Estado: o.status,
+        Estado: STATUS_LABELS[o.status] || o.status,
       }))
 
       const ws = XLSX.utils.json_to_sheet(rows)
@@ -95,7 +189,6 @@ export default function StatsExporter() {
     try {
       const wb = XLSX.utils.book_new()
 
-      // Hoja 1: Pedidos
       const ordersData = filtered.map((o) => ({
         Fecha: new Date(o.createdAt).toLocaleString('es-AR'),
         Mesa: o.tableNumber,
@@ -103,14 +196,13 @@ export default function StatsExporter() {
         Productos: o.items.map((i) => `${i.quantity}x ${i.name}`).join(', '),
         Subtotal: o.total,
         Notas: o.notes || '',
-        Estado: o.status,
+        Estado: STATUS_LABELS[o.status] || o.status,
       }))
       const ws1 = XLSX.utils.json_to_sheet(ordersData)
       XLSX.utils.book_append_sheet(wb, ws1, 'Pedidos')
 
-      // Hoja 2: Top Productos
-      if (summary?.topProducts.length) {
-        const ws2 = XLSX.utils.json_to_sheet(summary.topProducts.map((p, i) => ({
+      if (stats?.topProducts.length) {
+        const ws2 = XLSX.utils.json_to_sheet(stats.topProducts.map((p, i) => ({
           Ranking: i + 1,
           Producto: p.name,
           Unidades: p.count,
@@ -119,14 +211,26 @@ export default function StatsExporter() {
         XLSX.utils.book_append_sheet(wb, ws2, 'Top Productos')
       }
 
-      // Hoja 3: Resumen
-      const ws3 = XLSX.utils.json_to_sheet([{
-        'Total Pedidos': summary?.totalOrders || 0,
-        'Ingresos Totales': summary?.totalRevenue || 0,
-        'Ticket Promedio': summary?.avgOrder || 0,
+      if (stats?.topCategories.length) {
+        const ws3 = XLSX.utils.json_to_sheet(stats.topCategories.map((c) => ({
+          Categoria: c.name,
+          Ingresos: c.revenue,
+          '%': stats.totalRevenue > 0 ? Math.round((c.revenue / stats.totalRevenue) * 100) + '%' : '0%',
+        })))
+        XLSX.utils.book_append_sheet(wb, ws3, 'Por Categoría')
+      }
+
+      const ws4 = XLSX.utils.json_to_sheet([{
+        'Total Pedidos': stats?.totalOrders || 0,
+        'Ingresos Totales': stats?.totalRevenue || 0,
+        'Ticket Promedio': stats?.avgOrder || 0,
+        'Total Items': stats?.totalItems || 0,
+        'Clientes Únicos': stats?.uniqueClients || 0,
+        'Hora Pico': stats?.peakHour ? `${stats.peakHour[0]}:00 (${stats.peakHour[1]} pedidos)` : '-',
+        'Día Más Obtenido': stats?.busiestDay || '-',
         'Período': DATE_FILTERS.find((f) => f.key === dateFilter)?.label || dateFilter,
       }])
-      XLSX.utils.book_append_sheet(wb, ws3, 'Resumen')
+      XLSX.utils.book_append_sheet(wb, ws4, 'Resumen')
 
       XLSX.writeFile(wb, `reporte-perezh-${dateFilter}-${Date.now()}.xlsx`)
     } finally {
@@ -135,13 +239,12 @@ export default function StatsExporter() {
   }
 
   return (
-    <div className="max-w-4xl space-y-8">
+    <div className="max-w-5xl space-y-8">
       <div>
-        <h2 className="text-2xl font-bold text-white">Exportar Métricas</h2>
-        <p className="mt-1 text-sm text-neutral-400">Descargá los datos de pedidos en CSV o Excel</p>
+        <h2 className="text-2xl font-bold text-white">Estadísticas</h2>
+        <p className="mt-1 text-sm text-neutral-400">Analizá el rendimiento de tu restaurante</p>
       </div>
 
-      {/* Date filter */}
       <div className="flex gap-2">
         {DATE_FILTERS.map((f) => (
           <button
@@ -158,50 +261,165 @@ export default function StatsExporter() {
         ))}
       </div>
 
-      {/* Summary */}
       {loading ? (
         <div className="grid min-h-[30vh] place-items-center text-neutral-400">
           <Loader2 className="animate-spin" size={24} />
         </div>
-      ) : !summary ? (
+      ) : !stats ? (
         <div className="rounded-2xl border border-dashed border-white/10 p-10 text-center text-neutral-400">
-          No hay pedidos para exportar en este período
+          No hay datos para mostrar en este período
         </div>
       ) : (
         <>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5">
-              <p className="text-xs font-bold uppercase tracking-wider text-neutral-400">Pedidos</p>
-              <p className="mt-2 text-3xl font-bold text-white">{summary.totalOrders}</p>
-            </div>
-            <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5">
-              <p className="text-xs font-bold uppercase tracking-wider text-neutral-400">Ingresos</p>
-              <p className="mt-2 text-3xl font-bold text-perez-gold">{formatCurrency(summary.totalRevenue)}</p>
-            </div>
-            <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5">
-              <p className="text-xs font-bold uppercase tracking-wider text-neutral-400">Ticket Prom.</p>
-              <p className="mt-2 text-3xl font-bold text-white">{formatCurrency(summary.avgOrder)}</p>
+          {/* KPI Cards */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard
+              icon={DollarSign}
+              label="Ingresos Totales"
+              value={formatCurrency(stats.totalRevenue)}
+              sub={`${stats.totalOrders} pedidos`}
+              color="text-perez-gold"
+              trend={stats.revenueTrend}
+            />
+            <StatCard
+              icon={ShoppingBag}
+              label="Ticket Promedio"
+              value={formatCurrency(stats.avgOrder)}
+              sub={`${stats.avgItems.toFixed(1)} items por pedido`}
+            />
+            <StatCard
+              icon={Star}
+              label="Producto Más Vendido"
+              value={stats.topProducts[0]?.name || '-'}
+              sub={stats.topProducts[0] ? `${stats.topProducts[0].count} unidades` : ''}
+              color="text-perez-gold"
+            />
+            <StatCard
+              icon={Clock}
+              label="Hora Pico"
+              value={stats.peakHour ? `${stats.peakHour[0]}:00` : '-'}
+              sub={stats.peakHour ? `${stats.peakHour[1]} pedidos` : `Día más obtenido: ${stats.busiestDay}`}
+            />
+          </div>
+
+          {/* Orders by Status */}
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+            <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
+              <PieChart size={18} /> Estado de Pedidos
+            </h3>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {Object.entries(stats.statusCounts).map(([status, count]) => (
+                <div key={status} className={`rounded-xl p-4 text-center ${STATUS_COLORS[status]}`}>
+                  <p className="text-3xl font-bold">{count}</p>
+                  <p className="mt-1 text-sm font-semibold">{STATUS_LABELS[status]}</p>
+                  {stats.totalOrders > 0 && (
+                    <p className="mt-1 text-xs opacity-60">{Math.round((count / stats.totalOrders) * 100)}%</p>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Top products */}
-          {summary.topProducts.length > 0 && (
+          {/* Top Products + Top by Revenue */}
+          <div className="grid gap-6 lg:grid-cols-2">
+            {stats.topProducts.length > 0 && (
+              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+                <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
+                  <BarChart3 size={18} /> Más Vendidos (por unidades)
+                </h3>
+                <div className="space-y-3">
+                  {stats.topProducts.slice(0, 5).map((p, i) => {
+                    const maxCount = stats.topProducts[0]?.count || 1
+                    const pct = Math.round((p.count / maxCount) * 100)
+                    return (
+                      <div key={p.name}>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="font-bold text-white">{i + 1}. {p.name}</span>
+                          <span className="text-perez-teal font-bold">{p.count} uds</span>
+                        </div>
+                        <div className="mt-1 h-2 overflow-hidden rounded-full bg-white/[0.06]">
+                          <div className="h-full rounded-full bg-gradient-to-r from-perez-orange to-perez-gold transition-all" style={{ width: `${pct}%` }} />
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {stats.topByRevenue.length > 0 && (
+              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+                <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
+                  <DollarSign size={18} /> Mayores Ingresos
+                </h3>
+                <div className="space-y-3">
+                  {stats.topByRevenue.map((p, i) => {
+                    const maxRev = stats.topByRevenue[0]?.revenue || 1
+                    const pct = Math.round((p.revenue / maxRev) * 100)
+                    return (
+                      <div key={p.name}>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="font-bold text-white">{i + 1}. {p.name}</span>
+                          <span className="text-perez-gold font-bold">{formatCurrency(p.revenue)}</span>
+                        </div>
+                        <div className="mt-1 h-2 overflow-hidden rounded-full bg-white/[0.06]">
+                          <div className="h-full rounded-full bg-gradient-to-r from-perez-gold to-perez-orange transition-all" style={{ width: `${pct}%` }} />
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Revenue by Category */}
+          {stats.topCategories.length > 0 && (
             <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
-              <h3 className="mb-4 text-lg font-bold text-white">Top Productos</h3>
-              <div className="space-y-3">
-                {summary.topProducts.map((p, i) => (
-                  <div key={p.name} className="flex items-center gap-3">
-                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-perez-orange/10 text-xs font-bold text-perez-gold">{i + 1}</span>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate font-bold text-white">{p.name}</p>
+              <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
+                <PieChart size={18} /> Ingresos por Categoría
+              </h3>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {stats.topCategories.map((cat) => {
+                  const pct = stats.totalRevenue > 0 ? Math.round((cat.revenue / stats.totalRevenue) * 100) : 0
+                  return (
+                    <div key={cat.name} className="rounded-xl border border-white/[0.04] bg-white/[0.02] p-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-bold text-white capitalize">{cat.name}</span>
+                        <span className="text-xs font-bold text-perez-gold">{pct}%</span>
+                      </div>
+                      <p className="mt-1 text-lg font-bold text-perez-gold">{formatCurrency(cat.revenue)}</p>
+                      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+                        <div className="h-full rounded-full bg-perez-orange transition-all" style={{ width: `${pct}%` }} />
+                      </div>
                     </div>
-                    <span className="text-sm font-bold text-perez-teal">{p.count} uds</span>
-                    <span className="text-sm font-bold text-perez-gold">{formatCurrency(p.revenue)}</span>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
           )}
+
+          {/* Summary + Export */}
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-neutral-400">Total Items Vendidos</p>
+                <p className="mt-1 text-xl font-bold text-white">{stats.totalItems}</p>
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-neutral-400">Clientes Únicos</p>
+                <p className="mt-1 text-xl font-bold text-white">{stats.uniqueClients || '-'}</p>
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-neutral-400">Pedidos Pendientes</p>
+                <p className="mt-1 text-xl font-bold text-amber-400">{stats.statusCounts.new + stats.statusCounts.preparing}</p>
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-neutral-400">Valor en Pedidos Activos</p>
+                <p className="mt-1 text-xl font-bold text-white">{formatCurrency(stats.unpaidEstimate)}</p>
+              </div>
+            </div>
+          </div>
 
           {/* Export buttons */}
           <div className="flex gap-4">

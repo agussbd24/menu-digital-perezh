@@ -13,7 +13,7 @@ import {
   Settings,
   Users,
   QrCode,
-  Download,
+  BarChart3,
   Camera,
   LogOut,
   ChevronLeft,
@@ -25,7 +25,7 @@ const TABS = [
   { key: 'config', label: 'Configuración', icon: Settings },
   { key: 'users', label: 'Usuarios', icon: Users },
   { key: 'qr', label: 'QR', icon: QrCode },
-  { key: 'export', label: 'Exportar', icon: Download },
+  { key: 'stats', label: 'Estadísticas', icon: BarChart3 },
   { key: 'instagram', label: 'Instagram IA', icon: Camera },
 ]
 
@@ -41,7 +41,7 @@ export default function AdminPage() {
       case 'config': return <SiteConfigPanel />
       case 'users': return <UserManagement />
       case 'qr': return <QRGenerator />
-      case 'export': return <StatsExporter />
+      case 'stats': return <StatsExporter />
       case 'instagram': return <InstagramGenerator />
       default: return <ProductTable />
     }
