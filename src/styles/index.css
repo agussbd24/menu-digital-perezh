@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 @theme {
   --color-perez-orange: #d8660a;
@@ -544,4 +544,82 @@ button:disabled {
 .reveal-up.visible {
   opacity: 1;
   transform: translateY(0) scale(1);
+}
+
+/* === MENU LIST PREMIUM === */
+
+.menu-section-header {
+  position: relative;
+}
+
+.menu-section-line {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(231, 160, 17, 0.4), rgba(231, 160, 17, 0.1) 70%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-section-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(231, 160, 17, 0.6), transparent);
+  animation: lineShine 3s ease-in-out infinite;
+}
+
+@keyframes lineShine {
+  0% { left: -50%; }
+  100% { left: 150%; }
+}
+
+.menu-list-item {
+  position: relative;
+  border-radius: 0.5rem;
+}
+
+.menu-list-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(231, 160, 17, 0.04), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.menu-list-item:hover::before {
+  opacity: 1;
+}
+
+.menu-list-item:hover {
+  background: rgba(255, 255, 255, 0.02);
+  transform: translateX(4px);
+}
+
+.menu-list-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 0;
+  background: linear-gradient(180deg, rgba(231, 160, 17, 0.8), rgba(231, 160, 17, 0.2));
+  border-radius: 9999px;
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu-list-item:hover::after {
+  height: 60%;
+}
+
+.menu-price-leader {
+  flex: 1;
+  min-width: 20px;
+  border-bottom: 1px dotted rgba(231, 160, 17, 0.25);
+  margin-bottom: 4px;
 }

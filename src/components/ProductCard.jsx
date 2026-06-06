@@ -4,12 +4,11 @@ import { useCart } from '../hooks/useCart.js'
 import { useCountUp } from '../hooks/useCountUp.js'
 import { formatCurrency } from '../services/menuData.js'
 import ProductModal from './ProductModal.jsx'
+import ProductImage from './ProductImage.jsx'
 
 export default function ProductCard({ product, index = 0 }) {
   const { items, increaseItem, decreaseItem } = useCart()
   const [modalOpen, setModalOpen] = useState(false)
-  const [imgLoaded, setImgLoaded] = useState(false)
-  const [imgError, setImgError] = useState(false)
 
   const quantity = items
     .filter((item) => item.id === product.id)
@@ -30,23 +29,7 @@ export default function ProductCard({ product, index = 0 }) {
         className="reveal-up group overflow-hidden rounded-2xl sm:rounded-[2rem] border border-white/[0.08] bg-white/[0.03] shadow-card transition-all duration-500 hover:-translate-y-2 hover:border-perez-orange/30 hover:bg-white/[0.06] hover:shadow-glow card-hover cursor-pointer"
       >
         <div className="relative aspect-[4/3] overflow-hidden bg-neutral-900">
-          {!imgLoaded && !imgError && <div className="absolute inset-0 skeleton" />}
-          {imgError ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-perez-navy-dark to-neutral-900 text-center p-4">
-              <ShoppingBag className="mb-3 text-perez-orange/50" size={40} />
-              <span className="text-sm font-bold text-perez-cream/80">{product.name}</span>
-              <span className="mt-1 text-xs text-neutral-500">{formatCurrency(product.price)}</span>
-            </div>
-          ) : (
-            <img
-              src={product.image}
-              alt={product.name}
-              className={`h-full w-full object-cover transition-all duration-700 group-hover:scale-110 img-blur-load ${imgLoaded ? 'loaded' : ''}`}
-              loading="lazy"
-              onLoad={() => setImgLoaded(true)}
-              onError={() => setImgError(true)}
-            />
-          )}
+          <ProductImage product={product} variant="card" className="h-full w-full" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500 group-hover:from-black/70" />
 
           {product.badge && (
