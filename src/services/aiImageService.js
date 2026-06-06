@@ -1,27 +1,54 @@
-const POLLINATIONS_BASE = 'https://image.pollinations.ai/prompt'
-
 const STYLE_PROFILES = {
   professional: {
-    suffix: ', professional food photography, studio lighting, warm tones, shallow depth of field, dark moody background, premium plating, editorial style, 8k quality, photorealistic, high-end restaurant photography',
     promptTemplate: (name, description) =>
-      `Professional food photography of ${name}, ${description}, styled on a premium dark plate with garnish`,
+      `Professional food photography of a ${name}: ${description}. Styled on a premium dark plate with garnish, studio lighting, warm tones, shallow depth of field, dark moody background, editorial style, 8k photorealistic, high-end restaurant photography`,
   },
   casual: {
-    suffix: ', vibrant food photography, colorful presentation, overhead shot, Instagram aesthetic, bright warm lighting, appetizing, social media style, food porn',
     promptTemplate: (name, description) =>
-      `Vibrant Instagram food photo of ${name}, ${description}, colorful and appetizing presentation`,
+      `Vibrant Instagram food photo of a ${name}: ${description}. Colorful appetizing presentation, overhead shot, bright warm lighting, social media food porn aesthetic, vivid colors`,
   },
 }
 
-function encodePrompt(prompt) {
-  return encodeURIComponent(prompt)
+function ensurePuter() {
+  return new Promise((resolve, reject) => {
+    if (window.puter?.ai?.txt2img) {
+      resolve()
+      return
+    }
+
+    const existing = document.querySelector('script[src*="js.puter.com"]')
+    if (existing) {
+      existing.addEventListener('load', () => resolve())
+      existing.addEventListener('error', () => reject(new Error('No se pudo cargar Puter.js')))
+      return
+    }
+
+    const script = document.createElement('script')
+    script.src = 'https://js.puter.com/v2/'
+    script.onload = () => {
+      if (window.puter?.ai?.txt2img) {
+        resolve()
+      } else {
+        reject(new Error('Puter.js no disponible'))
+      }
+    }
+    script.onerror = () => reject(new Error('No se pudo cargar Puter.js'))
+    document.head.appendChild(script)
+  })
 }
 
-export function generateImageUrl(productName, productDescription, style = 'professional', seed) {
+export async function generateImage(productName, productDescription, style = 'professional') {
+  await ensurePuter()
+
   const profile = STYLE_PROFILES[style] || STYLE_PROFILES.professional
-  const prompt = profile.promptTemplate(productName, productDescription) + profile.suffix
-  const randomSeed = seed || Math.floor(Math.random() * 999999)
-  return `${POLLINATIONS_BASE}/${encodePrompt(prompt)}?model=flux&width=1080&height=1080&nologo=true&seed=${randomSeed}`
+  const prompt = profile.promptTemplate(productName, productDescription)
+
+  const blob = await puter.ai.txt2img(prompt, {
+    model: 'flux',
+    size: '1024x1024',
+  })
+
+  return blob
 }
 
 export function generateInstagramCopy(productName, productDescription, productPrice, style = 'professional') {
@@ -45,10 +72,4 @@ ${productDescription}
 ¿Ya la probaste? Contanos en los comments 👇
 
 #PérezH #Burgers #HamburguesasArgentinas #FoodPorn #SmashBurger #PérezHHamburguesas`
-}
-
-export async function fetchGeneratedImage(url) {
-  const response = await fetch(url)
-  if (!response.ok) throw new Error('Error generando imagen')
-  return response.blob()
 }

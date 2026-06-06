@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { fetchProducts, fallbackCategories } from '../../services/productService.js'
-import { generateImageUrl, generateInstagramCopy, fetchGeneratedImage } from '../../services/aiImageService.js'
+import { generateImage, generateInstagramCopy } from '../../services/aiImageService.js'
 import { formatCurrency } from '../../services/menuData.js'
 import { Camera, Sparkles, Download, Copy, RefreshCw, Check, Loader2 } from 'lucide-react'
 
@@ -15,22 +15,19 @@ export default function InstagramGenerator() {
   const [error, setError] = useState('')
   const [loadingProducts, setLoadingProducts] = useState(false)
 
-  async function loadProducts() {
+  useEffect(() => {
+    let mounted = true
     setLoadingProducts(true)
-    try {
-      const data = await fetchProducts()
-      setProducts(data.filter((p) => p.available))
-    } catch {
-      // fallback
-    } finally {
-      setLoadingProducts(false)
-    }
-  }
-
-  // Load products on first render
-  if (products.length === 0 && !loadingProducts) {
-    loadProducts()
-  }
+    fetchProducts()
+      .then((data) => {
+        if (mounted) setProducts(data.filter((p) => p.available))
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (mounted) setLoadingProducts(false)
+      })
+    return () => { mounted = false }
+  }, [])
 
   async function handleGenerate() {
     if (!selectedProduct) return
@@ -40,22 +37,20 @@ export default function InstagramGenerator() {
     setGeneratedImage(null)
 
     try {
-      const imageUrl = generateImageUrl(selectedProduct.name, selectedProduct.description, style)
       const copy = generateInstagramCopy(
         selectedProduct.name,
         selectedProduct.description,
         selectedProduct.price,
         style,
       )
-
       setGeneratedCopy(copy)
 
-      // Pre-fetch the image
-      const blob = await fetchGeneratedImage(imageUrl)
+      const blob = await generateImage(selectedProduct.name, selectedProduct.description, style)
       const objectUrl = URL.createObjectURL(blob)
-      setGeneratedImage({ url: imageUrl, objectUrl, blob })
+      setGeneratedImage({ objectUrl, blob })
     } catch (err) {
-      setError('Error al generar. Intentá de nuevo.')
+      console.error('Error generating image:', err)
+      setError('Error al generar la imagen. Intentá de nuevo en unos segundos.')
     } finally {
       setGenerating(false)
     }
@@ -197,8 +192,9 @@ export default function InstagramGenerator() {
             <div className="grid min-h-[400px] place-items-center">
               <div className="flex flex-col items-center gap-3 text-neutral-400">
                 <Loader2 className="animate-spin" size={32} />
-                <p className="text-sm">Generando imagen con IA...</p>
-                <p className="text-xs text-neutral-500">Esto puede tomar 10-20 segundos</p>
+                <p className="text-sm font-bold">Generando imagen con IA...</p>
+                <p className="text-xs text-neutral-500">Esto puede tomar 15-30 segundos</p>
+                <p className="text-xs text-neutral-600">Usando Flux vía Puter.js (100% gratuito)</p>
               </div>
             </div>
           )}
