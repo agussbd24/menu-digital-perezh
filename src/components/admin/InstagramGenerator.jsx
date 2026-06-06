@@ -15,6 +15,7 @@ export default function InstagramGenerator() {
   const [copied, setCopied] = useState(false)
   const [error, setError] = useState('')
   const [loadingProducts, setLoadingProducts] = useState(false)
+  const [currentModel, setCurrentModel] = useState('')
 
   useEffect(() => {
     let mounted = true
@@ -38,6 +39,7 @@ export default function InstagramGenerator() {
     setGenerating(true)
     setError('')
     setGeneratedImage(null)
+    setCurrentModel('')
 
     try {
       const copy = generateInstagramCopy(
@@ -48,14 +50,15 @@ export default function InstagramGenerator() {
       )
       setGeneratedCopy(copy)
 
-      const blob = await generateImage(selectedProduct.name, selectedProduct.description, style)
+      const blob = await generateImage(selectedProduct.name, selectedProduct.description, style, setCurrentModel)
       const objectUrl = URL.createObjectURL(blob)
       setGeneratedImage({ objectUrl, blob })
     } catch (err) {
       console.error('Error generating image:', err)
-      setError('Error al generar la imagen. Intentá de nuevo en unos segundos.')
+      setError(err.message || 'Error al generar la imagen. Intentá de nuevo en unos segundos.')
     } finally {
       setGenerating(false)
+      setCurrentModel('')
     }
   }
 
@@ -196,8 +199,11 @@ export default function InstagramGenerator() {
               <div className="flex flex-col items-center gap-3 text-neutral-400">
                 <Loader2 className="animate-spin" size={32} />
                 <p className="text-sm font-bold">Generando imagen con IA...</p>
-                <p className="text-xs text-neutral-500">Esto puede tomar 15-60 segundos</p>
-                <p className="text-xs text-neutral-600">Usando Flux vía Puter.js (100% gratuito)</p>
+                {currentModel && (
+                  <p className="text-xs text-perez-orange animate-pulse">Probando: {currentModel}</p>
+                )}
+                <p className="text-xs text-neutral-500">Si un generador falla, se prueba el siguiente automáticamente</p>
+                <p className="text-xs text-neutral-600">100% gratuito via Puter.js</p>
               </div>
             </div>
           )}

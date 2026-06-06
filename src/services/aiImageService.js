@@ -9,6 +9,15 @@ const STYLE_PROFILES = {
   },
 }
 
+const MODEL_CHAIN = [
+  { id: 'black-forest-labs/flux-schnell', label: 'Flux Schnell', timeout: 45000 },
+  { id: 'black-forest-labs/flux-1.1-pro', label: 'Flux 1.1 Pro', timeout: 60000 },
+  { id: 'gpt-image-1-mini', label: 'GPT Image Mini', timeout: 60000 },
+  { id: 'stabilityai/stable-diffusion-3-medium', label: 'Stable Diffusion 3', timeout: 60000 },
+  { id: 'gpt-image-1', label: 'GPT Image', timeout: 60000 },
+  { id: 'stabilityai/stable-diffusion-xl-base-1.0', label: 'Stable Diffusion XL', timeout: 60000 },
+]
+
 function ensurePuter() {
   return new Promise((resolve, reject) => {
     if (window.puter?.ai?.txt2img) {
@@ -18,8 +27,14 @@ function ensurePuter() {
 
     const existing = document.querySelector('script[src*="js.puter.com"]')
     if (existing) {
-      existing.addEventListener('load', () => resolve())
-      existing.addEventListener('error', () => reject(new Error('No se pudo cargar Puter.js')))
+      const onLoad = () => { cleanup(); resolve() }
+      const onError = () => { cleanup(); reject(new Error('No se pudo cargar Puter.js')) }
+      const cleanup = () => {
+        existing.removeEventListener('load', onLoad)
+        existing.removeEventListener('error', onError)
+      }
+      existing.addEventListener('load', onLoad)
+      existing.addEventListener('error', onError)
       return
     }
 
@@ -46,20 +61,7 @@ function withTimeout(promise, ms, label = 'Operación') {
   ])
 }
 
-export async function generateImage(productName, productDescription, style = 'professional') {
-  await ensurePuter()
-
-  const profile = STYLE_PROFILES[style] || STYLE_PROFILES.professional
-  const prompt = profile.promptTemplate(productName, productDescription)
-
-  const img = await withTimeout(
-    puter.ai.txt2img(prompt, {
-      model: 'black-forest-labs/flux-schnell',
-    }),
-    60000,
-    'Generación de imagen'
-  )
-
+async function imgToBlob(img) {
   if (img.src && img.src.startsWith('data:')) {
     const res = await fetch(img.src)
     return await res.blob()
@@ -73,10 +75,39 @@ export async function generateImage(productName, productDescription, style = 'pr
 
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {
-      if (blob) resolve(blob)
-      else reject(new Error('No se pudo convertir la imagen'))
+      if (blob && blob.size > 1000) resolve(blob)
+      else reject(new Error('Imagen generada demasiado pequeña o vacía'))
     }, 'image/png')
   })
+}
+
+export async function generateImage(productName, productDescription, style = 'professional', onModelChange) {
+  await ensurePuter()
+
+  const profile = STYLE_PROFILES[style] || STYLE_PROFILES.professional
+  const prompt = profile.promptTemplate(productName, productDescription)
+
+  const errors = []
+
+  for (const model of MODEL_CHAIN) {
+    if (onModelChange) onModelChange(model.label)
+
+    try {
+      const img = await withTimeout(
+        puter.ai.txt2img(prompt, { model: model.id }),
+        model.timeout,
+        model.label
+      )
+
+      const blob = await imgToBlob(img)
+      return blob
+    } catch (err) {
+      console.warn(`[AI] ${model.label} falló:`, err.message)
+      errors.push(`${model.label}: ${err.message}`)
+    }
+  }
+
+  throw new Error(`Todos los generadores fallaron:\n${errors.join('\n')}`)
 }
 
 export function generateInstagramCopy(productName, productDescription, productPrice, style = 'professional') {
