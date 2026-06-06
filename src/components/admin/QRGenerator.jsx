@@ -125,20 +125,49 @@ export default function QRGenerator() {
 
           <div>
             <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-neutral-400">Color del QR</label>
-            <div className="flex items-center gap-3">
-              <input
-                type="color"
-                value={fgColor}
-                onChange={(e) => setFgColor(e.target.value)}
-                className="h-10 w-10 cursor-pointer rounded-lg border-0"
-              />
-              <input
-                type="text"
-                value={fgColor}
-                onChange={(e) => setFgColor(e.target.value)}
-                className="flex-1 rounded-xl border border-white/10 bg-white/[0.05] px-4 py-2.5 text-white text-sm font-mono outline-none focus:border-perez-orange/40 focus:ring-2 focus:ring-perez-orange/20"
-              />
+            <div className="flex flex-wrap gap-2">
+              {[
+                { label: 'Naranja', color: '#D66A0A' },
+                { label: 'Dorado', color: '#D4A017' },
+                { label: 'Azul', color: '#1B2C58' },
+                { label: 'Negro', color: '#000000' },
+                { label: 'Rojo', color: '#DC2626' },
+                { label: 'Verde', color: '#16A34A' },
+                { label: 'Morado', color: '#7C3AED' },
+                { label: 'Rosa', color: '#EC4899' },
+              ].map((preset) => (
+                <button
+                  key={preset.color}
+                  onClick={() => setFgColor(preset.color)}
+                  className={`group relative h-10 w-10 cursor-pointer rounded-xl border-2 transition-all hover:scale-110 ${
+                    fgColor === preset.color
+                      ? 'border-white shadow-[0_0_12px_rgba(255,255,255,0.2)] scale-110'
+                      : 'border-transparent hover:border-white/30'
+                  }`}
+                  style={{ backgroundColor: preset.color }}
+                  title={preset.label}
+                >
+                  {fgColor === preset.color && (
+                    <span className="absolute inset-0 grid place-items-center text-white text-xs font-bold">✓</span>
+                  )}
+                </button>
+              ))}
+              <label
+                className="group relative h-10 w-10 cursor-pointer rounded-xl border-2 border-dashed border-white/20 transition-all hover:border-white/40 hover:scale-110"
+                title="Color personalizado"
+              >
+                <input
+                  type="color"
+                  value={fgColor}
+                  onChange={(e) => setFgColor(e.target.value)}
+                  className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                />
+                <span className="absolute inset-0 grid place-items-center text-neutral-500 group-hover:text-white text-lg transition-colors">
+                  +
+                </span>
+              </label>
             </div>
+            <p className="mt-2 text-xs text-neutral-500">Seleccioná un color o hacé click en + para uno personalizado</p>
           </div>
 
           <div>
