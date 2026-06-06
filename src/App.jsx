@@ -1,9 +1,15 @@
 import { useEffect } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { CartProvider } from './context/CartContext.jsx'
 import { ToastProvider } from './context/ToastContext.jsx'
+import { AuthProvider } from './context/AuthContext.jsx'
+import ProtectedRoute from './components/ProtectedRoute.jsx'
 import KitchenPage from './pages/KitchenPage.jsx'
+import LandingPage from './pages/LandingPage.jsx'
+import LoginPage from './pages/LoginPage.jsx'
 import MenuPage from './pages/MenuPage.jsx'
 import StatsPage from './pages/StatsPage.jsx'
+import AdminPage from './pages/AdminPage.jsx'
 import CursorTrail from './components/CursorTrail.jsx'
 
 function ScrollRevealObserver() {
@@ -38,40 +44,64 @@ function ScrollRevealObserver() {
   return null
 }
 
-export default function App() {
-  const pathname = window.location.pathname
-
-  if (pathname.startsWith('/kitchen')) {
-    return (
-      <ToastProvider>
-        <CartProvider>
-          <CursorTrail />
-          <ScrollRevealObserver />
-          <KitchenPage />
-        </CartProvider>
-      </ToastProvider>
-    )
-  }
-
-  if (pathname.startsWith('/stats')) {
-    return (
-      <ToastProvider>
-        <CartProvider>
-          <CursorTrail />
-          <ScrollRevealObserver />
-          <StatsPage />
-        </CartProvider>
-      </ToastProvider>
-    )
-  }
-
+function AppLayout({ children }) {
   return (
     <ToastProvider>
       <CartProvider>
         <CursorTrail />
         <ScrollRevealObserver />
-        <MenuPage />
+        {children}
       </CartProvider>
     </ToastProvider>
+  )
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<AppLayout><LandingPage /></AppLayout>} />
+          <Route path="/menu" element={<AppLayout><MenuPage /></AppLayout>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/kitchen"
+            element={
+              <AppLayout>
+                <ProtectedRoute>
+                  <KitchenPage />
+                </ProtectedRoute>
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/stats"
+            element={
+              <AppLayout>
+                <ProtectedRoute>
+                  <StatsPage />
+                </ProtectedRoute>
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <AppLayout>
+                <LandingPage />
+              </AppLayout>
+            }
+          />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }

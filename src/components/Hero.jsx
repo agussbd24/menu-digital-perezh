@@ -7,7 +7,7 @@ export default function Hero() {
     <section className="relative overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=1800&q=90"
+          src="https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=1800"
           alt="Hamburguesa premium sobre mesa oscura"
           className={`h-full w-full object-cover scale-110 img-blur-load ${heroImgLoaded ? 'loaded' : ''}`}
           onLoad={() => setHeroImgLoaded(true)}

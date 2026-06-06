@@ -1,8 +1,6 @@
 import {
   Clock3,
-  ChefHat,
   DollarSign,
-  ShoppingBag,
   TrendingUp,
   Minus,
   ArrowUpRight,
@@ -279,22 +277,6 @@ export default function StatsPage() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="animate-fade-in-up">
               <div className="flex items-center gap-4">
-                <a
-                  href="/"
-                  className="inline-flex items-center gap-2 rounded-xl glass px-3 py-2 text-sm text-neutral-400 transition-all duration-300 hover:text-white"
-                >
-                  <ShoppingBag size={16} />
-                  Ver menú
-                </a>
-                <a
-                  href="/kitchen"
-                  className="inline-flex items-center gap-2 rounded-xl glass px-3 py-2 text-sm text-neutral-400 transition-all duration-300 hover:text-perez-gold"
-                >
-                  <ChefHat size={16} />
-                  Cocina
-                </a>
-              </div>
-              <div className="mt-5 flex items-center gap-4">
                 <span className="grid h-14 w-14 place-items-center rounded-full bg-perez-navy-dark/80 border border-perez-teal/20 shadow-lg shadow-perez-teal/30 overflow-hidden">
                   <img src="/logo-perezh.png" alt="PÉREZ H" className="h-full w-full object-cover" />
                 </span>

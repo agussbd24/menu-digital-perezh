@@ -1,4 +1,4 @@
-import { Bell, BellOff, ChefHat, MonitorUp, BarChart3, Package } from 'lucide-react'
+import { Bell, BellOff, ChefHat, Package } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useOrders } from '../hooks/useOrders.js'
 import { useCountUpOnView } from '../hooks/useCountUp.js'
@@ -51,22 +51,6 @@ export default function KitchenDashboard() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="animate-fade-in-up">
               <div className="flex items-center gap-4">
-                <a
-                  href="/"
-                  className="inline-flex items-center gap-2 rounded-xl glass px-3 py-2 text-sm text-neutral-400 transition-all duration-300 hover:text-white hover:scale-105 active:scale-95"
-                >
-                  <MonitorUp size={16} />
-                  Ver menú
-                </a>
-                <a
-                  href="/stats"
-                  className="inline-flex items-center gap-2 rounded-xl glass px-3 py-2 text-sm text-neutral-400 transition-all duration-300 hover:text-perez-teal hover:scale-105 active:scale-95"
-                >
-                  <BarChart3 size={16} />
-                  Estadísticas
-                </a>
-              </div>
-              <div className="mt-5 flex items-center gap-4">
                 <span className="grid h-14 w-14 place-items-center rounded-full bg-perez-navy-dark/80 border border-perez-orange/20 shadow-glow animate-float overflow-hidden">
                   <img src="/logo-perezh.png" alt="PÉREZ H" className="h-full w-full object-cover" />
                 </span>

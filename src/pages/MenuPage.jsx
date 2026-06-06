@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import CartDrawer from '../components/CartDrawer.jsx'
 import CategoryFilter from '../components/CategoryFilter.jsx'
 import CheckoutModal from '../components/CheckoutModal.jsx'
@@ -10,13 +10,19 @@ import ProductGrid from '../components/ProductGrid.jsx'
 import SearchBar from '../components/SearchBar.jsx'
 import Footer from '../components/Footer.jsx'
 import WhatsAppButton from '../components/WhatsAppButton.jsx'
-import { products } from '../services/menuData.js'
+import ScrollProgress from '../components/ScrollProgress.jsx'
+import { fetchProducts } from '../services/productService.js'
 
 export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState('all')
   const [search, setSearch] = useState('')
   const [cartOpen, setCartOpen] = useState(false)
   const [checkoutOpen, setCheckoutOpen] = useState(false)
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    fetchProducts().then(setProducts)
+  }, [])
 
   const filteredProducts = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase()
@@ -30,7 +36,7 @@ export default function MenuPage() {
 
       return matchesCategory && matchesSearch
     })
-  }, [activeCategory, search])
+  }, [activeCategory, search, products])
 
   const openCheckout = () => {
     setCartOpen(false)
@@ -39,6 +45,7 @@ export default function MenuPage() {
 
   return (
     <main className="min-h-screen bg-perez-navy text-perez-cream">
+      <ScrollProgress />
       <Navbar onCartOpen={() => setCartOpen(true)} />
       <Hero />
 

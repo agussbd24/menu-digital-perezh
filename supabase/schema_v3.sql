@@ -1,0 +1,126 @@
+-- ============================================================
+-- Menu Digital Perez H v3.0 - Schema
+-- Ejecutar en Supabase SQL Editor
+-- ============================================================
+
+create extension if not exists pgcrypto;
+
+-- ============================================================
+-- 1. TABLA DE USUARIOS DEL SISTEMA
+-- ============================================================
+create table if not exists public.system_users (
+  id uuid primary key default gen_random_uuid(),
+  email text unique not null,
+  password_hash text not null,
+  display_name text not null,
+  role text not null default 'kitchen' check (role in ('admin', 'kitchen')),
+  active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.system_users enable row level security;
+
+-- Admin usuario inicial (password: admin123, sha256 hash)
+-- CHANGE THIS HASH IN PRODUCTION
+insert into public.system_users (email, password_hash, display_name, role)
+values (
+  'admin@perezh.com',
+  '240be518fabd2724ddb6f05eeb5e06b1ae0b69040adb7a8b08e390e1b49b2c5e',
+  'Administrador',
+  'admin'
+)
+on conflict (email) do nothing;
+
+-- Kitchen usuario inicial (password: cocina123)
+insert into public.system_users (email, password_hash, display_name, role)
+values (
+  'cocina@perezh.com',
+  'e99a18c428cb38d5f260853678922e0399989e5b3b0a7c0ac861e3b0e3b0e3b0',
+  'Cocina',
+  'kitchen'
+)
+on conflict (email) do nothing;
+
+-- ============================================================
+-- 2. TABLA DE PRODUCTOS
+-- ============================================================
+create table if not exists public.products (
+  id text primary key,
+  category text not null,
+  name text not null,
+  description text,
+  price numeric(12, 2) not null check (price >= 0),
+  image text,
+  badge text,
+  available boolean not null default true,
+  sort_order integer not null default 0,
+  addons jsonb default '[]'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists products_category_idx on public.products (category);
+create index if not exists products_available_idx on public.products (available);
+
+alter table public.products enable row level security;
+
+-- Allow public read of available products
+drop policy if exists "Allow public product read" on public.products;
+create policy "Allow public product read"
+on public.products
+for select
+to anon
+using (true);
+
+-- Allow full anon access for admin operations (protected by app-level auth)
+drop policy if exists "Allow full product access" on public.products;
+create policy "Allow full product access"
+on public.products
+for all
+to anon
+using (true)
+with check (true);
+
+-- ============================================================
+-- 3. TABLA DE CONFIGURACION DEL SITIO
+-- ============================================================
+create table if not exists public.site_config (
+  key text primary key,
+  value jsonb not null,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.site_config enable row level security;
+
+drop policy if exists "Allow site config read" on public.site_config;
+create policy "Allow site config read"
+on public.site_config
+for select
+to anon
+using (true);
+
+drop policy if exists "Allow site config full access" on public.site_config;
+create policy "Allow site config full access"
+on public.site_config
+for all
+to anon
+using (true)
+with check (true);
+
+-- Default config values
+insert into public.site_config (key, value) values
+('restaurant_name', '"Pérez H"'),
+('tagline', '"La mejor hamburguesa en el país de la mejor carne."'),
+('hero_description', '"Disponibilalo en nuestro menú digital"'),
+('whatsapp_links', '[{"name":"PALERMO","url":"https://api.whatsapp.com/send/?phone=1136429912"},{"name":"MICROCENTRO","url":"https://api.whatsapp.com/send/?phone=5491144221293"}]'),
+('delivery_links', '[{"name":"PEDIDOS YA","url":"https://www.pedidosya.com.ar/cadenas/perez-h"},{"name":"RAPPI","url":"https://www.rappi.com.ar/restaurantes/delivery/3451-perez-h"},{"name":"MERCADO PAGO","url":"https://www.mercadolibre.com.ar/landing/restaurantes"}]'),
+('social_instagram', '"https://www.instagram.com/perez.hamburguesas/"'),
+('social_tiktok', '"https://www.tiktok.com/@perez.hamburguesas"'),
+('menu_url', '"https://menu-digital-perezh.pages.dev/menu"')
+on conflict (key) do nothing;
+
+-- ============================================================
+-- 4. ORDERS (existente, sin cambios en RLS)
+-- ============================================================
+-- La tabla orders ya existe del schema original
