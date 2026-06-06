@@ -25,7 +25,7 @@ alter table public.system_users enable row level security;
 insert into public.system_users (username, password_hash, display_name, role)
 values (
   'admin',
-  '240be518fabd2724ddb6f05eeb5e06b1ae0b69040adb7a8b08e390e1b49b2c5e',
+  '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
   'Administrador',
   'admin'
 )
@@ -35,7 +35,7 @@ on conflict (username) do nothing;
 insert into public.system_users (username, password_hash, display_name, role)
 values (
   'cocina',
-  'e99a18c428cb38d5f260853678922e0399989e5b3b0a7c0ac861e3b0e3b0e3b0',
+  '17fb2b2ef0554390dfdcb2eb9099e1279e12bd4b4b01fb33a1d5f4c0ce15e85c',
   'Cocina',
   'kitchen'
 )
