@@ -196,7 +196,7 @@ export default function InstagramGenerator() {
               <div className="flex flex-col items-center gap-3 text-neutral-400">
                 <Loader2 className="animate-spin" size={32} />
                 <p className="text-sm font-bold">Generando imagen con IA...</p>
-                <p className="text-xs text-neutral-500">Esto puede tomar 15-30 segundos</p>
+                <p className="text-xs text-neutral-500">Esto puede tomar 15-60 segundos</p>
                 <p className="text-xs text-neutral-600">Usando Flux vía Puter.js (100% gratuito)</p>
               </div>
             </div>

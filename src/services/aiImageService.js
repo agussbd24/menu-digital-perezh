@@ -37,18 +37,46 @@ function ensurePuter() {
   })
 }
 
+function withTimeout(promise, ms, label = 'Operación') {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error(`${label} tardó demasiado (>${ms / 1000}s)`)), ms)
+    ),
+  ])
+}
+
 export async function generateImage(productName, productDescription, style = 'professional') {
   await ensurePuter()
 
   const profile = STYLE_PROFILES[style] || STYLE_PROFILES.professional
   const prompt = profile.promptTemplate(productName, productDescription)
 
-  const blob = await puter.ai.txt2img(prompt, {
-    model: 'flux',
-    size: '1024x1024',
-  })
+  const img = await withTimeout(
+    puter.ai.txt2img(prompt, {
+      model: 'black-forest-labs/flux-schnell',
+    }),
+    60000,
+    'Generación de imagen'
+  )
 
-  return blob
+  if (img.src && img.src.startsWith('data:')) {
+    const res = await fetch(img.src)
+    return await res.blob()
+  }
+
+  const canvas = document.createElement('canvas')
+  canvas.width = img.naturalWidth || img.width
+  canvas.height = img.naturalHeight || img.height
+  const ctx = canvas.getContext('2d')
+  ctx.drawImage(img, 0, 0)
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (blob) resolve(blob)
+      else reject(new Error('No se pudo convertir la imagen'))
+    }, 'image/png')
+  })
 }
 
 export function generateInstagramCopy(productName, productDescription, productPrice, style = 'professional') {
