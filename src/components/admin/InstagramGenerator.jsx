@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { fetchProducts, fallbackCategories } from '../../services/productService.js'
+import { products as directProducts } from '../../services/menuData.js'
 import { generateImage, generateInstagramCopy } from '../../services/aiImageService.js'
 import { formatCurrency } from '../../services/menuData.js'
 import { Camera, Sparkles, Download, Copy, RefreshCw, Check, Loader2 } from 'lucide-react'
 
 export default function InstagramGenerator() {
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState(directProducts)
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [style, setStyle] = useState('professional')
   const [generating, setGenerating] = useState(false)
@@ -20,7 +21,9 @@ export default function InstagramGenerator() {
     setLoadingProducts(true)
     fetchProducts()
       .then((data) => {
-        if (mounted) setProducts(data.filter((p) => p.available !== false))
+        if (mounted && data && data.length > 0) {
+          setProducts(data.filter((p) => p.available !== false))
+        }
       })
       .catch(() => {})
       .finally(() => {
