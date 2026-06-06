@@ -20,7 +20,7 @@ export default function InstagramGenerator() {
     setLoadingProducts(true)
     fetchProducts()
       .then((data) => {
-        if (mounted) setProducts(data.filter((p) => p.available))
+        if (mounted) setProducts(data.filter((p) => p.available !== false))
       })
       .catch(() => {})
       .finally(() => {
