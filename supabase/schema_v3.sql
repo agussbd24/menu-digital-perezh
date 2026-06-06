@@ -21,6 +21,21 @@ create table if not exists public.system_users (
 
 alter table public.system_users enable row level security;
 
+drop policy if exists "Allow anon login lookup" on public.system_users;
+create policy "Allow anon login lookup"
+on public.system_users
+for select
+to anon
+using (true);
+
+drop policy if exists "Allow anon user management" on public.system_users;
+create policy "Allow anon user management"
+on public.system_users
+for all
+to anon
+using (true)
+with check (true);
+
 -- Admin usuario inicial (password: admin123, sha256 hash)
 insert into public.system_users (username, password_hash, display_name, role)
 values (
