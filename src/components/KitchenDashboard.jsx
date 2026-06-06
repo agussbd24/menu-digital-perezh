@@ -1,4 +1,4 @@
-import { Bell, BellOff, ChefHat, Package } from 'lucide-react'
+import { Bell, BellOff, ChefHat, Package, Shield, ChevronLeft } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useOrders } from '../hooks/useOrders.js'
 import { useCountUpOnView } from '../hooks/useCountUp.js'
@@ -61,6 +61,23 @@ export default function KitchenDashboard() {
                   <h1 className="text-4xl font-bold sm:text-5xl">Panel Cocina</h1>
                 </div>
               </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <a
+                href="/"
+                className="inline-flex items-center gap-2 rounded-xl glass px-3 py-2 text-sm font-semibold text-neutral-300 transition-all duration-300 hover:bg-white/10 hover:text-white"
+              >
+                <ChevronLeft size={16} />
+                Menú
+              </a>
+              <a
+                href="/admin"
+                className="inline-flex items-center gap-2 rounded-xl glass px-3 py-2 text-sm font-semibold text-neutral-300 transition-all duration-300 hover:bg-white/10 hover:text-white"
+              >
+                <Shield size={16} />
+                Administrador
+              </a>
             </div>
 
             <div className="grid grid-cols-4 gap-3 lg:min-w-[700px] animate-fade-in-up stagger-2">

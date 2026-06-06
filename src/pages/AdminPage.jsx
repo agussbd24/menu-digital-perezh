@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.js'
 import ProductTable from '../components/admin/ProductTable.jsx'
 import SiteConfigPanel from '../components/admin/SiteConfigPanel.jsx'
@@ -16,6 +17,7 @@ import {
   Camera,
   LogOut,
   ChevronLeft,
+  ChefHat,
 } from 'lucide-react'
 
 const TABS = [
@@ -29,6 +31,7 @@ const TABS = [
 
 export default function AdminPage() {
   const { user, logout } = useAuth()
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('products')
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
@@ -119,13 +122,20 @@ export default function AdminPage() {
       <main className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
         {/* Top bar */}
         <header className="sticky top-0 z-40 flex h-20 items-center justify-between border-b border-white/[0.06] bg-perez-navy/80 px-8 backdrop-blur-xl">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <a
               href="/"
               className="inline-flex items-center gap-2 rounded-xl glass px-3 py-2 text-sm text-neutral-400 transition-all duration-300 hover:text-white"
             >
               <ChevronLeft size={16} />
-              Ver menú
+              Menú
+            </a>
+            <a
+              href="/kitchen"
+              className="inline-flex items-center gap-2 rounded-xl glass px-3 py-2 text-sm font-semibold text-neutral-400 transition-all duration-300 hover:text-white"
+            >
+              <ChefHat size={16} />
+              Cocina
             </a>
           </div>
           <div className="flex items-center gap-4">

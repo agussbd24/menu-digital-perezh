@@ -4,6 +4,7 @@ import { CartProvider } from './context/CartContext.jsx'
 import { ToastProvider } from './context/ToastContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
+import AdminGuard from './components/AdminGuard.jsx'
 import KitchenPage from './pages/KitchenPage.jsx'
 import LandingPage from './pages/LandingPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
@@ -87,9 +88,9 @@ export default function App() {
           <Route
             path="/admin"
             element={
-              <ProtectedRoute requiredRole="admin">
+              <AdminGuard>
                 <AdminPage />
-              </ProtectedRoute>
+              </AdminGuard>
             }
           />
           <Route
